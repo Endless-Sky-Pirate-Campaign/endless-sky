@@ -63,3 +63,69 @@ hazard "Black Hole Gravity"
 		"hit force" -25
 		"damage dropoff" 150 2500
 		"dropoff modifier" 0
+		
+hazard "Asteroid Belt Near"
+	"strength" 1
+	"constant strength"
+	"range" 400 475
+	"duration" 1
+	"environmental effect" "hot asteroid"
+	weapon
+		"hit effect" "smoke"
+		"hit effect" "asteroid hit"
+		"hit effect" "bolide"
+
+hazard "Asteroid Belt Mid"
+	"strength" 1
+	"constant strength"
+	"range" 1500 2000
+	"duration" 1
+	"environmental effect" "stone asteroid"
+	weapon
+		"hit effect" "smoke"
+		"hit effect" "asteroid hit"
+		"hit effect" "bolide"
+
+hazard "Asteroid Belt Far"
+	"strength" 1
+	"constant strength"
+	"range" 3000 4500
+	"duration" 1
+	"environmental effect" "stone asteroid"
+	"environmental effect" "ice asteroid"
+	weapon
+		"hit effect" "smoke"
+		"hit effect" "asteroid hit"
+		"hit effect" "bolide"
+
+effect "asteroid hit"
+		sprite "effect/bolide"
+			"random start frame"
+	sound "explosion small"
+	
+effect "stone asteroid"
+	sprite "effect/flotsam titanium"
+		"frame rate" 5
+		"random start frame"
+	"lifetime" 540
+	"random lifetime" 90
+	"random spin" 10
+	"random velocity" 0.6
+
+effect "ice asteroid"
+	sprite "effect/flotsam yottrite"
+		"frame rate" 5
+		"random start frame"
+	"lifetime" 540
+	"random lifetime" 90
+	"random spin" 10
+	"random velocity" 0.6
+	
+effect "hot asteroid"
+	sprite "effect/flotsam iron"
+		"frame rate" 5
+		"random start frame"
+	"lifetime" 360
+	"random lifetime" 90
+	"random spin" 10
+	"random velocity" 0.3
