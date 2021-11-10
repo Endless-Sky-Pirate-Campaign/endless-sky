@@ -71,25 +71,25 @@ mission "Smuggling Tutorial 1"
 				`	"What happened to your ship?"`
 					goto wrecked
 				`	"I want to know more about the person who'll have you killed if you don't make this delivery."`
-					goto Ed
+					goto ed
 			label customs
-				`"Mix your illegal goods with legal cargo to throw off inspectors. If you choose something profitable at the destination, you can even make some honest creds on the side."`
-			goto tutorialescape
+			`	"Mix your illegal goods with legal cargo to throw off inspectors. If you choose something profitable at the destination, you can even make some honest creds on the side."`
+				goto tutorialreturn
 			label ISP
 			`	"Not getting scanned in the first plcae is your best defense. A heavily loaded bulk freighter is sure to get caught, but a small courier vessel can usually - usually - outrun police interdictors. Mind, they've started packing afterburners lately, so... Good luck, pal."`
 			`	"Mixing up your cargo by transporting stuff like grain or metal or industrial equipment can sometimes throw off their scans and return false negatives. Any bulk commodity, really. Interference plating is great and makes that even more likely to happen, but it doesn't work on its own - it needs something to mix signals with."`
 			`	"If you do get scanned and stopped, there's one of three ways it can go down. First, you simply accept the fine and surrender the cargo. Please don't do this? I'd rather not get whacked. If you're on your own job, though, sometimes it's better to just eat the fine once than pay a bunch of bribes because you're getting scanned over and over. Which brings us to the second option-"`
 			`	"Good news is, most cops are just like you and me - out to make a buck and not too picky about how they do that. Paying them off is usually cheaper than whatever fine they decide to slap you with, and you'll get to keep your cargo. Just keep in mind that occasionally you'll run into an honest cop who won't take your bribe. And if you're not able or willing to bribe them, and you don't want to surrender your cargo, there's only one option left:"`
 			`	"Run for it! This is going to seriously piss off the ISP and any Navy ships in the system, and might get interceptor fleets sent after anyone matching your description. But hey, at least you get to keep your payout at the end. Just lay low for a while and the ISP will usually cool down. Unless you're been shooting them down, that does tend to piss 'em off."`
-			goto tutorialescape
+				goto tutorialreturn
 			label wrecked
 			`"I got ganked, man."`
-			goto tutorialescape
+				goto tutorialreturn
 			label ed
 			`"Slimy greaseball of a dude, don't trust him. Still, he's good to know."`
-			label tutorialescape
+			label tutorialreturn
 			`	"Was there anything else you wanted to ask?"`
-			goto tutorial
+				goto tutorial
 			label snitch
 			apply
 				set "snitch"
