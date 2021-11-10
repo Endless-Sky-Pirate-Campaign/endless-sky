@@ -103,6 +103,9 @@ public:
 	// missions. If the returned value is negative, you are carrying something so
 	// bad that it warrants a death sentence.
 	int64_t IllegalCargoFine() const;
+
+	// Returns the amount tons of illegal cargo.
+	int64_t IllegalCargoAmount() const;
 	
 	
 private:

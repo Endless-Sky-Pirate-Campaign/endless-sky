@@ -314,24 +314,39 @@ Politics::Punishment Politics::CalculateFine(PlayerInfo &player, const Governmen
 	if(!gov->GetFineFraction())
 		return punishment;
 
+	const bool cargoScan = !scan || (scan & ShipEvent::SCAN_CARGO);
+	const bool outfitScan = !scan || (scan & ShipEvent::SCAN_OUTFITS);
 	for(const auto &ship : player.Ships())
 	{
-		// Check if the ship evades being scanned due to interference plating.
-		if(Random::Real() > 1. / (1. + ship->Attributes().Get("scan interference")))
-			continue;
 		if(target && target != &*ship)
 			continue;
 		if(ship->GetSystem() != player.GetSystem())
 			continue;
 
-		if(!scan || (scan & ShipEvent::SCAN_CARGO))
+		if(cargoScan)
+		{
+			// Illegal goods can be hidden inside legal goods to avoid detection.
+			const auto contraband = ship->Cargo().IllegalCargoAmount();
+			const auto compartments = ship->Attributes().Get("compartment");
+			const auto legalGoods = ship->Cargo().Used() - contraband;
+
+			const auto netIllegalCargo = contraband - compartments;
+			const auto scaledLegalGoods = legalGoods * (1. + ship->Attributes().Get("scan interference"));
+			if(scaledLegalGoods && Random::Real() > 2. * netIllegalCargo / scaledLegalGoods)
+				continue;
+
 			if(auto fine = ship->Cargo().IllegalCargoFine())
 			{
 				punishment.cost += fine;
 				punishment.reason |= Punishment::Cargo;
 			}
-		if(!scan || (scan & ShipEvent::SCAN_OUTFITS))
+		}
+		if(outfitScan)
 		{
+			// Check if the ship evades being scanned due to interference plating.
+			if(Random::Real() > 1. / (1. + ship->Attributes().Get("scan interference")))
+				continue;
+
 			for(const auto &it : ship->Outfits())
 				if(it.second)
 				{
