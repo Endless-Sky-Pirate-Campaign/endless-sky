@@ -26561,6 +26561,8 @@ planet Bivrost
 	outfitter "Deep Sky Basics"
 	outfitter "Ammo North"
 	outfitter "Smuggling: Jailbroken AI Cores"
+	outfitter "Smuggling Basic"
+	outfitter "Smuggling Advanced"
 	security 0.8
 	tribute 3600
 		threshold 7000
@@ -26895,6 +26897,8 @@ planet "Copperline Station"
 	description `C2H5OH. Ethyl alcohol, the nectar of the Gods spilled upon the heavens themselves; the Great Molecular Cloud has long been a mythical promised land to spacers, from the early days when humanity yearned to journey beyond their star, even until recently - the only thing that actually put an end to the myths was finally encountering them. As it turns out, harvesting pure vodka from clouds of loose molecules - even though this region be comparatively rich in such substances - is still taxing work.`
 	description `Here on the very edge of human space, the Coreshiners have managed to remain low enough on the Republic's priority list that the taxman can't bring enough guns to bear to settle accounts with the rumrummers and smugglers who call this remote corner of the galaxy home.`
 	outfitter "Smuggling: Coreshine"
+	outfitter "Smuggling Basic"
+	outfitter "Smuggling Advanced"
 
 planet Cornucopia
 	attributes south farming research frontier
@@ -27612,6 +27616,7 @@ planet Glory
 		threshold 7500
 		fleet "Large Republic" 16
 	outfitter "Smuggling: Designer Drugs"
+	outfitter "Smuggling Basic"
 
 planet Goldcrawl
 	attributes hai station uninhabited retirement
@@ -27745,6 +27750,7 @@ planet Haven
 	outfitter "Ammo South"
 	outfitter "Pirate Outfits"
 	outfitter "Smuggling: MANPADS"
+	outfitter "Smuggling Basic"
 	bribe 0.03
 	security 0
 	tribute 700
@@ -28291,7 +28297,7 @@ planet "Market of Gupta"
 	outfitter "Coalition Advanced"
 
 planet Mars
-	attributes "near earth" tourism farming
+	attributes "near earth" tourism farming smuggling
 	landscape land/desert0
 	description `Mars was humanity's first attempt at terraforming. Although it remains a dry, cold desert, the air is now breathable without an oxygen tank, and there are sections of the planet where a fair number of plants can grow.`
 	description `	Because far more hospitable planets are available to those with enough money to pay for interstellar travel, the farms and ranches of Mars are run mostly by poorer Earth families who want to escape the pollution and congestion, along with some young adults who do farm work to help finance their once-in-a-lifetime opportunity to stand on another world.`
@@ -28300,6 +28306,7 @@ planet Mars
 	tribute 1800
 		threshold 4500
 		fleet "Small Republic" 64
+	outfitter "Smuggling Basic"
 
 planet Martini
 	attributes paradise rich
@@ -29457,13 +29464,19 @@ planet Skymoot
 		threshold 2000
 		fleet "Large Militia" 6
 	outfitter "Smuggling: Dragon's Teeth"
+	outfitter "Smuggling Basic"
 
 planet "Sleezy Ed's Scrap and Surplus"
 	attributes moon smuggling
 	landscape land/badlands0
 	description `This is a scrapyard in space.`
 	spaceport `This is a spaceport in space, in a scrapyard.`
+	shipyard "Basic Ships"
+	shipyard "Junkyard"
+	outfitter "Common Outfits"
+	outfitter "Junkyard"
 	outfitter "Smuggling: Stolen Ship Parts"
+	outfitter "Smuggling Basic"
 
 planet Slylandro
 	attributes "requires: gaslining"
@@ -29487,6 +29500,8 @@ planet "Smuggler's Den"
 	outfitter "Ammo South"
 	outfitter "Pirate Outfits"
 	outfitter "Smuggling: Chemical Warheads"
+	outfitter "Smuggling Basic"
+	outfitter "Smuggling Advanced"
 	bribe 0.06
 	security 0
 	tribute 400
@@ -29789,7 +29804,7 @@ planet Topkapi
 	government Uninhabited
 
 planet Trinket
-	attributes south tourism
+	attributes south tourism smuggling
 	landscape land/beach3
 	description `In a region of the galaxy not known for beach resorts, Trinket has become somewhat of a major tourist destination. It is not a particularly warm world, and near both poles icebergs float year round, but at the equator the weather is almost tropical and the water is warm enough for swimming.`
 	description `	Occasionally one of the ocean currents will pick up an iceberg and carry it all the way down past the resorts before it melts completely. Taking a boat out to these icebergs is a popular daytime activity here.`
@@ -29800,6 +29815,7 @@ planet Trinket
 	outfitter "Ammo North"
 	outfitter "Ammo South"
 	outfitter "Pirate Outfits"
+	outfitter "Smuggling Basic"
 	bribe 0.02
 	security 0.4
 	tribute 500

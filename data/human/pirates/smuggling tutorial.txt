@@ -25,17 +25,18 @@
 #	complete!
 
 mission "Smuggling Tutorial 1"
-	landing
 	cargo "Smuggled Goods" 5
 	source
-		government "Republic" "Free Worlds" "Syndicate" "Neutral" "Independent"
+		attributes smuggling
+		not planet "Sleezy Ed's Scrap and Surplus"
+		not planet "Copperline Station"
 	destination "Sleezy Ed's Scrap and Surplus"
 	illegal 40000 `In addition to the fine, your illegal cargo is confiscated. The pirates won't be happy to hear about this.`
 	to offer
 		#random < 30
 	on offer
 		conversation
-			`The spaceport pad next to yours is a hot mess - quite literally. Smoke still billows from fractures in a shot-up ship's hull while spaceport emergency crew dump fire suppressant foam through the larger gaps; your nose stings and eyes water with the acridity of burning electronics.`
+			`The landing pad next to yours is a hot mess - quite literally. Smoke still billows from fractures in a shot-up ship's hull while spaceport emergency crew dump fire suppressant foam through the larger gaps; your nose stings and eyes water with the acridity of burning electronics.`
 			`	You disembark just in time to see a man shoo off medical staff, just as soon as they've finished winding bandages around his hands and face. His long coat is horribly scorched, seemingly having taken the brunt of whatever burnt his exposed skin. "And don't think I'll be paying for this! Never asked for it, you know!"` 
 			`	The figure waits until the spaceport medics are properly shooed off before surreptitiously reaching into his coat and - with great care given his clearly burnt hands - fumbles out a small pill bottle and torturously wrenches open the child-proof cap. He's in clear agony until popping a few pills from the bottle into his jaw and promptly crushing them, sending a shiver through the man's frame followed by a decidedly relaxed slouch and sigh of relief.`
 			`	"Say, friend-" You've been noticed. "- help out a spacer down on his luck?"`
@@ -72,6 +73,8 @@ mission "Smuggling Tutorial 1"
 					goto wrecked
 				`	"I want to know more about the person who'll have you killed if you don't make this delivery."`
 					goto ed
+				`	"I don't have any questions, let's get the goods to my ship and head out."`
+					goto depart
 			label customs
 			`	"Mix your illegal goods with legal cargo to throw off inspectors. If you choose something profitable at the destination, you can even make some honest creds on the side."`
 				goto tutorialreturn
@@ -83,10 +86,10 @@ mission "Smuggling Tutorial 1"
 			`	"Run for it! This is going to seriously piss off the ISP and any Navy ships in the system, and might get interceptor fleets sent after anyone matching your description. But hey, at least you get to keep your payout at the end. Just lay low for a while and the ISP will usually cool down. Unless you're been shooting them down, that does tend to piss 'em off."`
 				goto tutorialreturn
 			label wrecked
-			`"I got ganked, man."`
+			`	"It was the damn ISP, man. Really hate those guys - just my luck to run into the one honest cop in the whole region. He wouldn't take my bribe, and dumping cargo wasn't an option, so I ran- straight into a Navy blockade. Made it through, but landing got a bit fiery. And now here I am." Cracked lips attempt a smile.`
 				goto tutorialreturn
 			label ed
-			`"Slimy greaseball of a dude, don't trust him. Still, he's good to know."`
+			`	"What, Sleezy Ed? Ugh. I don't want to talk about that greaseball. Ask me again when I'm in a better mood." Considering the smuggler is currently sattelite-high on painkillers, you might doubt your chances of finding him feeling any better than this - especially once the drugs wear off and he starts to feel his burns again.`
 			label tutorialreturn
 			`	"Was there anything else you wanted to ask?"`
 				goto tutorial
@@ -99,6 +102,10 @@ mission "Smuggling Tutorial 1"
 			label decline
 			`	You make your apologies and step away from the burnt smuggler. He seems momentarily bothered, but the contents of the pills he'd bitten into coursing through his blood have apparently left him too mellowed out to offer any unpleasant valedictions.`
 				decline
+			label depart
+			`	As promised, there's a gang of longshoremen waiting by your ship to load a few crates. They're looking a bit dented - probably from being shoved out an airlock at high speed - but the smuggler assures you that the contents are intact. "They have to be, because if they're not I'm screwed, yeah?" Certainly spotless logic.`
+			`	"Let's get out of here. Next stop should be Sleezy Ed's, you'll find it in the east end of the Dirt Belt arm. Just make sure you don't end up in the Core by accident, totally different part of the galaxy. But hey! You're a space captain, you know this sort of thing. And, uh... Do be expedient. It's not like the delivery is time sensitive, but every moment you're out there is a moment you might get scanned by police, and every time you land customs might come calling. Try to make it in as few stops as possible."`
+				accept
 
 
 mission "Smuggling Tutorial 2"

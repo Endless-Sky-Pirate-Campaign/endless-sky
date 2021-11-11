@@ -16,6 +16,7 @@ outfit "Coreshine"
 	cost 1500
 	thumbnail "outfit/coreshine"
 	"mass" 1
+	"illegal" 8400
 	"installable" -1
 	description "Pure vodka, distilled from the great molecular clouds of the galaxy's core. The new and improved recipe promises 99% less methyl alcohol and cyanide content, an issue that plagued early efforts at cloud distillation. Although the substance itself is in no way prohibited, coreshiners pride themselves on never paying taxes or submitting to government regulation and inspection, and so their product cannot legally be trafficked under Republic tax law."
 	description "Due to an ongoing trade embargo imposed upon the Confederated Councils of the Outer Rim by the Republic, and alochol production being a fairly low priority of the already resource-strapped nation, smuggled booze can fetch a pretty penny indeed from CCOR traders."
@@ -26,6 +27,7 @@ outfit "Dragon's Teeth"
 	cost 87000
 	thumbnail "outfit/dragon teeth"
 	"mass" .25
+	"illegal" 15000
 	"installable" -1
 	description "They say that if ground and mixed with tea, the teeth of the Skymoot dragon can improve energy pathways within the body, sending new life into that which lacks vitality."
 	description "They say that medicines composed from dragon's teeth can extend the human lifespan without requiring such base things as exercise or a healthy diet."
@@ -38,6 +40,7 @@ outfit "Designer Drugs"
 	cost 11235
 	thumbnail "outfit/designer drugs"
 	"mass" 0.1
+	"illegal" 10000
 	"installable" -1
 	description "Multi-lobed, iridescent mushrooms with a different compound contained in each cap. Dial-a-high capsules that can send you out of this world then sober you up in minutes when the selected end-point arrives. Powdered where each mote is itself a shard of the transcendent, if only for as long as the constituent chemicals remain coursing through the partaker's brain."
 	description "It's said that the experiences one undergoes while on these drugs are so beautiful and potent that they can only be the work of an artist. There's a grain of truth to this, as the best-in-class drugs are usually created by men and women who devoted their lives to not only understanding, but mastering the arts of hedonism and chemical engineering, and apply to these disciplines an artisan's touch."
@@ -49,6 +52,7 @@ outfit "Stolen Ship Parts"
 	cost 25000
 	thumbnail "outfit/stolen ship parts"
 	"mass" 15
+	"illegal" 32000
 	"installable" -1
 	description "Well, somebody is going to miss these parts. Possibly. The alternative that nobody is left to miss them is somewhat more grim."
 	description "Stolen parts are generally traded at a discount, though most customers will avoid them due to the risks of being discovered in possession of stolen property. Coreshine runners tend to go through spare parts like candy, often due to their propensity for tinkering and experimentation to make the meanest, leanest hotrods in space."
@@ -59,6 +63,7 @@ outfit "Liberator Missile System"
 	cost 3500
 	thumbnail "outfit/MANPADS"
 	"mass" 2
+	"illegal" 20000
 	"installable" -1
 	description "These man-portable missile launchers were instrumental in bringing about the collapse of an early political rival of the Republic, when decades of stalemate were finally brought to an end by Republic Intelligence operatives smuggling tens of thousands of missile launchers into the hands of freedom fighters behind enemy lines."
 	description "Of course, those freedom fighters are now brutal warlords wanted dead or alive by the very same organization that once armed them. No longer needing to resort to ambush or hit-and-run tactics, the northern warlords are content to sell off their stocks of Liberators in order to fund other activities."
@@ -70,7 +75,7 @@ outfit "Counterfeit Credsticks"
 	cost 100
 	thumbnail "outfit/counterfeit credsticks"
 	"mass" 0.01
-	illegal 30
+	"illegal" 30
 	"installable" -1
 	description "Cash is so last millenium. Even so, humanity's old habits die hard - who wouldn't want money for nothing? Fake credsticks, like counterfeit money in any era, follows a basic premise: the producers trade it at a discount relative to its face value, their customers understanding that there's a degree of risk in conducting commerce with false currency. Credsticks like these are in demand among the sleazier elements of the galaxy, and with those who have the sheer chutzpah to fob off rubbish as gold."
 
@@ -80,6 +85,7 @@ outfit "Jailbroken AI Core"
 	cost 124711
 	thumbnail "outfit/jailbroken AI core"
 	"mass" 4
+	"atrocity" 1
 	"installable" -1
 	description "Law demands that any sufficiently advanced artificial intelligence or high-agency computerized system maintain Asimov-compliant axiomatic programming."
 	description "As it turns out, disregarding human safety as an absolute priority is remarkably more profitable in industrial contexts, allowing AI-managed facilities to cut corners and take risks that more often than not pay off. As incentive structures and tight quotas increasingly drive Syndicate executives and factory managers to squeeze every last credit possible out of the processes they administrate, investment into jailbroken AI becomes an attractive prospect."
