@@ -2751,6 +2751,12 @@ void Ship::Recharge(bool atSpaceport)
 		energy = attributes.Get("energy capacity");
 	if(atSpaceport || attributes.Get("fuel generation"))
 		fuel = attributes.Get("fuel capacity");
+	if(GetPlanet())
+	{
+		const auto planetAttrs = GetPlanet()->Attributes();
+		if(planetAttrs.find("fuel cache") != planetAttrs.end() || atSpaceport)
+			fuel = attributes.Get("fuel capacity");
+	}
 	
 	heat = IdleHeat();
 	ionization = 0.;
