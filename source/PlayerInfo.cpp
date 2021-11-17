@@ -1162,13 +1162,13 @@ void PlayerInfo::Land(UI *ui)
 		{
 			if(ship->GetSystem() == system)
 			{
-				ship->Recharge(hasSpaceport);
+				ship->Recharge(hasSpaceport ? Planet::Port::All : Planet::Port::None);
 				ship->Cargo().TransferAll(cargo);
 				if(!ship->GetPlanet())
 					ship->SetPlanet(planet);
 			}
 			else
-				ship->Recharge(false);
+				ship->Recharge(Planet::Port::None);
 		}
 	// Adjust cargo cost basis for any cargo lost due to a ship being destroyed.
 	for(const auto &it : lostCargo)
@@ -1295,11 +1295,11 @@ bool PlayerInfo::TakeOff(UI *ui)
 		{
 			if(ship->GetSystem() != system)
 			{
-				ship->Recharge(false);
+				ship->Recharge(Planet::Port::None);
 				continue;
 			}
 			else
-				ship->Recharge(hasSpaceport);
+				ship->Recharge(hasSpaceport ? Planet::Port::All : Planet::Port::None);
 			
 			if(ship != flagship)
 			{
