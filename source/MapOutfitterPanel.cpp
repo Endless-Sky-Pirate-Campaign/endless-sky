@@ -223,10 +223,13 @@ void MapOutfitterPanel::DrawItems()
 					const auto pit = storage.find(&planet);
 					if(pit != storage.end())
 						storedInSystem += pit->second.Get(outfit);
-					if(planet.Outfitter().Has(outfit))
-					{
-						isForSale = true;
-						break;
+						
+					const Sold* sold = planet.OutfitterSale().GetSold(outfit);
+					isForSale = (planet.OutfitterSale().Has(outfit) && sold->GetShown() == "");
+
+					if (isForSale) {
+  						price = sold->GetCost() ? Format::Credits(sold->GetCost()) : price;
+  						break;
 					}
 				}
 			}

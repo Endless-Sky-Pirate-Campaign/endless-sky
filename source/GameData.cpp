@@ -92,7 +92,7 @@ namespace {
 	set<double> neighborDistances;
 	
 	Set<Sale<Ship>> shipSales;
-	Set<Sale<Outfit>> outfitSales;
+	Set<OutfitSale<Outfit>> outfitSales;
 	
 	Set<Fleet> defaultFleets;
 	Set<Government> defaultGovernments;
@@ -100,7 +100,7 @@ namespace {
 	Set<System> defaultSystems;
 	Set<Galaxy> defaultGalaxies;
 	Set<Sale<Ship>> defaultShipSales;
-	Set<Sale<Outfit>> defaultOutfitSales;
+	Set<OutfitSale<Outfit>> defaultOutfitSales;
 	
 	Politics politics;
 	vector<StartConditions> startConditions;
@@ -792,7 +792,7 @@ const Set<Outfit> &GameData::Outfits()
 
 
 
-const Set<Sale<Outfit>> &GameData::Outfitters()
+const Set<OutfitSale<Outfit>> &GameData::Outfitters()
 {
 	return outfitSales;
 }

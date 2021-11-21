@@ -68,7 +68,7 @@ OutfitterPanel::OutfitterPanel(PlayerInfo &player)
 		}
 	
 	if(player.GetPlanet())
-		outfitter = player.GetPlanet()->Outfitter();
+		outfitter = player.GetPlanet()->OutfitterSale();
 }
 
 
@@ -107,7 +107,7 @@ int OutfitterPanel::DrawPlayerShipInfo(const Point &point)
 bool OutfitterPanel::HasItem(const string &name) const
 {
 	const Outfit *outfit = GameData::Outfits().Get(name);
-	if((outfitter.Has(outfit) || player.Stock(outfit) > 0) && showForSale)
+	if(((outfitter.Has(outfit) && outfitter.GetSold(outfit)->GetShown() != "hidden") || player.Stock(outfit) > 0) && showForSale)
 		return true;
 	
 	if(player.Cargo().Get(outfit) && (!playerShip || showForSale))
@@ -180,6 +180,7 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 		stock = max(0, player.Stock(outfit));
 	int cargo = player.Cargo().Get(outfit);
 	int storage = player.Storage() ? player.Storage()->Get(outfit) : 0;
+	const Sold* sold = outfitter.GetSold(outfit);
 	
 	string message;
 	if(cargo && storage && stock)
@@ -196,6 +197,8 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 		message = "in storage: " + to_string(storage);
 	else if(stock)
 		message = "in stock: " + to_string(stock);
+	else if(sold != nullptr && sold->GetShown() != "")
+		message = sold->GetShown();
 	else if(!outfitter.Has(outfit))
 		message = "(not sold here)";
 	if(!message.empty())
@@ -309,7 +312,8 @@ bool OutfitterPanel::CanBuy(bool checkAlreadyOwned) const
 		return false;
 	
 	bool isAlreadyOwned = checkAlreadyOwned && IsAlreadyOwned();
-	if(!(outfitter.Has(selectedOutfit) || player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
+	const Sold* sold = outfitter.GetSold(selectedOutfit);
+	if(!((sold != nullptr && sold->GetShown() == "") || player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
 		return false;
 	
 	int mapSize = selectedOutfit->Get("map");

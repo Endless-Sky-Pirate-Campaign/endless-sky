@@ -98,7 +98,7 @@ private:
 	// The number of different items the ships in this fleet will carry in cargo.
 	int cargo = 3;
 	std::vector<std::string> commodities;
-	std::set<const Sale<Outfit> *> outfitters;
+	std::set<const OutfitSale<Outfit> *> outfitters;
 	
 	Personality personality;
 };

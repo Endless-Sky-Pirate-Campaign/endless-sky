@@ -416,10 +416,22 @@ bool Planet::HasOutfitter() const
 const Sale<Outfit> &Planet::Outfitter() const
 {
 	outfitter.clear();
-	for(const Sale<Outfit> *sale : outfitSales)
+	for(const OutfitSale<Outfit> *sale : outfitSales)
 		outfitter.Add(*sale);
 	
 	return outfitter;
+}
+
+
+
+// Get the list of outfits available from the outfitter with their custom elements.
+const OutfitSale<Outfit> &Planet::OutfitterSale() const
+{
+	outfitterSale.clear();
+	for(const OutfitSale<Outfit> *sale : outfitSales)
+		outfitterSale.Add(*sale);
+	
+	return outfitterSale;
 }
 
 

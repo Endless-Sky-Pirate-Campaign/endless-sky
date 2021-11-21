@@ -113,7 +113,7 @@ public:
 	static const Set<Mission> &Missions();
 	static const Set<News> &SpaceportNews();
 	static const Set<Outfit> &Outfits();
-	static const Set<Sale<Outfit>> &Outfitters();
+	static const Set<OutfitSale<Outfit>> &Outfitters();
 	static const Set<Person> &Persons();
 	static const Set<Phrase> &Phrases();
 	static const Set<Planet> &Planets();
