@@ -24,6 +24,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 class Outfit;
 class PlayerInfo;
+class Planet;
 class Point;
 class Ship;
 

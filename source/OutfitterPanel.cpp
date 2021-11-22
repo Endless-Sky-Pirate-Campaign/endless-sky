@@ -96,7 +96,7 @@ int OutfitterPanel::TileSize() const
 
 int OutfitterPanel::DrawPlayerShipInfo(const Point &point)
 {
-	shipInfo.Update(*playerShip, player.FleetDepreciation(), day);
+	shipInfo.Update(*playerShip, player.FleetDepreciation(), day, player.GetPlanet());
 	shipInfo.DrawAttributes(point);
 	
 	return shipInfo.AttributesHeight();

@@ -152,10 +152,13 @@ void OutfitSale<Item>::Load(const DataNode &node, const Set<Item> &items)
 
 
 
+// operator[] is used to overwrite existing data instead of leaving it alone
 template <class Item>
 void OutfitSale<Item>::Add(const OutfitSale<Item> &other)
 {
-	this->insert(other.begin(), other.end());
+	for(auto& it : other)
+		(*this)[it.first] = it.second;
+	//this->insert(other.begin(), other.end());
 }
 
 
