@@ -124,8 +124,8 @@ void ShipInfoDisplay::UpdateAttributes(const Ship &ship, const Depreciation &dep
 	
 	const Outfit &attributes = ship.Attributes();
 	
-	int64_t fullCost = ship.Cost();
-	int64_t depreciated = depreciation.Value(ship, day);
+	int64_t fullCost = depreciation.Value(ship, 0, ship.GetPlanet());
+	int64_t depreciated = depreciation.Value(ship, day, ship.GetPlanet());
 	if(depreciated == fullCost)
 		attributeLabels.push_back("cost:");
 	else
@@ -368,7 +368,7 @@ void ShipInfoDisplay::UpdateOutfits(const Ship &ship, const Depreciation &deprec
 	}
 	
 	
-	int64_t totalCost = depreciation.Value(ship, day);
+	int64_t totalCost = depreciation.Value(ship, day, ship.GetPlanet());  // WHEN SOLD SHIP HAS NO PLANET SET, NEED TO HAVE ONE FOR PROPER SELL PRICE
 	int64_t chassisCost = depreciation.Value(GameData::Ships().Get(ship.ModelName()), day);
 	saleLabels.clear();
 	saleValues.clear();

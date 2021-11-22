@@ -15,6 +15,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "DataNode.h"
 #include "DataWriter.h"
 #include "GameData.h"
+#include "Planet.h"
 #include "Outfit.h"
 #include "Ship.h"
 
@@ -233,12 +234,14 @@ int64_t Depreciation::Value(const vector<shared_ptr<Ship>> &fleet, int day) cons
 
 
 // Get the value of a ship, along with all its outfits.
-int64_t Depreciation::Value(const Ship &ship, int day) const
+int64_t Depreciation::Value(const Ship &ship, int day, const Planet *planet) const
 {
 	int64_t value = Value(&ship, day);
+	double basePrice;
 	for(const auto &it : ship.Outfits())
 	{
-		value += Value(it.first, day, 0, it.second);
+		basePrice = planet ? planet->OutfitterSale().GetCost(it.first) : 0.;
+		value += Value(it.first, day, basePrice, it.second);
 	}
 	return value;
 }

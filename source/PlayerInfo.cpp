@@ -863,7 +863,7 @@ void PlayerInfo::BuyShip(const Ship *model, const string &name, bool isGift)
 		return;
 	
 	int day = date.DaysSinceEpoch();
-	int64_t cost = isGift ? 0 : stockDepreciation.Value(*model, day);
+	int64_t cost = isGift ? 0 : stockDepreciation.Value(*model, day, GetPlanet());
 	if(accounts.Credits() >= cost)
 	{
 		// Copy the model instance into a new instance.
@@ -897,7 +897,7 @@ void PlayerInfo::SellShip(const Ship *selected)
 		if(it->get() == selected)
 		{
 			int day = date.DaysSinceEpoch();
-			int64_t cost = depreciation.Value(*selected, day);
+			int64_t cost = depreciation.Value(*selected, day, GetPlanet());
 			
 			// Record the transfer of this ship in the depreciation and stock info.
 			stockDepreciation.Buy(*selected, day, &depreciation);

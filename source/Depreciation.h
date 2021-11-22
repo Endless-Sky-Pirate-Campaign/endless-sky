@@ -21,6 +21,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 class DataNode;
 class DataWriter;
+class Planet;
 class Outfit;
 class Ship;
 
@@ -53,7 +54,7 @@ public:
 	// Get the value of an entire fleet.
 	int64_t Value(const std::vector<std::shared_ptr<Ship>> &fleet, int day) const;
 	// Get the value of a ship, along with all its outfits.
-	int64_t Value(const Ship &ship, int day) const;
+	int64_t Value(const Ship &ship, int day, const Planet* planet) const;
 	// Get the value just of the chassis of a ship.
 	int64_t Value(const Ship *ship, int day, int count = 1) const;
 	// Get the value of an outfit.
@@ -65,7 +66,7 @@ private:
 	// day for its depreciation.
 	int Sell(std::map<int, int> &record);
 	// Calculate depreciation:
-	double Depreciate(const std::map<int, int> &record, int day, int count = 1) const;
+	double Depreciate(const std::map<int, int> &record, int day, int count) const;
 	double Depreciate(int age) const;
 	// Depreciation of an item for which no record exists. If buying, items
 	// default to no depreciation. When selling, they default to full.
