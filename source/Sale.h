@@ -142,6 +142,9 @@ void OutfitSale<Item>::Load(const DataNode &node, const Set<Item> &items)
 			this->erase(items.Get(child.Token(1)));
 		else if(token == "add" && child.Size() >= 2)
 			(*this)[items.Get(child.Token(1))].SetBase(child.Size() > 2 ? child.Value(2) : 0., child.Size() > 3 ? child.Token(3) : "");
+		else if(token == "hidden" || token == "import")
+			for(const DataNode &subChild : child)
+				(*this)[items.Get(subChild.Token(0))].SetBase(subChild.Size() > 1 ? subChild.Value(1) : 0., token);
 		else
 			(*this)[items.Get(child.Token(0))].SetBase(child.Size() > 1 ? child.Value(1) : 0., child.Size() > 2 ? child.Token(2) : "");
 	}
