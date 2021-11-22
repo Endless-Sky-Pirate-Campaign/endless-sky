@@ -237,7 +237,9 @@ int64_t Depreciation::Value(const Ship &ship, int day) const
 {
 	int64_t value = Value(&ship, day);
 	for(const auto &it : ship.Outfits())
-		value += Value(it.first, day, it.second);
+	{
+		value += Value(it.first, day, 0, it.second);
+	}
 	return value;
 }
 
@@ -259,10 +261,11 @@ int64_t Depreciation::Value(const Ship *ship, int day, int count) const
 
 
 // Get the value of an outfit.
-int64_t Depreciation::Value(const Outfit *outfit, int day, int count, double basePrice) const
+int64_t Depreciation::Value(const Outfit *outfit, int day, double basePrice, int count) const
 {
+	int64_t cost = basePrice ? basePrice : outfit->Cost();
 	if(outfit->Get("installable") < 0.)
-		return count * basePrice;
+		return count * cost;
 	
 	// Check whether a record exists for this outfit. If not, its value is full
 	// if this is  planet's stock, or fully depreciated if this is the player.
@@ -270,7 +273,7 @@ int64_t Depreciation::Value(const Outfit *outfit, int day, int count, double bas
 	if(recordIt == outfits.end() || recordIt->second.empty())
 		return DefaultDepreciation() * count * outfit->Cost();
 	
-	return Depreciate(recordIt->second, day, count) * basePrice;
+	return Depreciate(recordIt->second, day, count) * cost;
 }
 
 

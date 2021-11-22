@@ -107,7 +107,8 @@ int OutfitterPanel::DrawPlayerShipInfo(const Point &point)
 bool OutfitterPanel::HasItem(const string &name) const
 {
 	const Outfit *outfit = GameData::Outfits().Get(name);
-	if(((outfitter.Has(outfit) && outfitter.GetSold(outfit)->GetShown() != "hidden") || player.Stock(outfit) > 0) && showForSale)
+	const Sold* sold = outfitter.GetSold(outfit);
+	if(((sold && sold->GetShown() != "hidden") || player.Stock(outfit) > 0) && showForSale)
 		return true;
 	
 	if(player.Cargo().Get(outfit) && (!playerShip || showForSale))
@@ -321,7 +322,7 @@ bool OutfitterPanel::CanBuy(bool checkAlreadyOwned) const
 		return false;
 	
 	// Determine what you will have to pay to buy this outfit.
-	int64_t cost = player.StockDepreciation().Value(selectedOutfit, day);
+	int64_t cost = player.StockDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
 	// Check that the player has any necessary licenses.
 	int64_t licenseCost = LicenseCost(selectedOutfit);
 	if(licenseCost < 0)
@@ -361,6 +362,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 	}
 	
 	int modifier = Modifier();
+	double cost = outfitter.GetCost(selectedOutfit);
 	for(int i = 0; i < modifier && CanBuy(alreadyOwned); ++i)
 	{
 		// Special case: maps.
@@ -373,7 +375,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 				for(const System *system : distance.Systems())
 					if(!player.HasVisited(*system))
 						player.Visit(*system);
-				int64_t price = player.StockDepreciation().Value(selectedOutfit, day);
+				int64_t price = player.StockDepreciation().Value(selectedOutfit, day, cost);
 				player.Accounts().AddCredits(-price);
 			}
 			return;
@@ -386,7 +388,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 			if(entry <= 0)
 			{
 				entry = true;
-				int64_t price = player.StockDepreciation().Value(selectedOutfit, day);
+				int64_t price = player.StockDepreciation().Value(selectedOutfit, day, cost);
 				player.Accounts().AddCredits(-price);
 			}
 			return;
@@ -408,7 +410,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 				if(!outfitter.Has(selectedOutfit) && player.Stock(selectedOutfit) <= 0)
 					continue;
 				player.Cargo().Add(selectedOutfit);
-				int64_t price = player.StockDepreciation().Value(selectedOutfit, day);
+				int64_t price = player.StockDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
 				player.Accounts().AddCredits(-price);
 				player.AddStock(selectedOutfit, -1);
 				continue;
@@ -417,6 +419,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 		
 		// Find the ships with the fewest number of these outfits.
 		const vector<Ship *> shipsToOutfit = GetShipsToOutfit(true);
+		double cost = outfitter.GetCost(selectedOutfit);
 		
 		for(Ship *ship : shipsToOutfit)
 		{
@@ -431,7 +434,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 				break;
 			else
 			{
-				int64_t price = player.StockDepreciation().Value(selectedOutfit, day);
+				int64_t price = player.StockDepreciation().Value(selectedOutfit, day, cost);
 				player.Accounts().AddCredits(-price);
 				player.AddStock(selectedOutfit, -1);
 			}
@@ -451,7 +454,7 @@ void OutfitterPanel::FailBuy() const
 	if(!selectedOutfit)
 		return;
 	
-	int64_t cost = player.StockDepreciation().Value(selectedOutfit, day);
+	int64_t cost = player.StockDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
 	int64_t credits = player.Accounts().Credits();
 	bool isInCargo = player.Cargo().Get(selectedOutfit);
 	bool isInStorage = player.Storage() && player.Storage()->Get(selectedOutfit);
@@ -620,7 +623,7 @@ void OutfitterPanel::Sell(bool toStorage)
 		}
 		else
 		{
-			int64_t price = player.FleetDepreciation().Value(selectedOutfit, day);
+			int64_t price = player.FleetDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
 			player.Accounts().AddCredits(price);
 			player.AddStock(selectedOutfit, 1);
 		}
@@ -655,7 +658,7 @@ void OutfitterPanel::Sell(bool toStorage)
 			}
 			else
 			{
-				int64_t price = player.FleetDepreciation().Value(selectedOutfit, day);
+				int64_t price = player.FleetDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
 				player.Accounts().AddCredits(price);
 				player.AddStock(selectedOutfit, 1);
 			}
@@ -676,7 +679,7 @@ void OutfitterPanel::Sell(bool toStorage)
 						mustSell -= storage->Add(ammo, mustSell);
 					if(mustSell)
 					{
-						int64_t price = player.FleetDepreciation().Value(ammo, day, mustSell);
+						int64_t price = player.FleetDepreciation().Value(ammo, day, outfitter.GetCost(ammo), mustSell);
 						player.Accounts().AddCredits(price);
 						player.AddStock(ammo, mustSell);
 					}
@@ -689,7 +692,7 @@ void OutfitterPanel::Sell(bool toStorage)
 	if(!toStorage && storage && storage->Get(selectedOutfit))
 	{
 		storage->Remove(selectedOutfit);
-		int64_t price = player.FleetDepreciation().Value(selectedOutfit, day);
+		int64_t price = player.FleetDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
 		player.Accounts().AddCredits(price);
 		player.AddStock(selectedOutfit, 1);
 	}
@@ -935,13 +938,14 @@ void OutfitterPanel::CheckRefill()
 	}
 	
 	int64_t cost = 0;
+	double basePrice = outfitter.GetCost(selectedOutfit);
 	for(auto &it : needed)
 	{
 		// Don't count cost of anything installed from cargo.
 		it.second = max(0, it.second - player.Cargo().Get(it.first));
 		if(!outfitter.Has(it.first))
 			it.second = min(it.second, max(0, player.Stock(it.first)));
-		cost += player.StockDepreciation().Value(it.first, day, it.second);
+		cost += player.StockDepreciation().Value(it.first, day, basePrice, it.second);
 	}
 	if(!needed.empty() && cost < player.Accounts().Credits())
 	{
@@ -979,7 +983,7 @@ void OutfitterPanel::Refill()
 				int available = outfitter.Has(outfit) ? neededAmmo : min<int>(neededAmmo, max<int>(0, player.Stock(outfit)));
 				if(neededAmmo && available > 0)
 				{
-					int64_t price = player.StockDepreciation().Value(outfit, day, available);
+					int64_t price = player.StockDepreciation().Value(outfit, day, outfitter.GetCost(outfit), available);
 					player.Accounts().AddCredits(-price);
 					player.AddStock(outfit, -available);
 				}

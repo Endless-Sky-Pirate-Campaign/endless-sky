@@ -220,14 +220,15 @@ void MapOutfitterPanel::DrawItems()
 						continue;
 
 					const Planet &planet = *object.GetPlanet();
+					const Sold* sold = planet.OutfitterSale().GetSold(outfit);
 					const auto pit = storage.find(&planet);
 					if(pit != storage.end())
 						storedInSystem += pit->second.Get(outfit);
 						
-					const Sold* sold = planet.OutfitterSale().GetSold(outfit);
-					isForSale = (planet.OutfitterSale().Has(outfit) && sold->GetShown() == "");
+					isForSale = (sold != nullptr && sold->GetShown() == "");
 
-					if (isForSale) {
+					if (isForSale) 
+					{
   						price = sold->GetCost() ? Format::Credits(sold->GetCost()) : price;
   						break;
 					}

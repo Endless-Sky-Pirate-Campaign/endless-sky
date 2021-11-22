@@ -120,7 +120,9 @@ public:
 	
 	void Add(const OutfitSale<Item> &other);
 	
-	Sold* GetSold(const Item* item) const;
+	const Sold* GetSold(const Item* item) const;
+
+	double GetCost(const Item* item) const;
 	
 	bool Has(const Item *item) const;
 };
@@ -156,9 +158,19 @@ void OutfitSale<Item>::Add(const OutfitSale<Item> &other)
 
 
 template <class Item>
-Sold* OutfitSale<Item>::GetSold(const Item* item) const
+const Sold* OutfitSale<Item>::GetSold(const Item* item) const
 {
-	return &const_cast<OutfitSale<Item> *>(this)->operator[](item);
+	auto sold = this->find(item);
+	return (sold != this->end()) ? &sold->second : nullptr;
+}
+
+
+
+template <class Item>
+double OutfitSale<Item>::GetCost(const Item* item) const
+{
+	const Sold* sold = GetSold(item);
+	return sold != nullptr ? sold->GetCost() : 0.;
 }
 
 
