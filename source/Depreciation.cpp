@@ -271,7 +271,7 @@ int64_t Depreciation::Value(const Outfit *outfit, int day, double basePrice, int
 	// if this is  planet's stock, or fully depreciated if this is the player.
 	auto recordIt = outfits.find(outfit);
 	if(recordIt == outfits.end() || recordIt->second.empty())
-		return DefaultDepreciation() * count * outfit->Cost();
+		return DefaultDepreciation() * count * cost;
 	
 	return Depreciate(recordIt->second, day, count) * cost;
 }

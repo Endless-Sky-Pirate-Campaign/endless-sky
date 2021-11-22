@@ -149,7 +149,7 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 			const Sold* sold = outfitter.GetSold(selected);
 			if(sold)
 			{
-				return 1.;
+				return basePrice+cost;
 				//cost = sold->GetCost();
 				//return cost ? 2. * cost / basePrice - 1. : 1.;
 			}
