@@ -226,7 +226,7 @@ int64_t Depreciation::Value(const vector<shared_ptr<Ship>> &fleet, int day) cons
 	for(const auto &it : shipCount)
 		value += Value(it.first, day, it.second);
 	for(const auto &it : outfitCount)
-		value += Value(it.first, day, it.second);
+		value += Value(it.first, day, 0, it.second);
 	return value;
 }
 
