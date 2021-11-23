@@ -98,7 +98,7 @@ void MapShipyardPanel::Select(int index)
 	else
 	{
 		selected = list[index];
-		selectedInfo.Update(*selected, player.StockDepreciation(), player.GetDate().DaysSinceEpoch(), nullptr);  // NEED TO CHANGE TO ACTUAL SELECTED PLANET OF THE SYSTEM WITH SHIPYARD, GETTING ITS OUTFITTER
+		selectedInfo.Update(*selected, player.StockDepreciation(), player.GetDate().DaysSinceEpoch());
 	}
 	UpdateCache();
 }
@@ -112,7 +112,7 @@ void MapShipyardPanel::Compare(int index)
 	else
 	{
 		compare = list[index];
-		compareInfo.Update(*compare, player.StockDepreciation(), player.GetDate().DaysSinceEpoch(), nullptr);  // SAME
+		compareInfo.Update(*compare, player.StockDepreciation(), player.GetDate().DaysSinceEpoch());
 	}
 }
 

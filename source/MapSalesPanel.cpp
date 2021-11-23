@@ -216,8 +216,8 @@ void MapSalesPanel::DrawKey() const
 	double selectedValue = SystemValue(selectedSystem);
 	for(int i = 0; i < 3; ++i)
 	{
-		bool isSelected = (VALUE[i] == selectedValue || i == 2);
-		RingShader::Draw(pos, OUTER, INNER, MapColor(i == 2 ? selectedValue : VALUE[i]));
+		bool isSelected = (VALUE[i] == selectedValue);// || i == 2);
+		RingShader::Draw(pos, OUTER, INNER, MapColor(VALUE[i]));//i == 2 ? selectedValue : VALUE[i]));
 		font.Draw(KeyLabel(i), pos + textOff, isSelected ? bright : dim);
 		if(onlyShowSoldHere && i == 2)
 		{

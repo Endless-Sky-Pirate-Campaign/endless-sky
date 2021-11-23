@@ -237,12 +237,9 @@ int64_t Depreciation::Value(const vector<shared_ptr<Ship>> &fleet, int day) cons
 int64_t Depreciation::Value(const Ship &ship, int day, const Planet *planet) const
 {
 	int64_t value = Value(&ship, day);
-	double basePrice;
 	for(const auto &it : ship.Outfits())
-	{
-		basePrice = planet ? planet->OutfitterSale().GetCost(it.first) : 0.;
-		value += Value(it.first, day, basePrice, it.second);
-	}
+		value += Value(it.first, day, planet ? 
+			planet->OutfitterSale().GetCost(it.first) : 0., it.second);
 	return value;
 }
 
@@ -266,7 +263,7 @@ int64_t Depreciation::Value(const Ship *ship, int day, int count) const
 // Get the value of an outfit.
 int64_t Depreciation::Value(const Outfit *outfit, int day, double basePrice, int count) const
 {
-	int64_t cost = basePrice ? basePrice : outfit->Cost();
+	double cost = basePrice ? basePrice : outfit->Cost();
 	if(outfit->Get("installable") < 0.)
 		return count * cost;
 	

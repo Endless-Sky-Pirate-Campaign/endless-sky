@@ -108,6 +108,7 @@ bool OutfitterPanel::HasItem(const string &name) const
 {
 	const Outfit *outfit = GameData::Outfits().Get(name);
 	const Sold* sold = outfitter.GetSold(outfit);
+	// Do not show hidden items except if the player has them in cargo.
 	if(((sold && sold->GetShown() != "hidden") || player.Stock(outfit) > 0) && showForSale)
 		return true;
 	
@@ -198,7 +199,7 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 		message = "in storage: " + to_string(storage);
 	else if(stock)
 		message = "in stock: " + to_string(stock);
-	else if(sold != nullptr && sold->GetShown() != "")
+	else if(sold && sold->GetShown() != "")
 		message = sold->GetShown();
 	else if(!outfitter.Has(outfit))
 		message = "(not sold here)";
@@ -314,7 +315,7 @@ bool OutfitterPanel::CanBuy(bool checkAlreadyOwned) const
 	
 	bool isAlreadyOwned = checkAlreadyOwned && IsAlreadyOwned();
 	const Sold* sold = outfitter.GetSold(selectedOutfit);
-	if(!((sold != nullptr && sold->GetShown() == "") || player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
+	if(!((sold && sold->GetShown() == "") || player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
 		return false;
 	
 	int mapSize = selectedOutfit->Get("map");
@@ -623,7 +624,8 @@ void OutfitterPanel::Sell(bool toStorage)
 		}
 		else
 		{
-			int64_t price = player.FleetDepreciation().Value(selectedOutfit, day, outfitter.GetCost(selectedOutfit));
+			int64_t price = player.FleetDepreciation().Value(selectedOutfit, day, 
+				outfitter.GetCost(selectedOutfit));
 			player.Accounts().AddCredits(price);
 			player.AddStock(selectedOutfit, 1);
 		}

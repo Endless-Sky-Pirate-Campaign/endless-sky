@@ -138,21 +138,18 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 	
 	// Visiting a system is sufficient to know what ports are available on its planets.
 	double value = -.5;
-	double basePrice = 1.;
-	if(selected)
-		basePrice = selected->Cost();
+	// for varying colors depending on outfit price !
+	//double basePrice = selected ? selected->Cost() : 1.;
 	for(const StellarObject &object : system->Objects())
 		if(object.HasSprite() && object.HasValidPlanet())
 		{
 			const auto &outfitter = object.GetPlanet()->OutfitterSale();
-			double cost = 0.;
 			const Sold* sold = outfitter.GetSold(selected);
 			if(sold)
-			{
-				return basePrice+cost;
-				//cost = sold->GetCost();
+				return 1.;
+				// for varying colors depending on outfit price !
+				//double cost = sold->GetCost();
 				//return cost ? 2. * cost / basePrice - 1. : 1.;
-			}
 			if(!outfitter.empty())
 				value = 0.;
 		}

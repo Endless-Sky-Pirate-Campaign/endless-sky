@@ -23,8 +23,8 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include <vector>
 
 class Outfit;
-class PlayerInfo;
 class Planet;
+class PlayerInfo;
 class Point;
 class Ship;
 

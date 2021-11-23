@@ -417,6 +417,7 @@ const Sale<Outfit> &Planet::Outfitter() const
 {
 	outfitter.clear();
 	for(const OutfitSale<Outfit> *sale : outfitSales)
+		// Automatically converts from OutfitSale to Sale.
 		outfitter.Add(*sale);
 	
 	return outfitter;

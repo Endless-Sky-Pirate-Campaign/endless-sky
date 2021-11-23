@@ -32,10 +32,10 @@ class Ship;
 class ShipInfoDisplay : public ItemInfoDisplay {
 public:
 	ShipInfoDisplay() = default;
-	ShipInfoDisplay(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet);
+	ShipInfoDisplay(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet);
 	
 	// Call this every time the ship changes.
-	void Update(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet);
+	void Update(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet = nullptr);
 	
 	// Provided by ItemInfoDisplay:
 	// int PanelWidth();
@@ -53,8 +53,8 @@ public:
 	
 	
 private:
-	void UpdateAttributes(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet);
-	void UpdateOutfits(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet);
+	void UpdateAttributes(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet);
+	void UpdateOutfits(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet);
 	
 	
 private:

@@ -33,7 +33,7 @@ using namespace std;
 
 
 
-ShipInfoDisplay::ShipInfoDisplay(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet)
+ShipInfoDisplay::ShipInfoDisplay(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet)
 {
 	Update(ship, depreciation, day, planet);
 }
@@ -41,7 +41,7 @@ ShipInfoDisplay::ShipInfoDisplay(const Ship &ship, const Depreciation &depreciat
 
 
 // Call this every time the ship changes.
-void ShipInfoDisplay::Update(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet)
+void ShipInfoDisplay::Update(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet)
 {
 	UpdateDescription(ship.Description(), ship.Attributes().Licenses(), true);
 	UpdateAttributes(ship, depreciation, day, planet);
@@ -115,7 +115,7 @@ void ShipInfoDisplay::DrawSale(const Point &topLeft) const
 
 
 
-void ShipInfoDisplay::UpdateAttributes(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet)
+void ShipInfoDisplay::UpdateAttributes(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet)
 {
 	bool isGeneric = ship.Name().empty() || ship.GetPlanet();
 	
@@ -125,7 +125,7 @@ void ShipInfoDisplay::UpdateAttributes(const Ship &ship, const Depreciation &dep
 	
 	const Outfit &attributes = ship.Attributes();
 	
-	int64_t fullCost = depreciation.Value(ship, 0, planet);
+	int64_t fullCost = planet ? depreciation.Value(ship, 0, planet) : ship.Cost();
 	int64_t depreciated = depreciation.Value(ship, day, planet);
 	if(depreciated == fullCost)
 		attributeLabels.push_back("cost:");
@@ -336,7 +336,7 @@ void ShipInfoDisplay::UpdateAttributes(const Ship &ship, const Depreciation &dep
 
 
 
-void ShipInfoDisplay::UpdateOutfits(const Ship &ship, const Depreciation &depreciation, int day, const Planet *planet)
+void ShipInfoDisplay::UpdateOutfits(const Ship &ship, const Depreciation &depreciation, int day, const Planet* planet)
 {
 	outfitLabels.clear();
 	outfitValues.clear();

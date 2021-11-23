@@ -94,6 +94,7 @@ void Sale<Item>::Add(const OutfitSale<Item> &outfitSale)
 }
 
 
+
 template <class Item>
 bool Sale<Item>::Has(const Item *item) const
 {
@@ -123,7 +124,7 @@ public:
 	
 	const Sold* GetSold(const Item* item) const;
 
-	double GetCost(const Item* item) const;
+	const double GetCost(const Item* item) const;
 	
 	bool Has(const Item *item) const;
 };
@@ -179,7 +180,7 @@ const Sold* OutfitSale<Item>::GetSold(const Item* item) const
 
 
 template <class Item>
-double OutfitSale<Item>::GetCost(const Item* item) const
+const double OutfitSale<Item>::GetCost(const Item* item) const
 {
 	const Sold* sold = GetSold(item);
 	return sold != nullptr ? sold->GetCost() : 0.;
