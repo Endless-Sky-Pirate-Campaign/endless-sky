@@ -344,7 +344,7 @@ news "merchant on quarg planets in human space"
 		word
 			"a Leviathan pirate"
 			"a pirate ship"
-			"a marauder ship"
+			"a maraduer ship"
 		word
 			" "
 		word
