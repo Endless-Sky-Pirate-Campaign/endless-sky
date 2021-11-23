@@ -27,6 +27,7 @@ public:
 	const double GetCost() const;
 	const std::string &GetShown() const;
 	void SetBase(double cost = 0., std::string shown = "");
+	inline bool isEmpty() const { return (cost == 0 && shown == "");}
 
 	double cost = 0.;
 	std::string shown = "";
@@ -157,8 +158,13 @@ template <class Item>
 void OutfitSale<Item>::Add(const OutfitSale<Item> &other)
 {
 	for(auto& it : other)
-		(*this)[it.first] = it.second;
-	//this->insert(other.begin(), other.end());
+	{
+		// Non defaults Sold have priority.
+		if(it.second.isEmpty())
+			this->insert(it);
+		else
+			(*this)[it.first] = it.second;
+	}
 }
 
 
