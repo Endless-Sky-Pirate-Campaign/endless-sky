@@ -21,22 +21,44 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include <algorithm>
 
 
+template <class Item>
+class OutfitSale;
+
+
 
 class Sold {
 public:
+	enum ShowSold {
+		NONE = 0,
+		DEFAULT = (1 << 0),
+		IMPORT = (1 << 1),
+		HIDDEN = (1 << 2)
+	};
+	
+	
+public:
 	const double GetCost() const;
-	const std::string &GetShown() const;
+	
+	inline void SetCost(double newCost) { cost = newCost; }
+	
+	const ShowSold GetShown() const;
+	
+	const std::string &GetShow() const;
+	
 	void SetBase(double cost = 0., std::string shown = "");
-	inline bool isEmpty() const { return (cost == 0 && shown == "");}
-
+	
+	inline bool isEmpty() const { return (cost == 0 && shown == ShowSold::DEFAULT);}
+	
+	
+public:
+	static const std::map<ShowSold, const std::string> show;
+	
+	
+private:
 	double cost = 0.;
-	std::string shown = "";
+	
+	ShowSold shown = ShowSold::DEFAULT;
 };
-
-
-
-template <class Item>
-class OutfitSale;
 
 
 
@@ -48,7 +70,7 @@ public:
 	void Load(const DataNode &node, const Set<Item> &items);
 	
 	void Add(const Sale<Item> &other);
-
+	
 	void Add(const OutfitSale<Item> &other);
 	
 	bool Has(const Item *item) const;
@@ -123,8 +145,10 @@ public:
 	void Add(const OutfitSale<Item> &other);
 	
 	const Sold* GetSold(const Item* item) const;
-
+	
 	const double GetCost(const Item* item) const;
+	
+	const Sold::ShowSold GetShown(const Item* item) const;
 	
 	bool Has(const Item *item) const;
 };
@@ -143,28 +167,37 @@ void OutfitSale<Item>::Load(const DataNode &node, const Set<Item> &items)
 		else if(remove && child.Size() >= 2)
 			this->erase(items.Get(child.Token(1)));
 		else if(token == "add" && child.Size() >= 2)
-			(*this)[items.Get(child.Token(1))].SetBase(child.Size() > 2 ? child.Value(2) : 0., child.Size() > 3 ? child.Token(3) : "");
+			(*this)[items.Get(child.Token(1))].SetBase(child.Size() > 2 ? 
+				child.Value(2) : 0., child.Size() > 3 ? child.Token(3) : "");
 		else if(token == "hidden" || token == "import")
 			for(const DataNode &subChild : child)
-				(*this)[items.Get(subChild.Token(0))].SetBase(subChild.Size() > 1 ? subChild.Value(1) : 0., token);
+				(*this)[items.Get(subChild.Token(0))].SetBase(subChild.Size() > 1 ? 
+					subChild.Value(1) : 0., token);
 		else
-			(*this)[items.Get(child.Token(0))].SetBase(child.Size() > 1 ? child.Value(1) : 0., child.Size() > 2 ? child.Token(2) : "");
+			(*this)[items.Get(child.Token(0))].SetBase(child.Size() > 1 ? 
+				child.Value(1) : 0., child.Size() > 2 ? child.Token(2) : "");
 	}
 }
 
 
 
-// operator[] is used to overwrite existing data instead of leaving it alone
+// operator[] is used to override existing data instead, priorities are
+// hidden > import > highest price
 template <class Item>
 void OutfitSale<Item>::Add(const OutfitSale<Item> &other)
 {
 	for(auto& it : other)
 	{
-		// Non defaults Sold have priority.
-		if(it.second.isEmpty())
+		this->insert(it);
+		const Sold* sold = GetSold(it.first);
+		if(!sold)
+			// This will not override existing items.
 			this->insert(it);
-		else
-			(*this)[it.first] = it.second;
+
+		if(sold->GetShown() == it.second.GetShown())
+			(*this)[it.first].SetCost(std::max(sold->GetCost(), it.second.GetCost()));
+		else if(sold->GetShown() < it.second.GetShown())
+			(*this)[it.first].SetBase(it.second.GetCost(), it.second.GetShow());
 	}
 }
 
@@ -183,7 +216,16 @@ template <class Item>
 const double OutfitSale<Item>::GetCost(const Item* item) const
 {
 	const Sold* sold = GetSold(item);
-	return sold != nullptr ? sold->GetCost() : 0.;
+	return sold ? sold->GetCost() : 0.;
+}
+
+
+
+template <class Item>
+const Sold::ShowSold OutfitSale<Item>::GetShown(const Item* item) const
+{
+	const Sold* sold = GetSold(item);
+	return sold ? sold->GetShown() : Sold::ShowSold::NONE;
 }
 
 

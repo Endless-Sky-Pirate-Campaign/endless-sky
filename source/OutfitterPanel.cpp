@@ -107,9 +107,10 @@ int OutfitterPanel::DrawPlayerShipInfo(const Point &point)
 bool OutfitterPanel::HasItem(const string &name) const
 {
 	const Outfit *outfit = GameData::Outfits().Get(name);
-	const Sold* sold = outfitter.GetSold(outfit);
+	const Sold::ShowSold selling = outfitter.GetShown(outfit);
 	// Do not show hidden items except if the player has them in cargo.
-	if(((sold && sold->GetShown() != "hidden") || player.Stock(outfit) > 0) && showForSale)
+	if(((selling != Sold::ShowSold::NONE && selling != Sold::ShowSold::HIDDEN) 
+		|| player.Stock(outfit) > 0) && showForSale)
 		return true;
 	
 	if(player.Cargo().Get(outfit) && (!playerShip || showForSale))
@@ -183,6 +184,7 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 	int cargo = player.Cargo().Get(outfit);
 	int storage = player.Storage() ? player.Storage()->Get(outfit) : 0;
 	const Sold* sold = outfitter.GetSold(outfit);
+	const std::string show = sold ? sold->GetShow() : "";
 	
 	string message;
 	if(cargo && storage && stock)
@@ -199,8 +201,8 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 		message = "in storage: " + to_string(storage);
 	else if(stock)
 		message = "in stock: " + to_string(stock);
-	else if(sold && sold->GetShown() != "")
-		message = sold->GetShown();
+	else if(show != "")
+		message = show;
 	else if(!outfitter.Has(outfit))
 		message = "(not sold here)";
 	if(!message.empty())
@@ -314,8 +316,7 @@ bool OutfitterPanel::CanBuy(bool checkAlreadyOwned) const
 		return false;
 	
 	bool isAlreadyOwned = checkAlreadyOwned && IsAlreadyOwned();
-	const Sold* sold = outfitter.GetSold(selectedOutfit);
-	if(!((sold && sold->GetShown() == "") || player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
+	if(!(outfitter.GetShown(selectedOutfit) == Sold::ShowSold::DEFAULT || player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
 		return false;
 	
 	int mapSize = selectedOutfit->Get("map");
@@ -487,6 +488,14 @@ void OutfitterPanel::FailBuy() const
 		GetUI()->Push(new Dialog("You cannot buy this outfit here. "
 			"It is being shown in the list because you have one installed in your ship, "
 			"but this " + planet->Noun() + " does not sell them."));
+		return;
+	}
+	
+	if(outfitter.GetShown(selectedOutfit) != Sold::ShowSold::DEFAULT)
+	{
+		GetUI()->Push(new Dialog("You cannot buy this outfit here. "
+			"It is meant to be imported, legally or not for a good price, "
+			"this " + planet->Noun() + " does not sell them."));
 		return;
 	}
 	

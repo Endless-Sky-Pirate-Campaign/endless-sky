@@ -125,7 +125,7 @@ void ShipInfoDisplay::UpdateAttributes(const Ship &ship, const Depreciation &dep
 	
 	const Outfit &attributes = ship.Attributes();
 	
-	int64_t fullCost = planet ? depreciation.Value(ship, 0, planet) : ship.Cost();
+	int64_t fullCost = depreciation.Value(ship, Depreciation::FullCostDay(), planet);
 	int64_t depreciated = depreciation.Value(ship, day, planet);
 	if(depreciated == fullCost)
 		attributeLabels.push_back("cost:");

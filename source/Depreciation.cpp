@@ -32,6 +32,7 @@ namespace {
 	constexpr double DAILY_DEPRECIATION = 0.997;
 	constexpr int GRACE_PERIOD = 7;
 	constexpr int MAX_AGE = 1000 + GRACE_PERIOD;
+	constexpr int FULL_COST_DAY = -1;
 }
 
 
@@ -40,6 +41,14 @@ namespace {
 double Depreciation::Full()
 {
 	return FULL_DEPRECIATION;
+}
+
+
+
+// Used to know the base price of a ship, even if it was not bought.
+int Depreciation::FullCostDay()
+{
+	return FULL_COST_DAY;
 }
 
 
@@ -249,11 +258,16 @@ int64_t Depreciation::Value(const Ship &ship, int day, const Planet *planet) con
 int64_t Depreciation::Value(const Ship *ship, int day, int count) const
 {
 	// Check whether a record exists for this ship. If not, its value is full
-	// if this is  planet's stock, or fully depreciated if this is the player.
+	// if this is in the planet's stock, or fully depreciated if this is the player.
 	ship = GameData::Ships().Get(ship->ModelName());
 	auto recordIt = ships.find(ship);
 	if(recordIt == ships.end() || recordIt->second.empty())
-		return DefaultDepreciation() * count * ship->ChassisCost();
+	{
+		if(day == FullCostDay())
+			return count * ship->ChassisCost();
+		else
+			return DefaultDepreciation() * count * ship->ChassisCost();
+	}
 	
 	return Depreciate(recordIt->second, day, count) * ship->ChassisCost();
 }
@@ -268,10 +282,15 @@ int64_t Depreciation::Value(const Outfit *outfit, int day, double basePrice, int
 		return count * cost;
 	
 	// Check whether a record exists for this outfit. If not, its value is full
-	// if this is  planet's stock, or fully depreciated if this is the player.
+	// if this is  planet's stock, or fully depreciated if this is the player's.
 	auto recordIt = outfits.find(outfit);
 	if(recordIt == outfits.end() || recordIt->second.empty())
-		return DefaultDepreciation() * count * cost;
+	{
+		if(day == FullCostDay())
+			return count * cost;
+		else
+			return DefaultDepreciation() * count * cost;
+	}
 	
 	return Depreciate(recordIt->second, day, count) * cost;
 }

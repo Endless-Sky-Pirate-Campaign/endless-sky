@@ -34,6 +34,8 @@ class Depreciation {
 public:
 	// What fraction of its cost a fully depreciated item has left:
 	static double Full();
+	// Used to know the base price of a ship, even if it was not bought.
+	static int FullCostDay();
 	
 	
 public:

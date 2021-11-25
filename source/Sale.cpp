@@ -13,6 +13,11 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 #include "Sale.h"
 
+const std::map<Sold::ShowSold, const std::string> Sold::show{{Sold::ShowSold::DEFAULT, ""},
+															 {Sold::ShowSold::IMPORT, "import"},
+															 {Sold::ShowSold::HIDDEN, "hidden"},
+															 {Sold::ShowSold::NONE, ""}};
+
 
 
 const double Sold::GetCost() const 
@@ -22,9 +27,20 @@ const double Sold::GetCost() const
 
 
 
-const std::string &Sold::GetShown() const
+const Sold::ShowSold Sold::GetShown() const
 {
 	return shown;
+}
+
+
+
+const std::string &Sold::GetShow() const
+{
+	/*
+	auto see = show.find(shown);
+	return (see != show.end()) ? see->second : show.find(ShowSold::NONE)->second;
+	*/
+	return show.find(shown)->second;
 }
 
 
@@ -32,5 +48,10 @@ const std::string &Sold::GetShown() const
 void Sold::SetBase(double cost, const std::string shown) 
 {
 	this->cost = cost;
-	this->shown = shown;
+	if(shown == "")
+		this->shown = ShowSold::DEFAULT;
+	else if(shown == "import")
+		this->shown = ShowSold::IMPORT;
+	else if(shown == "hidden")
+		this->shown = ShowSold::HIDDEN;
 }

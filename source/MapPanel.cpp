@@ -490,6 +490,30 @@ Color MapPanel::MapColor(double value)
 {
 	if(std::isnan(value))
 		return UninhabitedColor();
+	else if(value <= 0. || value == 1.)
+		return CommodityColor(value);
+	// Comparing different prices, with colors from green to yellow to red.
+	value = min(3., max(.33, value));
+	if(value < 1.33 && value > 0.75)
+		return Color(
+			value > 1 ? .1 + value * .1 : .0,
+			.1 + (1. / value) * .2,
+			(value + 1 / value) * .25,
+			.4);
+	else
+		return Color(
+			.1 + value * .2,
+			.1 + (1. / value) * .2,
+			0.,
+			.4);
+}
+
+
+
+Color MapPanel::CommodityColor(double value)
+{
+	if(std::isnan(value))
+		return UninhabitedColor();
 	
 	value = min(1., max(-1., value));
 	if(value < 0.)
@@ -786,7 +810,12 @@ void MapPanel::UpdateCache()
 					value = SystemValue(&system);
 				
 				if(colorSystem)
-					color = MapColor(value);
+				{
+					if(commodity >= 0)
+						color = CommodityColor(value);
+					else
+						color = MapColor(value);
+				}
 			}
 			else if(commodity == SHOW_GOVERNMENT)
 			{
