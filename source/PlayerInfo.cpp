@@ -31,6 +31,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Preferences.h"
 #include "Random.h"
 #include "SavedGame.h"
+#include "Sale.h"
 #include "Ship.h"
 #include "ShipEvent.h"
 #include "StartConditions.h"

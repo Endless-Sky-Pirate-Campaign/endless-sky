@@ -19,6 +19,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Planet.h"
 #include "PlayerInfo.h"
 #include "Point.h"
+#include "Sale.h"
 #include "Screen.h"
 #include "Sprite.h"
 #include "StellarObject.h"

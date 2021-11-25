@@ -17,6 +17,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "GameData.h"
 #include "Planet.h"
 #include "Outfit.h"
+#include "Sale.h"
 #include "Ship.h"
 
 #include <algorithm>

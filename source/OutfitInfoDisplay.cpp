@@ -17,6 +17,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Outfit.h"
 #include "Planet.h"
 #include "PlayerInfo.h"
+#include "Sale.h"
 
 #include <algorithm>
 #include <cmath>

@@ -19,6 +19,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "PlayerInfo.h"
 #include "Politics.h"
 #include "Random.h"
+#include "Sale.h"
 #include "Ship.h"
 #include "ShipEvent.h"
 #include "SpriteSet.h"

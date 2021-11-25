@@ -47,6 +47,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Politics.h"
 #include "Random.h"
 #include "RingShader.h"
+#include "Sale.h"
 #include "Ship.h"
 #include "Sprite.h"
 #include "SpriteQueue.h"
