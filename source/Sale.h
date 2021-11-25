@@ -26,6 +26,7 @@ class OutfitSale;
 
 
 
+// Container used for the price and selling type of different items (outfits in this case).
 class Sold {
 public:
 	enum ShowSold {
@@ -47,16 +48,14 @@ public:
 	
 	void SetBase(double cost = 0., std::string shown = "");
 	
-	inline bool isEmpty() const { return (cost == 0 && shown == ShowSold::DEFAULT);}
-	
 	
 public:
+	// Contains the Show types and their corresponding strings to show with the item.
 	static const std::map<ShowSold, const std::string> show;
 	
 	
 private:
 	double cost = 0.;
-	
 	ShowSold shown = ShowSold::DEFAULT;
 };
 
@@ -71,6 +70,7 @@ public:
 	
 	void Add(const Sale<Item> &other);
 	
+	// OutfitSale can be added into Sale by ignoring Sold and adding the outfit pointers.
 	void Add(const OutfitSale<Item> &other);
 	
 	bool Has(const Item *item) const;
@@ -137,6 +137,8 @@ Sale<Item>& Sale<Item>::operator= (const OutfitSale<Item>& outfitSale)
 
 
 
+// Class similar to Sale but used when items have local changes, it has
+// their corresponding custom prices or showing/sellable types in the form of Sold.
 template <class Item>
 class OutfitSale : public std::map<const Item*, Sold> {
 public:
