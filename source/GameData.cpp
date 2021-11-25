@@ -102,6 +102,7 @@ namespace {
 	Set<Sale<Ship>> defaultShipSales;
 	Set<OutfitSale<Outfit>> defaultOutfitSales;
 	
+	
 	Politics politics;
 	vector<StartConditions> startConditions;
 	
