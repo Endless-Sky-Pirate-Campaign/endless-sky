@@ -1,18 +1,16 @@
 
 mission "Smuggling Tutorial 1"
-	#cargo "Smuggled Goods" 5
+	name "Transport smuggler to <planet>"
 	source
 		attributes smuggling
 		not planet "Sleezy Ed's Scrapyard"
 		not planet "Warehouse 0x16A"
 	destination "Warehouse 0x16A"
-	#illegal 40000 `In addition to the fine, your illegal cargo is confiscated. The pirates won't be happy to hear about this.`
 	to offer
 		#random < 30
 	on offer
 		conversation
-			`No spaceport is complete without somebody in dire straits asking passerby for help. This time the beggar is - from what you can see that isn't concealed by bandages - a young man scarcely beyond his teens, what of his skin remains visible marked by a painful looking pattern of burns. Both hands and the entire right half of his head are wound in bandages, and his entire body carries a strong odor of disinfectants and salve; not strictly unpleasant, but still bordering on the overpowering.`
-			`	"Say, friend-" You've been noticed. "- help out a spacer down on his luck?"`
+			`No spaceport is complete without somebody in dire straits asking passerby for help. This time the beggar is - from what you can see that isn't concealed by bandages - a young man scarcely beyond his teens, what of his skin remains visible marked by a painful looking pattern of burns. Both hands and the entire right half of his head are wound in bandages, and his entire body carries a strong odor of disinfectants and salve; not strictly unpleasant, but still bordering on the overpowering.	"Say, friend-" You've been noticed. "- help out a spacer down on his luck?"`
 			choice
 				`	"Sure, what do you need?.`
 					goto pilot
@@ -51,15 +49,14 @@ mission "Smuggling Tutorial 1"
 
 
 mission "Smuggling Tutorial 2"
+	landing
+	name "Smuggle goods to <planet>"
 	cargo "Smuggled Goods" 5
-	source
-		attributes smuggling
-		not planet "Sleezy Ed's Scrapyard"
-		not planet "Warehouse 0x16A"
-	destination "Warehouse 0x16A"
+	source "Warehouse 0x16A"
+	destination "Sleezy Ed's Scrapyard"
 	illegal 40000 `In addition to the fine, your illegal cargo is confiscated. The pirates won't be happy to hear about this.`
 	to offer
-		has "Smuggling Tutorial 1: Done"
+		has "Smuggling Tutorial 1: done"
 	on offer
 		conversation
 			`Junior - the smuggler you've brought on board - has become increasingly surly with every day you spend in space. He'd burnt through his supply of pills, and then finally whatever painkillers he was able to scrounge from your first aid cabinets. When you land at the warehouse he stomps down the gangway, grunts something incoherent towards you - a farewell? - and then brushes past some dangerous-looking workers. You try to follow, only to be rebuffed by the Lightspeed employees guarding the exit to your spacedock.`
@@ -111,14 +108,18 @@ event "enable smuggling stopover"
 			sprite "planet/asteroid base"
 
 planet "Unassuming Asteroid"
-	attributes stopover uninhabited "fuel cache"
+	attributes stopover uninhabited
 	landscape land/asteroid0
 	government "Independent"
-	description `This is a fairly small asteroid, but it's nonetheless been diligently hollowed out just enough that you can nuzzle a ship up inside of it, kill the engines, and pretend nobody is home. Within the hollow a capacious tank of hyperspace fuel rests, waiting to replenish a thirsty traveler in need. Next to it is a case, its glass face emblazoned with "Remember The Code" in bright red paint. Within lies some ration packs, credsticks, a first aid kit, pistol, and last - but certainly not least - a hefty bottle of whiskey.`
+	description `This is a fairly small asteroid, but it's nonetheless been diligently hollowed out just enough that you can nuzzle a ship up inside of it, kill the engines, and pretend nobody is home.`
+	port "Fuel Cache"
+		fuel
+		description `Within the hollow a capacious tank of hyperspace fuel rests, waiting to replenish a thirsty traveler in need. Next to it is a case, its glass face emblazoned with "Remember The Code" in bright red paint. Within lies some ration packs, credsticks, a first aid kit, pistol, and last - but certainly not least - a hefty bottle of whiskey.`
 
 
 
 mission "Smuggling Tutorial 3"
+	name "Stopover at <system>"
 	landing
 	source "Sleezy Ed's Scrapyard"
 	destination "Unassuming Asteroid"
@@ -150,7 +151,7 @@ mission "Smuggling Tutorial 3"
 			`	The scent of roasting meat wafts in from the back of the warehouse, succulent and rich. Visible through an ajar door is a table set for two. Junior notices this, and his scowl only deepens.`
 			`	"And I'm not a kid anymore! You can't just buy me off with offerings of..." Words falter, fading into a disgruntled muttering. "I can't handle the life you made for me. And now I don't owe you anything else." With that, Junior turns and marches back to your ship, leaving you alone with the scraypard's proprietor.`
 			`	Gone is the jolly demeanor. The smile faded, held thinly only as memory as his facial muscles fail to react. Heartbreak is etched across the man's mien.`
-			`	"Come on, <First>." Junior's calling you from outside. The words are enough to rouse the father from his thoughts. "Captain, wait", he implores.`
+			`	"Come on, <first>." Junior's calling you from outside. The words are enough to rouse the father from his thoughts. "Captain, wait", he implores.`
 			apply
 				set sonswishes
 			choice
@@ -165,7 +166,7 @@ mission "Smuggling Tutorial 3"
 			label lastfavor
 			`	After some minutes, you and Junior are together once again at your landing pad.`
 			`	"Well, I said I'd share some of my secrets if you took me this far, and you did. Here." A small radio is pressed into your hands. "There's an asteroid in Fomalhaut I've turned into a little stash. This'll help you find it. But, hey, you up for one last adventure?"`
-			`	"I could use a ride up to Durax. I... need to get out of this place. I can't handle associationg with that guy any longer. But Copperline Station is a land of opportunity, and I've got some friends there.`
+			`	"I could use a ride up to Durax. I... need to get out of this place. I can't handle associating with that guy any longer. But Copperline Station is a land of opportunity, and I've got some friends there.`
 			`	"Besides, they're always in the market for 'discount' ship parts - you buy some here, sell them there, you'll make a great profit! I can show you my hideout along the way."`
 			branch privy
 				and
@@ -193,7 +194,10 @@ mission "Smuggling Tutorial 3"
 				`	"Ha, tough shit kid."`
 					decline
 
+
+
 mission "Smuggling Tutorial 4"
+	name "Transport smuggler to <system>"
 	landing
 	source "Unassuming Asteroid"
 	destination "Copperline Station"
@@ -202,7 +206,7 @@ mission "Smuggling Tutorial 4"
 	on offer
 		conversation
 			`	This asteroid is utterly forgettable. If it hadn't been pointed out to you, you're certain that only an exhaustive search of the solar sytem could have possibly led you here. Landing proves a tricky maneuver, but with some helpful pointers from Eddigus Junior - who has clearly done this more than a few times - you're able to get your ship parked within a hollow-out cavity within the asteroid itself.`
-			`	"Here it is, <First>. My little home away from home. It's not much to speak of, but being able to refuel here instead of planetside can spare you a customs inspection."`
+			`	"Here it is, <first>. My little home away from home. It's not much to speak of, but being able to refuel here instead of planetside can spare you a customs inspection."`
 			`	"You'll find little caches like this all over the place, but for obvious reasons we tend to only share the locations with those we trust. We being, y'know, smugglers. Just remember the code: anything you take, you replenish later." Ed II allows himself a moment to inspect the cache before returning to your vessel and doffing his pressure suit.`
 			`	"Let's head to <destination> now. I'm a bit of a rookie so they'll hardly trust you on my word alone, but I think if you just keep plying the trade of the smuggler you'll find folks across the galaxy ready to share their secrets, just like I am now."`
 				accept

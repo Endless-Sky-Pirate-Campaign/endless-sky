@@ -120,6 +120,7 @@ public:
 
 	const std::string &GetInterdiction() const;
 	const std::string &GetInterdictionBribe() const;
+	bool IsProvokedOnScan() const;
 	
 	
 private:
@@ -148,6 +149,7 @@ private:
 
 	std::string interdiction;
 	std::string interdictionBribe;
+	bool provokedOnScan = false;
 };
 
 
