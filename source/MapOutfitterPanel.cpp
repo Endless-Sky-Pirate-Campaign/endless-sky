@@ -113,7 +113,7 @@ void MapOutfitterPanel::Select(int index)
 		for(auto sale : outfitSales)
 		{
 			double price = sale.second.GetCost(selected);
-			if(!price)
+			if(!price || sale.second.GetShown == Sold::ShowSold::HIDDEN)
 				continue;
 			else if(price > max)
 				max = price;
