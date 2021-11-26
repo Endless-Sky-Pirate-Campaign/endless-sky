@@ -499,15 +499,15 @@ Color MapPanel::MapColor(double value)
 	{
 		double unvalue = 1. / value;
 		return Color(
-			.3 - max(.3, value * minColor * .5),
+			.3 - value * minColor * .5,
 			unvalue * minColor * .8,
 			(unvalue < 1./minColor * .6) ? unvalue * minColor * .4 : 0.);
 	}
 	else
 		return Color(
-			1. - value > maxColor * .8 ? value / maxColor * .3 : 0.,
-			1. - max(1., value / maxColor * 2.),
-			(value > maxColor * .6) ? value / maxColor * .25 : 0.);
+			.5 + ((value > maxColor * .8) ? value / maxColor * .3 : 0.),
+			1. - value / maxColor * 2.,
+			(value > maxColor * .6) ? value / maxColor * .3 : 0.);
 }
 
 

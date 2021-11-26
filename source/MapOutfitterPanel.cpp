@@ -105,23 +105,6 @@ void MapOutfitterPanel::Select(int index)
 	{
 		selected = list[index];
 		selectedInfo.Update(*selected, player);
-
-		double basePrice = selected->Cost();
-		double min = basePrice;
-		double max = basePrice;
-		auto outfitSales = GameData::Outfitters();
-		for(auto sale : outfitSales)
-		{
-			double price = sale.second.GetCost(selected);
-			if(!price || sale.second.GetShown == Sold::ShowSold::HIDDEN)
-				continue;
-			else if(price > max)
-				max = price;
-			else if(price < min)
-				min = price;
-		}
-		MapPanel::minColor = min / basePrice;
-		MapPanel::maxColor = max / basePrice;
 	}
 	UpdateCache();
 }
@@ -164,8 +147,19 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 			const Sold* sold = outfitter.GetSold(selected);
 			if(sold)
 			{
-				double cost = sold->GetCost();
-				return cost ? cost / basePrice : 1.;
+				const auto &storage = player.PlanetaryStorage();
+				const auto pit = storage.find(object.GetPlanet());
+				bool storedInSystem = (pit != storage.end()) ? pit->second.Get(selected) : false;
+				double cost = sold->GetCost() / basePrice;
+				
+				if(cost && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem))
+				{
+					if(cost > MapPanel::maxColor)
+						MapPanel::maxColor = cost;
+					else if(cost < MapPanel::minColor)
+						MapPanel::minColor = cost;
+					return cost ? cost : 1.;
+				}
 			}
 			if(!outfitter.empty())
 				value = 0.;
@@ -253,7 +247,8 @@ void MapOutfitterPanel::DrawItems()
 					if (isForSale)
 					{
   						price = sold->GetCost() ? Format::Credits(sold->GetCost()) : price;
-						price += " (" + (sold->GetShow()) + ")";
+  						if(sold->GetShown() != Sold::ShowSold::DEFAULT)
+							price += " (" + (sold->GetShow()) + ")";
   						break;
 					}
 				}
