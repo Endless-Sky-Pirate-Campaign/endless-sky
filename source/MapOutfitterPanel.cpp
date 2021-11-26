@@ -106,20 +106,20 @@ void MapOutfitterPanel::Select(int index)
 		selected = list[index];
 		selectedInfo.Update(*selected, player);
 
-		double min = 1.;
-		double max = 1.;
+		double basePrice = selected->Cost();
+		double min = basePrice;
+		double max = basePrice;
 		auto outfitSales = GameData::Outfitters();
 		for(auto sale : outfitSales)
 		{
 			double price = sale.second.GetCost(selected);
 			if(!price)
 				continue;
-			if(price > max)
+			else if(price > max)
 				max = price;
 			else if(price < min)
 				min = price;
 		}
-		double basePrice = selected->Cost();
 		MapPanel::minColor = min / basePrice;
 		MapPanel::maxColor = max / basePrice;
 	}

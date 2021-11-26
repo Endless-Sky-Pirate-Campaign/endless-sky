@@ -494,24 +494,20 @@ Color MapPanel::MapColor(double value)
 		return UninhabitedColor();
 	else if(value <= 0. || value == 1.)
 		return CommodityColor(value);
-	double unvalue = 1. / value;
 	// Comparing different prices, with colors in the cold or hot ranges whilst ignoring too blue.
 	if(value < 1.)
 	{
+		double unvalue = 1. / value;
 		return Color(
-			value * minColor * .99,
-			unvalue * minColor * .99,
-			.4 - (unvalue + value) * minColor * .4,
-			.4);
+			.3 - max(.3, value * minColor * .5),
+			unvalue * minColor * .8,
+			(unvalue < 1./minColor * .6) ? unvalue * minColor * .4 : 0.);
 	}
 	else
-	{
 		return Color(
-			.7 + (value < maxColor *.4) ? (value / maxColor *.3) : (-value / maxColor *.2),
-			.5 - value / maxColor * .99,
-			(value > maxColor * .4) ? ((value - .4) / maxColor * 1.66) : 0.,
-			.4);
-	}
+			1. - value > maxColor * .8 ? value / maxColor * .3 : 0.,
+			1. - max(1., value / maxColor * 2.),
+			(value > maxColor * .6) ? value / maxColor * .25 : 0.);
 }
 
 
