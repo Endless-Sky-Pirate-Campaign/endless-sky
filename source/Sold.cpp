@@ -1,4 +1,4 @@
-/* Sale.h
+/* Sold.cpp
 Copyright (c) 2014 by Michael Zahniser
 
 Endless Sky is free software: you can redistribute it and/or modify it under the
@@ -10,24 +10,35 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 */
 
+#include "Sold.h"
 
-#include "Sale.h"
+#include <map>
 
-const std::map<Sold::ShowSold, const std::string> Sold::show{{Sold::ShowSold::DEFAULT, ""},
-															 {Sold::ShowSold::IMPORT, "import"},
-															 {Sold::ShowSold::HIDDEN, "hidden"},
-															 {Sold::ShowSold::NONE, ""}};
+namespace 
+{
+const std::map<Sold::ShowSold, const std::string> show{{Sold::ShowSold::DEFAULT, ""},
+														{Sold::ShowSold::IMPORT, "import"},
+														{Sold::ShowSold::HIDDEN, "hidden"},
+														{Sold::ShowSold::NONE, ""}};
+}
 
 
 
-const double Sold::GetCost() const 
+double Sold::GetCost() const
 {
 	return cost;
 }
 
 
 
-const Sold::ShowSold Sold::GetShown() const
+void Sold::SetCost(double newCost)
+{
+	cost = newCost;
+}
+
+
+
+Sold::ShowSold Sold::GetShown() const
 {
 	return shown;
 }
@@ -36,10 +47,6 @@ const Sold::ShowSold Sold::GetShown() const
 
 const std::string &Sold::GetShow() const
 {
-	/*
-	auto see = show.find(shown);
-	return (see != show.end()) ? see->second : show.find(ShowSold::NONE)->second;
-	*/
 	return show.find(shown)->second;
 }
 

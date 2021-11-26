@@ -14,6 +14,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #define SHOP_PANEL_H_
 
 #include "Panel.h"
+#include "Sale.h"
 
 #include "ClickZone.h"
 #include "OutfitInfoDisplay.h"

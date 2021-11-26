@@ -16,10 +16,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "text/Format.h"
 #include "GameData.h"
 #include "Outfit.h"
+#include "OutfitSale.h"
 #include "Planet.h"
 #include "PlayerInfo.h"
 #include "Point.h"
-#include "Sale.h"
 #include "Screen.h"
 #include "Sprite.h"
 #include "StellarObject.h"
@@ -143,7 +143,7 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 	for(const StellarObject &object : system->Objects())
 		if(object.HasSprite() && object.HasValidPlanet())
 		{
-			const auto &outfitter = object.GetPlanet()->OutfitterSale();
+			const auto &outfitter = object.GetPlanet()->Outfitter();
 			const Sold* sold = outfitter.GetSold(selected);
 			if(sold)
 			{
@@ -237,7 +237,7 @@ void MapOutfitterPanel::DrawItems()
 						continue;
 
 					const Planet &planet = *object.GetPlanet();
-					const Sold* sold = planet.OutfitterSale().GetSold(outfit);
+					const Sold* sold = planet.Outfitter().GetSold(outfit);
 					const auto pit = storage.find(&planet);
 					if(pit != storage.end())
 						storedInSystem += pit->second.Get(outfit);
@@ -280,7 +280,7 @@ void MapOutfitterPanel::Init()
 	// Add all outfits sold by outfitters of visited planets.
 	for(auto &&it : GameData::Planets())
 		if(it.second.IsValid() && player.HasVisited(*it.second.GetSystem()))
-			for(const Outfit *outfit : it.second.Outfitter())
+			for(const Outfit *outfit : it.second.Outfits())
 				if(!seen.count(outfit))
 				{
 					catalog[outfit->Category()].push_back(outfit);

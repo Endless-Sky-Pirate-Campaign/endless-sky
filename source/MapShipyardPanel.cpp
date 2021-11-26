@@ -15,10 +15,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "CoreStartData.h"
 #include "text/Format.h"
 #include "GameData.h"
+#include "OutfitSale.h"
 #include "Planet.h"
 #include "PlayerInfo.h"
 #include "Point.h"
-#include "Sale.h"
 #include "Screen.h"
 #include "Ship.h"
 #include "Sprite.h"
@@ -202,7 +202,7 @@ void MapShipyardPanel::DrawItems()
 						double outfitValue = 0;
 						for(const auto &it : ship->Outfits())
 						{
-							double cost = object.GetPlanet()->OutfitterSale().GetCost(it.first);
+							double cost = object.GetPlanet()->Outfitter().GetCost(it.first);
 							outfitValue += (cost ? cost : it.first->Cost()) * it.second;
 						}
 						price = Format::Credits(ship->ChassisCost() + outfitValue) + " credits";

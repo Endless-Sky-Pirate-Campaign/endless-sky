@@ -14,9 +14,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #define GAME_DATA_H_
 
 #include "CategoryTypes.h"
-#include "Sale.h"
+
 #include "Set.h"
 #include "Trade.h"
+#include "Sale.h"
 
 #include <map>
 #include <memory>
@@ -41,6 +42,7 @@ class Minable;
 class Mission;
 class News;
 class Outfit;
+class OutfitSale;
 class Person;
 class Phrase;
 class Planet;
@@ -114,7 +116,7 @@ public:
 	static const Set<Mission> &Missions();
 	static const Set<News> &SpaceportNews();
 	static const Set<Outfit> &Outfits();
-	static const Set<OutfitSale<Outfit>> &Outfitters();
+	static const Set<OutfitSale> &Outfitters();
 	static const Set<Person> &Persons();
 	static const Set<Phrase> &Phrases();
 	static const Set<Planet> &Planets();

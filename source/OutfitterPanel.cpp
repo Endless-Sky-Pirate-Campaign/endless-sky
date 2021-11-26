@@ -24,10 +24,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Hardpoint.h"
 #include "text/layout.hpp"
 #include "Outfit.h"
+#include "OutfitSale.h"
 #include "Planet.h"
 #include "PlayerInfo.h"
 #include "Point.h"
-#include "Sale.h"
 #include "Screen.h"
 #include "Ship.h"
 #include "Sprite.h"
@@ -69,7 +69,7 @@ OutfitterPanel::OutfitterPanel(PlayerInfo &player)
 		}
 	
 	if(player.GetPlanet())
-		outfitter = player.GetPlanet()->OutfitterSale();
+		outfitter = player.GetPlanet()->Outfitter();
 }
 
 

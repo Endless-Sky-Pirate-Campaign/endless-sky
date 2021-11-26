@@ -18,6 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "DistanceMap.h"
 #include "GameData.h"
 #include "Government.h"
+#include "OutfitSale.h"
 #include "Planet.h"
 #include "Random.h"
 #include "Ship.h"
@@ -336,7 +337,7 @@ bool LocationFilter::Matches(const Planet *planet, const System *origin) const
 	
 	// If outfits are specified, make sure they can be bought here.
 	for(const set<const Outfit *> &outfitList : outfits)
-		if(!SetsIntersect(outfitList, planet->Outfitter()))
+		if(!SetsIntersect(outfitList, planet->Outfits()))
 			return false;
 	
 	return Matches(planet->GetSystem(), origin, true);

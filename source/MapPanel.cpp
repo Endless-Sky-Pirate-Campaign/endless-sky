@@ -814,12 +814,7 @@ void MapPanel::UpdateCache()
 					value = SystemValue(&system);
 				
 				if(colorSystem)
-				{
-					if(commodity >= 0)
-						color = CommodityColor(value);
-					else
-						color = MapColor(value);
-				}
+					color = (commodity >= 0 ? CommodityColor(value) : MapColor(value));
 			}
 			else if(commodity == SHOW_GOVERNMENT)
 			{

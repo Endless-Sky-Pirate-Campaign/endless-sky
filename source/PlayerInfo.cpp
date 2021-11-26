@@ -25,6 +25,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Messages.h"
 #include "Mission.h"
 #include "Outfit.h"
+#include "OutfitSale.h"
 #include "Person.h"
 #include "Planet.h"
 #include "Politics.h"
@@ -1445,7 +1446,7 @@ bool PlayerInfo::TakeOff(UI *ui)
 			if(!outfit.second)
 				continue;
 			int64_t cost = depreciation.Value(outfit.first, day, outfit.second, 
-				planet->OutfitterSale().GetSold(outfit.first)->GetCost());
+				planet->Outfitter().GetSold(outfit.first)->GetCost());
 			for(int i = 0; i < outfit.second; ++i)
 				stockDepreciation.Buy(outfit.first, day, &depreciation);
 			income += cost;

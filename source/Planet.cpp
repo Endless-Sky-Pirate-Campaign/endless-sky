@@ -16,6 +16,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "text/Format.h"
 #include "GameData.h"
 #include "Government.h"
+#include "OutfitSale.h"
 #include "PlayerInfo.h"
 #include "Politics.h"
 #include "Random.h"
@@ -251,7 +252,7 @@ void Planet::Load(const DataNode &node)
 	}
 	
 	static const vector<string> AUTO_ATTRIBUTES = {"spaceport", "shipyard", "outfitter"};
-	bool autoValues[3] = {port.name == "Spaceport", !shipSales.empty(), !outfitSales.empty()};
+	bool autoValues[3] = {port.name == "Spaceport", !shipSales.empty(), !outfitSale.empty()};
 	for(unsigned i = 0; i < AUTO_ATTRIBUTES.size(); ++i)
 	{
 		if(autoValues[i])
@@ -414,26 +415,25 @@ bool Planet::HasOutfitter() const
 
 
 // Get the list of outfits available from the outfitter.
-const Sale<Outfit> &Planet::Outfitter() const
+const Sale<Outfit> &Planet::Outfits() const
 {
-	outfitter.clear();
-	for(const OutfitSale<Outfit> *sale : outfitSales)
-		// Automatically converts from OutfitSale to Sale.
-		outfitter.Add(*sale);
+	outfits.clear();
+	for(const OutfitSale *sale : outfitSales)
+		outfits.Add(*sale);
 	
-	return outfitter;
+	return outfits;
 }
 
 
 
 // Get the list of outfits available from the outfitter with their custom elements.
-const OutfitSale<Outfit> &Planet::OutfitterSale() const
+const OutfitSale &Planet::Outfitter() const
 {
-	outfitterSale.clear();
-	for(const OutfitSale<Outfit> *sale : outfitSales)
-		outfitterSale.Add(*sale);
+	outfitSale.clear();
+	for(const OutfitSale *sale : outfitSales)
+		outfitSale.Add(*sale);
 	
-	return outfitterSale;
+	return outfitSale;
 }
 
 

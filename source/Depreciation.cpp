@@ -17,6 +17,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "GameData.h"
 #include "Planet.h"
 #include "Outfit.h"
+#include "OutfitSale.h"
 #include "Sale.h"
 #include "Ship.h"
 
@@ -249,7 +250,7 @@ int64_t Depreciation::Value(const Ship &ship, int day, const Planet *planet) con
 	int64_t value = Value(&ship, day);
 	for(const auto &it : ship.Outfits())
 		value += Value(it.first, day, planet ? 
-			planet->OutfitterSale().GetCost(it.first) : 0., it.second);
+			planet->Outfitter().GetCost(it.first) : 0., it.second);
 	return value;
 }
 
@@ -283,7 +284,7 @@ int64_t Depreciation::Value(const Outfit *outfit, int day, double basePrice, int
 		return count * cost;
 	
 	// Check whether a record exists for this outfit. If not, its value is full
-	// if this is  planet's stock, or fully depreciated if this is the player's.
+	// if this is planet's stock, or fully depreciated if this is the player's.
 	auto recordIt = outfits.find(outfit);
 	if(recordIt == outfits.end() || recordIt->second.empty())
 	{
