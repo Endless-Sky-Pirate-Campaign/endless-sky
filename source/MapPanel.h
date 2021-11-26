@@ -140,6 +140,9 @@ protected:
 	const System *hoverSystem = nullptr;
 	std::string tooltip;
 	WrappedText hoverText;
+
+	// Depends on minimum and maximum colors used by the mapColor.
+	static double colorRange;
 	
 	
 private:

@@ -110,6 +110,7 @@ const float MapPanel::LINK_WIDTH = 1.2f;
 // Draw links only outside the system ring, which has radius MapPanel::OUTER.
 const float MapPanel::LINK_OFFSET = 7.f;
 
+double MapPanel::colorRange = 3.;
 
 
 MapPanel::MapPanel(PlayerInfo &player, int commodity, const System *special)
@@ -492,20 +493,27 @@ Color MapPanel::MapColor(double value)
 		return UninhabitedColor();
 	else if(value <= 0. || value == 1.)
 		return CommodityColor(value);
+	double unvalue;
 	// Comparing different prices, with colors from green to yellow to red.
-	value = min(3., max(.33, value));
-	if(value < 1.33 && value > 0.75)
+	if(value < 1.)
+	{
+		value += .3;
+		unvalue = 1. / value;
 		return Color(
-			value > 1 ? .1 + value * .1 : .0,
-			.1 + (1. / value) * .2,
-			(value + 1 / value) * .25,
-			.4);
+			value / MapPanel::colorRange * .6,
+			unvalue / MapPanel::colorRange * .99,
+			.4 - (unvalue + value) / MapPanel::colorRange * (unvalue >= MapPanel::colorRange * .4 ? .4 : .2),
+			unvalue / MapPanel::colorRange * .2);
+	}
 	else
+	{
+		unvalue = 1 / value;
 		return Color(
-			.1 + value * .2,
-			.1 + (1. / value) * .2,
-			0.,
-			.4);
+			value >= MapPanel::colorRange * .9 ? 1. : value / MapPanel::colorRange * .5,
+			value >= MapPanel::colorRange * .5 ? 0. : value / MapPanel::colorRange * .6,
+			unvalue / MapPanel::colorRange * (value >= MapPanel::colorRange * .5 ? .2 : .7),
+			.6 - value / MapPanel::colorRange * .4);
+	}
 }
 
 
