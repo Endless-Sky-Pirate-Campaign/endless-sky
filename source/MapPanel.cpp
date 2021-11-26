@@ -110,8 +110,8 @@ const float MapPanel::LINK_WIDTH = 1.2f;
 // Draw links only outside the system ring, which has radius MapPanel::OUTER.
 const float MapPanel::LINK_OFFSET = 7.f;
 
-double MapPanel::minColor = 1./3.;
-double MapPanel::maxColor = 3.;
+double MapPanel::minColor = 1.;
+double MapPanel::maxColor = 1.;
 
 
 MapPanel::MapPanel(PlayerInfo &player, int commodity, const System *special)
@@ -748,6 +748,8 @@ void MapPanel::UpdateCache()
 	// which may be government, services, or commodity prices.
 	const Color &closeNameColor = *GameData::Colors().Get("map name");
 	const Color &farNameColor = closeNameColor.Transparent(.5);
+	minColor = 1.;
+	maxColor = 1.;
 	for(const auto &it : GameData::Systems())
 	{
 		const System &system = it.second;

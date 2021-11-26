@@ -152,7 +152,7 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 				bool storedInSystem = (pit != storage.end()) ? pit->second.Get(selected) : false;
 				double cost = sold->GetCost() / basePrice;
 				
-				if(cost && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem))
+				if(sold && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem))
 				{
 					if(cost > MapPanel::maxColor)
 						MapPanel::maxColor = cost;

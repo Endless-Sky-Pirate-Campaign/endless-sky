@@ -131,7 +131,16 @@ double MapShipyardPanel::SystemValue(const System *system) const
 		{
 			const auto &shipyard = object.GetPlanet()->Shipyard();
 			if(shipyard.Has(selected))
-				return 1.;
+			{
+				double relativePrice = player.StockDepreciation().Value(*selected, 
+					Depreciation::FullCostDay(), object.GetPlanet());
+				relativePrice /= selected->Cost();
+				if(relativePrice > MapPanel::maxColor)
+					MapPanel::maxColor = relativePrice;
+				else if(relativePrice < MapPanel::minColor)
+					MapPanel::minColor = relativePrice;
+				return relativePrice;
+			}
 			if(!shipyard.empty())
 				value = 0.;
 		}
