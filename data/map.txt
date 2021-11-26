@@ -26575,7 +26575,7 @@ planet Bivrost
 	outfitter "Basic Outfits"
 	outfitter "Deep Sky Basics"
 	outfitter "Ammo North"
-	outfitter "Smuggling: Jailbroken AI Cores"
+	outfitter "Smuggling: Bivrost"
 	outfitter "Smuggling Basic"
 	outfitter "Smuggling Advanced"
 	security 0.8
@@ -26913,7 +26913,7 @@ planet "Copperline Station"
 	description `Myth no more, the harvesting of interstellar gas to be processed into drinking alcohol is now a fairly lucrative industry - if one that the inhabitants of Copperline Station refuse to pay taxes on.`
 	spaceport `Bootleggers are notorious for their hotrodded star ships, but most of the vessels parked here look decidedly mundane. Stock hull configuration, stock paint jobs, nothing that would call attention to them as anything but another interstellar traveler. It's only when you see a shuttle that's undergoing maintenance that the oversized engines and custom afterburner arrangement become visible.`
 	government Independent
-	outfitter "Smuggling: Coreshine"
+	outfitter "Smuggling: Copperline Station"
 	outfitter "Smuggling Basic"
 	outfitter "Smuggling Advanced"
 
@@ -27650,7 +27650,7 @@ planet Glory
 	tribute 4300
 		threshold 7500
 		fleet "Large Republic" 16
-	outfitter "Smuggling: Designer Drugs"
+	outfitter "Smuggling: Glory"
 	outfitter "Smuggling Basic"
 
 planet Goldcrawl
@@ -27795,7 +27795,7 @@ planet Haven
 	outfitter "Ammo North"
 	outfitter "Ammo South"
 	outfitter "Pirate Outfits"
-	outfitter "Smuggling: MANPADS"
+	outfitter "Smuggling: Haven"
 	outfitter "Smuggling Basic"
 	bribe 0.03
 	security 0
@@ -28353,6 +28353,7 @@ planet Mars
 		threshold 4500
 		fleet "Small Republic" 64
 	outfitter "Smuggling Basic"
+	outfitter "Smuggling: Mars"
 
 planet Martini
 	attributes paradise rich
@@ -29509,7 +29510,7 @@ planet Skymoot
 	tribute 400
 		threshold 2000
 		fleet "Large Militia" 6
-	outfitter "Smuggling: Dragon's Teeth"
+	outfitter "Smuggling: Skymoot"
 	outfitter "Smuggling Basic"
 
 planet "Sleezy Ed's Scrapyard"
@@ -29521,7 +29522,7 @@ planet "Sleezy Ed's Scrapyard"
 	shipyard "Junkyard"
 	outfitter "Common Outfits"
 	outfitter "Junkyard"
-	outfitter "Smuggling: Stolen Ship Parts"
+	outfitter "Smuggling: Sleezy Ed's"
 	outfitter "Smuggling Basic"
 
 planet Slylandro
@@ -29545,7 +29546,7 @@ planet "Smuggler's Den"
 	outfitter "Ammo North"
 	outfitter "Ammo South"
 	outfitter "Pirate Outfits"
-	outfitter "Smuggling: Chemical Warheads"
+	outfitter "Smuggling: Smuggler's Den"
 	outfitter "Smuggling Basic"
 	outfitter "Smuggling Advanced"
 	bribe 0.06
@@ -29861,6 +29862,7 @@ planet Trinket
 	outfitter "Ammo North"
 	outfitter "Ammo South"
 	outfitter "Pirate Outfits"
+	outfitter "Smuggling: Trinket"
 	outfitter "Smuggling Basic"
 	bribe 0.02
 	security 0.4
@@ -30175,7 +30177,7 @@ planet "Warehouse 0x16A"
 	landscape land/sivael7
 	description `When Lightspeed Logistics was split off by the Syndicate in the early 2900s the once-organic logistics organization inherited most of the Syndicate's orbital shipping infrastructure. This warehouse is much like any of their shipping and sorting centers - particularly in that the staff are uniformly underpaid. Unusually, they don't seem particularly overworked: the occasional cluster of workers can be spotted loitering in front of certain areas, almost as if they're standing guard.`
 	spaceport `Unlike most of Lightspeed's sorting centers, 16A boasts a sinister reputation as a meeting spot for smugglers and even slavers and pirates. To be sure, nobody here seems particularly happy to see you, be you here on legitimate business or otherwise. You're flatly denied entrance to the dingy workers' bar by a surly bouncer in a hard hat. Similarly, most of the landing bays you're turned away from. The station isn't open to visitors.`
-	outfitter "Smuggling: Counterfeit Credsticks"
+	outfitter "Smuggling: Warehouse 0x16A"
 
 planet Warfeed
 	attributes unfettered

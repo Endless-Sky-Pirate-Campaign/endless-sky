@@ -476,28 +476,32 @@ outfitter "Smuggling Basic"
 	"Scram Drive"
 	"Anti-Missile Turret"
 	"Fuel Pod"
-	"Capybara Reverse Thruster"
+	"Capybara Reverse Thruster" 23500
 	"Chipmunk Plasma Thruster"
 	"Chipmunk Plasma Steering"
-	"Greyhound Plasma Thruster"
-	"Greyhound Plasma Steering"
-	"Impala Plasma Thruster"
-	"Impala Plasma Steering"
-	"Orca Plasma Thruster"
-	"Orca Plasma Steering"
-	"Small Radar Jammer"
+	"Greyhound Plasma Thruster" 49000
+	"Greyhound Plasma Steering" 37500
+	"Impala Plasma Thruster" 120500
+	"Impala Plasma Steering" 95000
+	"Orca Plasma Thruster" 248000
+	"Orca Plasma Steering" 212000
+	"Small Radar Jammer" 20000
 	
 outfitter "Smuggling Advanced"
 	"Smuggler's Closet"
-	"Large Radar Jammer"
+	"Large Radar Jammer" 125000
 	"Heavy Anti-Missile Turret"
-	"A120 Atomic Thruster"
-	"A125 Atomic Steering"
-	"A250 Atomic Thruster"
-	"A255 Atomic Steering"
-	"A370 Atomic Thruster"
-	"A375 Atomic Steering"
-	"AR120 Reverse Thruster"
+	"A120 Atomic Thruster" 180000
+	"A125 Atomic Steering" 163000
+	"A250 Atomic Thruster" 510000
+	"A255 Atomic Steering" 400000
+	"A370 Atomic Thruster" 795000
+	"A375 Atomic Steering" 650000
+	"A520 Atomic Thruster" 1875500
+	"A525 Atomic Steering" 1655000
+	"A860 Atomic Thruster" 6500000
+	"A865 Atomic Steering" 5750000
+	"AR120 Reverse Thruster" 235000
 	"Security Station"
 	"Ramscoop"
 
