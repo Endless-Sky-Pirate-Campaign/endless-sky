@@ -119,8 +119,9 @@ void MapOutfitterPanel::Select(int index)
 			else if(price < min)
 				min = price;
 		}
-		MapPanel::colorRange = (1. / min) > max ? (1. / min) : max;
-		MapPanel::colorRange/= selected->Cost();
+		double basePrice = selected->Cost();
+		MapPanel::minColor = min / basePrice;
+		MapPanel::maxColor = max / basePrice;
 	}
 	UpdateCache();
 }
@@ -247,7 +248,7 @@ void MapOutfitterPanel::DrawItems()
 					if(pit != storage.end())
 						storedInSystem += pit->second.Get(outfit);
 						
-					isForSale = (sold && sold->GetShow() == "");
+					isForSale = (sold && sold->GetShown() != Sold::ShowSold::HIDDEN);
 
 					if (isForSale) 
 					{
