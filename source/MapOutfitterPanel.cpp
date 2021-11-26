@@ -248,11 +248,12 @@ void MapOutfitterPanel::DrawItems()
 					if(pit != storage.end())
 						storedInSystem += pit->second.Get(outfit);
 						
-					isForSale = (sold && sold->GetShown() != Sold::ShowSold::HIDDEN);
+					isForSale = (sold && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem));
 
-					if (isForSale) 
+					if (isForSale)
 					{
   						price = sold->GetCost() ? Format::Credits(sold->GetCost()) : price;
+						price += " (" + (sold->GetShow()) + ")";
   						break;
 					}
 				}
