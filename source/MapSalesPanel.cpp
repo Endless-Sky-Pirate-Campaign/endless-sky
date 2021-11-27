@@ -19,6 +19,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "FillShader.h"
 #include "text/Font.h"
 #include "text/FontSet.h"
+#include "text/Format.h"
 #include "GameData.h"
 #include "Government.h"
 #include "ItemInfoDisplay.h"
@@ -235,21 +236,22 @@ void MapSalesPanel::DrawKey() const
 		SpriteShader::Draw(sales, pos + Point(110. - sales->Width() / 2., sales->Height() / 2. - 25.));
 		Point headerOff(-5., -.5 * font.Height());
 		
-		font.Draw("Base price x", pos + headerOff, medium);
+		font.Draw("Price multiplier:", pos + headerOff, medium);
 		pos.Y() += 20.;
 		// Each system is colored by the selected item's price. Draw
-		// 6 distinct colors and the price multiplier each color represents.
+		// 6 distinct representative colors and the price multiplier each color represents.
 		static const double commodities[] = {
-			MapPanel::minColor, MapPanel::minColor != 1. ? 1. - MapPanel::minColor / 2. : 1.,
-			MapPanel::minColor != 1. ? 1. - MapPanel::minColor : 1.,
-			MapPanel::maxColor != 1. ? sqrt(MapPanel::maxColor) : 1.,
-			MapPanel::maxColor != 1. ? sqrt(MapPanel::maxColor) * 2. : 1., MapPanel::maxColor
+			MapPanel::minColor,
+			MapPanel::minColor != 1. ? 1. / (1. - (1. / MapPanel::minColor - 1.) * 0.5) + 1. : 1.,
+			MapPanel::minColor != 1. ? 1. / (1. - (1. / MapPanel::minColor - 1.)) + 1. : 1.,
+			(MapPanel::maxColor - 1.) * (1./3.) + 1.,
+			(MapPanel::maxColor - 1.) * (2./3.) + 1.,
+			MapPanel::maxColor
 		};
-		
 		for(int i = 0; i < 6; ++i)
 		{
 			RingShader::Draw(pos, OUTER, INNER, MapColor(commodities[i]));
-			font.Draw(to_string(round(commodities[i]*100.)/100.), pos + textOff, dim);
+			font.Draw(Format::Decimal(commodities[i], 2), pos + textOff, dim);
 			pos.Y() += 20.;
 		}
 	}
