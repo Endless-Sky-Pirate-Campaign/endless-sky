@@ -151,15 +151,17 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 				const auto pit = storage.find(object.GetPlanet());
 				bool storedInSystem = (pit != storage.end()) ? pit->second.Get(selected) : false;
 				double cost = sold->GetCost() / basePrice;
-				
-				if(sold && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem))
+
+				if(cost && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem))
 				{
 					if(cost > MapPanel::maxColor)
 						MapPanel::maxColor = cost;
 					else if(cost < MapPanel::minColor)
 						MapPanel::minColor = cost;
-					return cost ? cost : 1.;
+					return cost;
 				}
+				else
+					return 1.;
 			}
 			if(!outfitter.empty())
 				value = 0.;
