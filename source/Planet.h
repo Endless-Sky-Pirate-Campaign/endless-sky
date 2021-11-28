@@ -117,6 +117,8 @@ public:
 	const Sale<Ship> &Shipyard() const;
 	// Check if this planet has an outfitter.
 	bool HasOutfitter() const;
+	// Get the list of outfits available from the outfitter.
+	const Sale<Outfit> &Outfits() const;
 	// Get the list of outfits available from the outfitter with their custom elements.
 	const OutfitSale &Outfitter() const;
 	
@@ -183,6 +185,7 @@ private:
 	// The lists above will be converted into actual ship lists when they are
 	// first asked for:
 	mutable Sale<Ship> shipyard;
+	mutable Sale<Outfit> outfits;
 	mutable OutfitSale outfitSale;
 	
 	const Government *government = nullptr;
