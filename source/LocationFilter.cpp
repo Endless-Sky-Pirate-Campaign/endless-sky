@@ -66,6 +66,23 @@ namespace {
 		}
 		return false;
 	}
+	bool SetsIntersect(const set<const Outfit *> &a, const map<const Outfit *, Sold> &b)
+	{
+		auto ait = a.begin();
+		auto bit = b.begin();
+		// The stored values are pointers to the same GameData array:
+		// directly compare them.
+		while(ait != a.end() && bit != b.end())
+		{
+			if(*ait == bit->first)
+				return true;
+			else if(*ait < bit->first)
+				++ait;
+			else
+				++bit;
+		}
+		return false;
+	}
 	
 	// Check if the given system is within the given distance of the center.
 	int Distance(const System *center, const System *system, int maximum)
@@ -337,7 +354,7 @@ bool LocationFilter::Matches(const Planet *planet, const System *origin) const
 	
 	// If outfits are specified, make sure they can be bought here.
 	for(const set<const Outfit *> &outfitList : outfits)
-		if(!SetsIntersect(outfitList, planet->Outfits()))
+		if(!SetsIntersect(outfitList, planet->Outfitter()))
 			return false;
 	
 	return Matches(planet->GetSystem(), origin, true);
