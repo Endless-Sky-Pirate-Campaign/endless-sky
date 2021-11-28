@@ -149,9 +149,9 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 			{
 				const auto &storage = player.PlanetaryStorage();
 				const auto pit = storage.find(object.GetPlanet());
-				bool storedInSystem = (pit != storage.end()) ? pit->second.Get(selected) : false;
+				bool storedInSystem = (pit != storage.end());
 				double cost = sold->GetCost() / basePrice;
-
+				
 				if(cost && !(sold->GetShown() == Sold::ShowSold::HIDDEN && !storedInSystem))
 				{
 					if(cost > MapPanel::maxColor)

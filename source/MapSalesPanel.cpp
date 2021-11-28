@@ -242,8 +242,8 @@ void MapSalesPanel::DrawKey() const
 		// 6 distinct representative colors and the price multiplier each color represents.
 		static const double commodities[] = {
 			MapPanel::minColor,
-			MapPanel::minColor != 1. ? 1. / (1. - (1. / MapPanel::minColor - 1.) * 0.5) + 1. : 1.,
-			MapPanel::minColor != 1. ? 1. / (1. - (1. / MapPanel::minColor - 1.)) + 1. : 1.,
+			(1. - (1. - MapPanel::minColor) * MapPanel::minColor + MapPanel::minColor) / 2.,
+			1. - (1. - MapPanel::minColor) * MapPanel::minColor,
 			(MapPanel::maxColor - 1.) * (1./3.) + 1.,
 			(MapPanel::maxColor - 1.) * (2./3.) + 1.,
 			MapPanel::maxColor
