@@ -34,8 +34,6 @@ class Depreciation {
 public:
 	// What fraction of its cost a fully depreciated item has left:
 	static double Full();
-	// Used to know the base price of a ship, even if it was not bought.
-	static int FullCostDay();
 	
 	
 public:
@@ -60,7 +58,7 @@ public:
 	// Get the value just of the chassis of a ship.
 	int64_t Value(const Ship *ship, int day, int count = 1) const;
 	// Get the value of an outfit.
-	int64_t Value(const Outfit *outfit, int day, double basePrice = 0., int count = 1) const;
+	int64_t Value(const Outfit *outfit, int day, int64_t basePrice = 0., int count = 1) const;
 	
 	
 private:

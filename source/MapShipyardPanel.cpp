@@ -132,8 +132,7 @@ double MapShipyardPanel::SystemValue(const System *system) const
 			const auto &shipyard = object.GetPlanet()->Shipyard();
 			if(shipyard.Has(selected))
 			{
-				double relativePrice = player.StockDepreciation().Value(*selected, 
-					Depreciation::FullCostDay(), object.GetPlanet());
+				int64_t relativePrice = selected->LocalCost(object.GetPlanet());
 				if(relativePrice)
 				{
 					relativePrice /= selected->Cost();
