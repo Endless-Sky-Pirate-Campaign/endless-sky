@@ -876,7 +876,7 @@ int64_t ShopPanel::LicenseCost(const Outfit *outfit) const
 			(player.Storage() && player.Storage()->Get(outfit)))
 		return 0;
 	
-	const Sale<Outfit> &available = player.GetPlanet()->Outfits();
+	const OutfitSale &available = player.GetPlanet()->Outfitter();
 	
 	int64_t cost = 0;
 	for(const string &name : outfit->Licenses())
