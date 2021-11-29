@@ -58,7 +58,7 @@ public:
 	// Get the value just of the chassis of a ship.
 	int64_t Value(const Ship *ship, int day, int count = 1) const;
 	// Get the value of an outfit.
-	int64_t Value(const Outfit *outfit, int day, int64_t basePrice = 0., int count = 1) const;
+	int64_t Value(const Outfit *outfit, int day, const Planet *planet, int count = 1) const;
 	
 	
 private:

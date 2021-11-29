@@ -183,7 +183,7 @@ private:
 	// The lists above will be converted into actual ship lists when they are
 	// first asked for:
 	mutable Sale<Ship> shipyard;
-	mutable OutfitSale outfitSale;
+	mutable OutfitSale outfitter;
 	
 	const Government *government = nullptr;
 	double requiredReputation = 0.;

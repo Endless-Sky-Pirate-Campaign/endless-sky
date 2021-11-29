@@ -1445,8 +1445,7 @@ bool PlayerInfo::TakeOff(UI *ui)
 			// Compute the total value for each type of excess outfit.
 			if(!outfit.second)
 				continue;
-			int64_t cost = depreciation.Value(outfit.first, day, outfit.second, 
-				planet->Outfitter().GetSold(outfit.first)->GetCost());
+			int64_t cost = depreciation.Value(outfit.first, day, planet, outfit.second);
 			for(int i = 0; i < outfit.second; ++i)
 				stockDepreciation.Buy(outfit.first, day, &depreciation);
 			income += cost;

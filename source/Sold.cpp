@@ -16,10 +16,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 namespace 
 {
-const std::map<Sold::ShowSold, const std::string> show{{Sold::ShowSold::DEFAULT, ""},
-														{Sold::ShowSold::IMPORT, "import"},
-														{Sold::ShowSold::HIDDEN, "hidden"},
-														{Sold::ShowSold::NONE, ""}};
+	const std::map<Sold::ShowSold, const std::string> show{{Sold::ShowSold::DEFAULT, ""},
+															{Sold::ShowSold::IMPORT, "import"},
+															{Sold::ShowSold::HIDDEN, "hidden"},
+															{Sold::ShowSold::NONE, ""}};
 }
 
 

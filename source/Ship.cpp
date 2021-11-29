@@ -1083,11 +1083,8 @@ int64_t Ship::ChassisCost() const
 int64_t Ship::LocalCost(const Planet *planet) const
 {
 	int64_t localCost = ChassisCost();
-	for(const auto &it : this->Outfits())
-	{
-		int64_t outfitCost = planet ? planet->Outfitter().GetCost(it.first) : 0.;
-		localCost += (outfitCost ? outfitCost : it.first->Cost()) * it.second;
-	}
+	for(const auto &it : Outfits())
+		localCost += (planet ? planet->Outfitter().GetCost(it.first) : it.first->Cost()) * it.second;
 	return  localCost;
 }
 

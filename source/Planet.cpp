@@ -252,7 +252,7 @@ void Planet::Load(const DataNode &node)
 	}
 	
 	static const vector<string> AUTO_ATTRIBUTES = {"spaceport", "shipyard", "outfitter"};
-	bool autoValues[3] = {port.name == "Spaceport", !shipSales.empty(), !outfitSale.empty()};
+	bool autoValues[3] = {port.name == "Spaceport", !shipSales.empty(), !outfitter.empty()};
 	for(unsigned i = 0; i < AUTO_ATTRIBUTES.size(); ++i)
 	{
 		if(autoValues[i])
@@ -417,11 +417,11 @@ bool Planet::HasOutfitter() const
 // Get the list of outfits available from the outfitter with their custom elements.
 const OutfitSale &Planet::Outfitter() const
 {
-	outfitSale.clear();
+	outfitter.clear();
 	for(const OutfitSale *sale : outfitSales)
-		outfitSale.Add(*sale);
+		outfitter.Add(*sale);
 	
-	return outfitSale;
+	return outfitter;
 }
 
 
