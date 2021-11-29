@@ -232,7 +232,7 @@ void MapSalesPanel::DrawKey() const
 		const Sprite *sales = SpriteSet::Get("ui/sales");
 		
 		int height = max(SelectedInfo().AttributesHeight(), CompareInfo().AttributesHeight());
-		pos = Screen::TopRight() + Point(-110., height + sales->Height() / 2.);
+		pos = Screen::TopRight() + Point(-110., height + sales->Height() / 2. + 15);
 		SpriteShader::Draw(sales, pos + Point(110. - sales->Width() / 2., sales->Height() / 2. - 25.));
 		Point headerOff(-5., -.5 * font.Height());
 		
