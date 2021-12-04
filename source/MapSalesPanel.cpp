@@ -229,7 +229,7 @@ void MapSalesPanel::DrawKey() const
 	if(MapPanel::maxColor > 1. || MapPanel::minColor < 1.)
 	{
 		const Color &medium = *GameData::Colors().Get("medium");
-		const Sprite *sales = SpriteSet::Get("ui/sales");
+		const Sprite *sales = SpriteSet::Get("ui/key");
 		
 		int height = max(SelectedInfo().AttributesHeight(), CompareInfo().AttributesHeight());
 		pos = Screen::TopRight() + Point(-110., height + sales->Height() / 2. + 15);
