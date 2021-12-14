@@ -828,8 +828,6 @@ outfitter "Remnant"
 	"Outfit Scanner"
 	"Tuning Rifle"
 	"Salvage Scanner"
-	hidden
-		"Quantum Keystone" 240000
 
 outfitter "Remnant Salvage"
 	"Generator (Furnace Class)"

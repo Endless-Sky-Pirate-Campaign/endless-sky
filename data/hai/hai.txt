@@ -338,8 +338,6 @@ outfitter "Hai Basics"
 	"Local Map"
 	"Quantum Keystone"
 	"Pulse Rifle"
-	hidden
-		"Quantum Key Stone" 12000
 
 outfitter "Hai Intermediate"
 	"Pulse Cannon"
