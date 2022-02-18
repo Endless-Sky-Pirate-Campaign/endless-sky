@@ -1,7 +1,7 @@
 
 outfit "Chemical Warhead"
 	plural "chemical warheads"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 825000
 	thumbnail "outfit/chemical warhead"
 	atrocity 1
@@ -12,7 +12,7 @@ outfit "Chemical Warhead"
 
 outfit "Coreshine"
 	plural "coreshine"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 1500
 	thumbnail "outfit/coreshine"
 	"mass" 1
@@ -23,7 +23,7 @@ outfit "Coreshine"
 
 outfit "Dragon's Teeth"
 	plural "dragon's teeth"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 87000
 	thumbnail "outfit/dragon teeth"
 	"mass" .25
@@ -36,7 +36,7 @@ outfit "Dragon's Teeth"
 
 outfit "Designer Drugs"
 	plural "designer drugs"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 11235
 	thumbnail "outfit/designer drugs"
 	"mass" 0.1
@@ -48,7 +48,7 @@ outfit "Designer Drugs"
 
 outfit "Stolen Ship Parts"
 	plural "stolen ship parts"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 25000
 	thumbnail "outfit/stolen ship parts"
 	"mass" 15
@@ -59,7 +59,7 @@ outfit "Stolen Ship Parts"
 
 outfit "Liberator Missile System"
 	plural "Liberators"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 3500
 	thumbnail "outfit/manpads"
 	"mass" 2
@@ -71,7 +71,7 @@ outfit "Liberator Missile System"
 
 outfit "Counterfeit Credsticks"
 	plural "counterfeit credsticks"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 100
 	thumbnail "outfit/counterfeit credsticks"
 	"mass" 0.01
@@ -81,7 +81,7 @@ outfit "Counterfeit Credsticks"
 
 outfit "Jailbroken AI Core"
 	plural "jailbroken AI cores"
-	category "Smuggled Goods"
+	category "Contraband"
 	cost 124711
 	thumbnail "outfit/jailbroken AI core"
 	"mass" 4

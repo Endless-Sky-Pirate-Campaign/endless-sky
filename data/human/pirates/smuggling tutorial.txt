@@ -76,7 +76,7 @@ mission "Smuggling Tutorial 1"
 mission "Smuggling Tutorial 2"
 	landing
 	name "Smuggle goods to <planet>"
-	cargo "Smuggled Goods" 5
+	cargo "Contraband" 5
 	source "Warehouse 0x16A"
 	destination "Sleezy Ed's Scrapyard"
 	description `Deliver five tons of contraband to <destination>. Your new friend has some advice regarding moving the goods, the most oft repeated being "if you can't do anything else, cover the swag in cheap cargo. Or just go fast. Whatever."`
