@@ -359,7 +359,7 @@ outfit "Smuggler's Closet"
 	"cargo space" 2
 	"scan concealment" 2
 	description "Initially developed as a causal isolation laboratory to utterly eliminate extra-experimental effects, the Plot-Faraday Isolation Chamber can shield its contents from most types of interaction short of gravitic forces. Originally intended for deep-space research stations, production problems kept a properly functioning version out of the budget of most scientists."
-	description "As it turns out, this flawed model - though fairly useless for actual research - proved exceedingly popular with smugglers who would use these "laboratories" to insulate contraband from scanning."
+	description "As it turns out, this flawed model - though fairly useless for actual research - proved exceedingly popular with smugglers who would use these "laboratories" to insulate contraband from scanning efforts."
 	description "Now used exclusively by smugglers, spies, and other ne'er-do-wells, the only thing preventing this outfit from being illegal is truly herculean lobbying efforts by its manufacturer."
 	
 outfit "Laser Rifle"
