@@ -39,7 +39,7 @@ mission "Smuggling Tutorial 1"
 					goto snitch
 			`	The burnt captain's brow furrows, cheeks briefly puffing as an exhalation is kept trapped in by an expression of consternation.`
 			`	"Alright, alright. So maybe I don't have the most direct experience, but I've spent my whole life dealing with bootleggers and people with something to hide. I know how the game works, and I can teach you. I'm... better at theory than execution, alright?"`
-			`	The young pilot's visible frustration passes, replaced with red-eared embarassment.`
+			`	The young pilot's visible frustration passes, replaced with red-eared embarrassment.`
 				goto decision
 			label insurance
 				`	"They won't take care of me. Need records and whatnot to make sure they get paid, you know? I wasn't exactly born in a hospital, and as far as the Republic knows I don't exist. I prefer to keep it that way, though uh... Does make getting my medicine a damn bit harder."`
