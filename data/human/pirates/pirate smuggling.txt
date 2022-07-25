@@ -93,7 +93,7 @@ outfit "Jailbroken AI Core"
 outfitter "Smuggling: Smuggler's Den"
 	"Chemical Warhead"
 	
-pricing "Smuggling: Smuggler's Den"
+pricing outfits "Smuggling: Smuggler's Den"
 	import
 	location
 		planet "Smuggler's Den"
@@ -105,7 +105,7 @@ pricing "Smuggling: Smuggler's Den"
 outfitter "Smuggling: Copperline Station"
 	"Coreshine"
 
-pricing "Smuggling: Copperline Station"
+pricing outfits "Smuggling: Copperline Station"
 	import
 	location
 		planet "Copperline Station"
@@ -117,7 +117,7 @@ pricing "Smuggling: Copperline Station"
 outfitter "Smuggling: Skymoot"
 	"Dragon's Teeth"
 	
-pricing "Smuggling: Skymoot"
+pricing outfits "Smuggling: Skymoot"
 	import
 	location
 		planet "Skymoot"
@@ -129,7 +129,7 @@ pricing "Smuggling: Skymoot"
 outfitter "Smuggling: Glory"
 	"Designer Drugs"
 	
-pricing "Smuggling: Glory"
+pricing outfits "Smuggling: Glory"
 	import
 	location
 		planet "Glory"
@@ -141,7 +141,7 @@ pricing "Smuggling: Glory"
 outfitter "Smuggling: Sleezy Ed's"
 	"Stolen Ship Parts"
 
-pricing "Smuggling: Sleezy Ed's"
+pricing outfits "Smuggling: Sleezy Ed's"
 	import
 	location
 		planet "Sleezy Ed's Scrapyard"
@@ -153,7 +153,7 @@ pricing "Smuggling: Sleezy Ed's"
 outfitter "Smuggling: Haven"
 	"Liberator Missile System"
 
-pricing "Smuggling: Haven"
+pricing outfits "Smuggling: Haven"
 	import
 	location
 		planet "Haven"
@@ -165,7 +165,7 @@ pricing "Smuggling: Haven"
 outfitter "Smuggling: Warehouse 0x16A"
 	"Counterfeit Credsticks"
 
-pricing "Smuggling: Warehouse 0x16A"
+pricing outfits "Smuggling: Warehouse 0x16A"
 	import
 	location
 		planet "Warehouse 0x16A"
@@ -177,7 +177,7 @@ pricing "Smuggling: Warehouse 0x16A"
 outfitter "Smuggling: Bivrost"
 	"Jailbroken AI Core"
 
-pricing "Smuggling: Bivrost"
+pricing outfits "Smuggling: Bivrost"
 	import
 	location
 		planet "Bivrost"
@@ -186,7 +186,7 @@ pricing "Smuggling: Bivrost"
 			"Jailbroken AI Core" 11635
 			"Counterfeit Credsticks" 180
 	
-pricing "Smuggling: Mars"
+pricing outfits "Smuggling: Mars"
 	import
 	location
 		planet "Mars"
@@ -201,7 +201,7 @@ pricing "Smuggling: Mars"
 			"Counterfeit Credsticks" 115
 			"Jailbroken AI Core" 157711
 
-pricing "Smuggling: Trinket"
+pricing outfits "Smuggling: Trinket"
 	import
 	location
 		planet "Trinket"

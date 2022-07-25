@@ -108,8 +108,8 @@ mission "Smuggling Tutorial 2"
 			`	You might be surprised that a face half-covered in bandages can display such cheer, but the young smuggler is decidedly chipper at the moment.`
 			`	"A pleasure, for sure! Nice to just... talk to someone face to face for a change. My old ship was a single-seater, so it could get a bit dull during the longer hauls. Always wanted to save up for something with a proper crew. Being on yours for a little while seems like it might be the next best thing."`
 			choice
-				`	"Space is wide and good friends are too few. I'm looking forward to working together."
-				`	"Understandable. So, you had some smuggling tips for me?"
+				`	"Space is wide and good friends are too few. I'm looking forward to working together."`
+				`	"Understandable. So, you had some smuggling tips for me?"`
 			`	Amika nods emphatically. "Yeah, regarding the work we'll be doing- I think it's better shown than told. Once we get to the Lightspeed Warehouse and pick up the cargo I'll show you some techniques for stowing it safely."`
 				goto arrival
 			label surly
@@ -239,14 +239,12 @@ mission "Smuggling Tutorial 3"
 				`	"Sure, let's go."`
 					accept
 				`	"Sorry, I've got other plans. But it's been nice flying with you, and hope to run into you again."`
-					decline
-					apply
-						set "Friend of Amika"
+					goto friend
 				`	"I would rather not, sorry. There are other things that need my attention."`
 					decline
 				`	"I've had enough of your problems and enough of you. You've got nothing else to offer me, so you're on your own."`
-					apply
-						set "Foe of Amika"
+					goto foe
+
 			label privy
 				`	"Sure, let's go"`
 					accept
@@ -261,13 +259,20 @@ mission "Smuggling Tutorial 3"
 				`	"Oh. Well. That's... terrifically awkward. Bye!"`
 					decline
 				`	"I see. Unfortunately, I can't head that way for the foreseeable future. I can only wish you the best of luck."`
-					apply
-						set "Friend of Amika"
-					decline
+					goto friend
 				`	"Ha, tough shit kid."`
-					decline
-					apply
-						set "Foe of Amika"
+					goto foe
+			label friend
+			action
+				set "Friend of Amika"
+			`Words.`
+				decline
+			label foe
+			action
+				set "Foe of Amika"
+			`Words.`
+			label end
+				decline
 
 
 
@@ -298,9 +303,10 @@ mission "Smuggling Tutorial 4"
 			`	"Seriously though, I can't thank you enough. You've been pretty generous in getting me this far. My hands have finally healed, so I think I can go the rest of the way on my own power. Been a pleasure knowing you, captain, and... Look me up if you're ever on Copperline, yeah? Chances are I'll be out doing a run, but hey. You never know."`
 			choice
 				`	"I'll be sure to. It's been nice flying with you."`
-					apply
-						set "Friend of Amika"
 				`	"I was just in it for those secrets you'd promised and delivered. Sorry, kid. But still, best of luck out there."`
+					goto finalfarewell
+			action
+				set "Friend of Amika"
 			label finalfarewell
 			`	After some final farewells, the smuggler strolls down your ramp and into his new life. Space is a big place - who knows if you'll see him again?`
 				decline
