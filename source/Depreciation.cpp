@@ -211,7 +211,7 @@ void Depreciation::Buy(const Outfit *outfit, int day, Depreciation *source)
 
 
 // Get the value of an entire fleet.
-int64_t Depreciation::Value(const vector<shared_ptr<Ship>> &fleet, int day) const
+int64_t Depreciation::Value(const vector<shared_ptr<Ship>> &fleet, int day, const PlayerInfo *player) const
 {
 	map<const Ship *, int> shipCount;
 	map<const Outfit *, int> outfitCount;
@@ -229,7 +229,8 @@ int64_t Depreciation::Value(const vector<shared_ptr<Ship>> &fleet, int day) cons
 	for(const auto &it : shipCount)
 		value += Value(it.first, day, it.second);
 	for(const auto &it : outfitCount)
-		value += Value(it.first, day, nullptr, it.second);
+		// Only use the values of the local outfitter if the player is actually landed.
+		value += Value(it.first, day, (player && player->GetPlanet()) ? player : nullptr, it.second);
 	return value;
 }
 
@@ -264,16 +265,16 @@ int64_t Depreciation::Value(const Ship *ship, int day, int count) const
 // Get the value of an outfit.
 int64_t Depreciation::Value(const Outfit *outfit, int day, const PlayerInfo *player, int count) const
 {
-	int64_t cost = (player ? player->GetPlanet() ? player->GetPlanet()->GetLocalRelativePrice(outfit, player->Conditions()) : 1 : 1) * outfit->Cost();
+	int64_t cost = outfit->Cost() * ((player && player->GetPlanet()) ? player->GetPlanet()->GetLocalRelativePrice(*outfit, player->Conditions()) : 1);
 	if(outfit->Get("installable") < 0.)
 		return count * cost;
-	
+
 	// Check whether a record exists for this outfit. If not, its value is full
 	// if this is planet's stock, or fully depreciated if this is the player's.
 	auto recordIt = outfits.find(outfit);
 	if(recordIt == outfits.end() || recordIt->second.empty())
 		return DefaultDepreciation() * count * cost;
-	
+
 	return Depreciate(recordIt->second, day, count) * cost;
 }
 

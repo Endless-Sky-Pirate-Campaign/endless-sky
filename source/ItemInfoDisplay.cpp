@@ -33,8 +33,9 @@ namespace {
 
 
 
-ItemInfoDisplay::ItemInfoDisplay()
+ItemInfoDisplay::ItemInfoDisplay(const PlayerInfo &player)
 {
+	SetPlayerInfo(player);
 	description.SetAlignment(Alignment::JUSTIFIED);
 	description.SetWrapWidth(WIDTH - 20);
 	description.SetFont(FontSet::Get(14));
@@ -125,6 +126,20 @@ void ItemInfoDisplay::Hover(const Point &point)
 void ItemInfoDisplay::ClearHover()
 {
 	hasHover = false;
+}
+
+
+
+void ItemInfoDisplay::SetPlayerInfo(const PlayerInfo &player)
+{
+	this->player = &player;
+}
+
+
+
+const PlayerInfo *ItemInfoDisplay::GetPlayer() const
+{
+	return player;
 }
 
 

@@ -12,6 +12,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 #include "MapOutfitterPanel.h"
 
+#include "comparators/ByName.h"
 #include "CoreStartData.h"
 #include "text/Format.h"
 #include "GameData.h"
@@ -103,7 +104,7 @@ void MapOutfitterPanel::Select(int index)
 	else
 	{
 		selected = list[index];
-		selectedInfo.Update(*selected, player);
+		selectedInfo.Update(*selected);
 	}
 	UpdateCache();
 }
@@ -117,7 +118,7 @@ void MapOutfitterPanel::Compare(int index)
 	else
 	{
 		compare = list[index];
-		compareInfo.Update(*compare, player);
+		compareInfo.Update(*compare);
 	}
 }
 
@@ -137,32 +138,26 @@ double MapOutfitterPanel::SystemValue(const System *system) const
 		return numeric_limits<double>::quiet_NaN();
 
 	// Visiting a system is sufficient to know what ports are available on its planets.
-	double value = -.5;
+	double value = -.6;
 	for(const StellarObject &object : system->Objects())
 		if(object.HasSprite() && object.HasValidPlanet())
 		{
 			const Planet *planet = object.GetPlanet();
-			double cost = planet->GetLocalRelativePrice(selected, player.Conditions());
-			CustomSale::SellType sellType = planet->GetAvailability(selected, player.Conditions());
-			
+			double cost = planet->GetLocalRelativePrice(*selected, player.Conditions());
+			CustomSale::SellType sellType = planet->GetAvailability(*selected, player.Conditions());
+
 			if(planet->HasOutfitter())
 			{
 				if(sellType != CustomSale::SellType::NONE)
 				{
 					const auto &storage = player.PlanetaryStorage();
 					bool storedInSystem = (storage.find(planet) != storage.cend());
-					
+
 					if(sellType != CustomSale::SellType::HIDDEN || storedInSystem)
-					{
-						if(cost > MapPanel::maxColor)
-							MapPanel::maxColor = cost;
-						else if(cost < MapPanel::minColor)
-							MapPanel::minColor = cost;
 						return cost;
-					}
 				}
 				else
-					value = 0.;
+					value = -.1;
 			}
 		}
 	return value;
@@ -243,20 +238,20 @@ void MapOutfitterPanel::DrawItems()
 						continue;
 
 					const Planet &planet = *object.GetPlanet();
-					CustomSale::SellType sold = planet.GetAvailability(outfit, player.Conditions());
+					CustomSale::SellType sold = planet.GetAvailability(*outfit, player.Conditions());
 					const auto pit = storage.find(&planet);
 					if(pit != storage.end())
 						storedInSystem += pit->second.Get(outfit);
-						
+
 					isForSale = (sold != CustomSale::SellType::NONE && (sold != CustomSale::SellType::HIDDEN || storedInSystem)
 						&& planet.HasOutfitter());
 
 					if(isForSale)
 					{
-  						price = Format::Credits(planet.GetLocalRelativePrice(outfit, player.Conditions()) * outfit->Cost()) + " credits";
-  						if(sold != CustomSale::SellType::VISIBLE)
+						price = Format::Credits(planet.GetLocalRelativePrice(*outfit, player.Conditions()) * outfit->Cost()) + " credits";
+						if(sold != CustomSale::SellType::VISIBLE)
 							price += " (" + (CustomSale::GetShown(sold)) + ")";
-  						break;
+						break;
 					}
 				}
 			}
@@ -267,9 +262,9 @@ void MapOutfitterPanel::DrawItems()
 				storedInSystem == 0
 				? ""
 				: storedInSystem == 1
-				? "One unit in storage"
+				? "1 unit in storage"
 				: Format::Number(storedInSystem) + " units in storage";
-			Draw(corner, outfit->Thumbnail(), isForSale, outfit == selected,
+			Draw(corner, outfit->Thumbnail(), 0, isForSale, outfit == selected,
 				outfit->Name(), price, info, storage_details);
 			list.push_back(outfit);
 		}
@@ -281,6 +276,8 @@ void MapOutfitterPanel::DrawItems()
 
 void MapOutfitterPanel::Init()
 {
+	selectedInfo.SetPlayerInfo(player);
+	compareInfo.SetPlayerInfo(player);
 	catalog.clear();
 	set<const Outfit *> seen;
 
@@ -295,8 +292,8 @@ void MapOutfitterPanel::Init()
 					seen.insert(outfit);
 				}
 			for(auto &&sales : GameData::CustomSales())
-				if(sales.second.GetSellType() != CustomSale::SellType::HIDDEN && 
-					it.second.HasOutfitter() && sales.second.Matches(&it.second, player.Conditions()))
+				if(sales.second.GetSellType() != CustomSale::SellType::HIDDEN &&
+					it.second.HasOutfitter() && sales.second.Matches(it.second, player.Conditions()))
 					for(const auto& outfit : sales.second.GetOutfits())
 						if(!seen.count(outfit))
 						{
@@ -324,6 +321,5 @@ void MapOutfitterPanel::Init()
 
 	// Sort the vectors.
 	for(auto &it : catalog)
-		sort(it.second.begin(), it.second.end(),
-			[](const Outfit *a, const Outfit *b) { return a->Name() < b->Name(); });
+		sort(it.second.begin(), it.second.end(), ByName<Outfit>());
 }

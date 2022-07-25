@@ -18,128 +18,94 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 #include <string>
 
-namespace 
+using namespace std;
+
+namespace
 {
-	const std::map<CustomSale::SellType, const std::string> show{{CustomSale::SellType::NONE, ""}, {CustomSale::SellType::VISIBLE, ""},
-		{CustomSale::SellType::IMPORT, "import"}, {CustomSale::SellType::HIDDEN, "hidden"}};
+	const auto show = map<CustomSale::SellType, const string> {
+		{CustomSale::SellType::NONE, ""},
+		{CustomSale::SellType::VISIBLE, ""},
+		{CustomSale::SellType::IMPORT, "import"},
+		{CustomSale::SellType::HIDDEN, "hidden"},
+	};
 	const double DEFAULT = -100000.;
 }
 
 
 
-void CustomSale::Load(const DataNode &node, const Set<Sale<Outfit>> &items, const Set<Outfit> &outfits)
+void CustomSale::Load(const DataNode &node, const Set<Sale<Outfit>> &items, const Set<Outfit> &outfits, const string &mode)
 {
 	for(const DataNode &child : node)
 	{
-		const std::string &token = child.Token(0);
+		const string &token = child.Token(0);
+		bool isValue = (child.Token(0) == "value");
+		bool isOffset = (child.Token(0) == "offset");
 		if((token == "clear" || token == "remove"))
 		{
 			if(child.Size() == 1)
-				clear();
-			else if(child.Token(1) == "outfit" && child.Size() >= 3)
+				Clear();
+			else if(child.Token(1) == "outfit")
 			{
-				const Outfit *outfit = outfits.Get(child.Token(2));
-				relativeOutfitPrices.erase(outfit);
-				relativeOutfitOffsets.erase(outfit);
-			}
-			else if(child.Token(1) == "outfitter" && child.Size() >= 3)
-			{
-				const Sale<Outfit> *item = items.Get(child.Token(2));
-				relativePrices.erase(item);
-				relativeOffsets.erase(item);
-			}
-		}
-		else if(token == "outfit")
-		{
-			for(const DataNode &grandChild : child)
-			{
-				bool value = (grandChild.Token(0) == "value");
-				bool offset = (grandChild.Token(0) == "offset");
-				if(value || offset)
-					for(const DataNode &kid : grandChild)
-					{
-						bool add = (kid.Token(0) == "add");
-						const Outfit *outfit = outfits.Get(kid.Token(add));
-						
-						if(kid.Size() < 2 + add)
-							continue;
-						if(value)
-						{
-							if(add)
-								relativeOutfitPrices[outfit] += kid.Value(2);
-							else
-								relativeOutfitPrices[outfit] = kid.Value(1);
-							if(child.Size() == 2 + add)
-								relativeOutfitPrices[outfit] /= outfit->Cost();
-						}
-						else if(offset)
-						{
-							if(add)
-								relativeOutfitOffsets[outfit] += kid.Value(2);
-							else
-								relativeOutfitOffsets[outfit] = kid.Value(1);
-							if(child.Size() == 2 + add)
-								relativeOutfitOffsets[outfit] /= outfit->Cost();
-						}
-					}
-				else if(grandChild.Size() >= 2)
+				if(child.Size() >= 3)
 				{
-					const Outfit *outfit = outfits.Get(grandChild.Token(0));
-					relativeOutfitPrices[outfit] = grandChild.Value(1) / outfit->Cost();
+					const Outfit *outfit = outfits.Get(child.Token(2));
+					relativeOutfitPrices.erase(outfit);
+					relativeOutfitOffsets.erase(outfit);
+				}
+				else
+				{
+					relativeOutfitOffsets.clear();
+					relativeOutfitPrices.clear();
 				}
 			}
-		}
-		else if(token == "outfitter")
-		{
-			for(const DataNode &grandChild : child)
+			else if(child.Token(1) == "outfitter")
 			{
-				bool value = (grandChild.Token(0) == "value");
-				bool offset = (grandChild.Token(0) == "offset");
-				if(value || offset)
-					for(const DataNode &kid : grandChild)
-					{
-						bool add = (kid.Token(0) == "add");
-						const Sale<Outfit> *item = items.Get(kid.Token(add));
-
-						if(kid.Size() < 2 + add)
-							continue;
-						if(value)
-						{
-							if(add)
-								relativePrices[item] += kid.Value(2);
-							else
-								relativePrices[item] = kid.Value(1);
-						}
-						else if(offset)
-						{
-							if(add)
-								relativeOffsets[item] += kid.Value(2);
-							else
-								relativeOffsets[item] = kid.Value(1);
-						}
-					}
-				else if(grandChild.Size() >= 2)
+				if(child.Size() >= 3)
 				{
-					const Sale<Outfit> *item = items.Get(grandChild.Token(0));
-					relativePrices[item] = grandChild.Value(1);
+					const Sale<Outfit> *outfitter = items.Get(child.Token(2));
+					relativePrices.erase(outfitter);
+					relativeOffsets.erase(outfitter);
+				}
+				else
+				{
+					relativeOffsets.clear();
+					relativePrices.clear();
 				}
 			}
+			else if(child.Token(1) == "location")
+				locationFilter = LocationFilter{};
+			else if(child.Token(1) == "conditions")
+				conditions = ConditionSet{};
+			else
+				child.PrintTrace("Skipping unrecognized clearing/deleting:");
 		}
-		else if(token == "hidden" || token == "import")
+		else if(token == "add")
 		{
-			for(const auto& it : show)
-				if(token == it.second)
-					sellType = it.first;
+			if(child.Token(1) == "location" && child.Size() == 1)
+				locationFilter.Load(child);
+			else if(child.Token(1) == "conditions")
+				conditions.Load(child);
+			else
+				child.PrintTrace("Skipping unrecognized add:");
 		}
+		else if(token == "hidden")
+			sellType = SellType::HIDDEN;
+		else if(token == "import")
+			sellType = SellType::IMPORT;
 		else if(token == "visible")
-			sellType = CustomSale::SellType::VISIBLE;
+			sellType = SellType::VISIBLE;
 		else if(token == "location")
 		{
 			if(child.Size() == 1)
+			{
+				location = nullptr;
+				locationFilter = LocationFilter{};
 				locationFilter.Load(child);
+			}
 			else if(child.Size() == 2)
 			{
-				source = GameData::Planets().Get(child.Token(1));
+				location = GameData::Planets().Get(child.Token(1));
+				locationFilter = LocationFilter{};
 				if(child.HasChildren())
 					child.PrintTrace("Warning: location filter ignored due to use of explicit planet:");
 			}
@@ -147,17 +113,88 @@ void CustomSale::Load(const DataNode &node, const Set<Sale<Outfit>> &items, cons
 				child.PrintTrace("Warning: use a location filter to choose from multiple planets:");
 		}
 		else if(token == "conditions")
-			toApply.Load(child);
+		{
+			conditions = ConditionSet{};
+			conditions.Load(child);
+		}
+		else if(mode == "outfits")
+		{
+			bool isAdd = false;
+			const Outfit *outfit = nullptr;
+			auto parseValueOrOffset = [&isAdd, &outfit](double &amount, const DataNode &line) {
+				if(isAdd)
+					amount += line.Size() > 2 ? line.Value(2) : 1.;
+				else
+					amount = line.Size() > 1 ? line.Value(1) : 1;
+				// If there is a third element it means a relative % and not a raw value is specified.
+				if(line.Size() == 2 + isAdd)
+					amount /= outfit->Cost();
+			};
+			if(isValue || isOffset)
+				for(const DataNode &kid : child)
+				{
+					isAdd = (kid.Token(0) == "add");
+					outfit = outfits.Get(kid.Token(isAdd));
+
+					if(kid.Size() < 1 + isAdd)
+						continue;
+
+					if(isValue)
+						parseValueOrOffset(relativeOutfitPrices[outfit], kid);
+					else if(isOffset)
+						parseValueOrOffset(relativeOutfitOffsets[outfit], kid);
+				}
+			// Default behavior assumes value.
+			else if(child.Size() >= 1)
+			{
+				isAdd = (child.Token(0) == "add");
+				outfit = outfits.Get(child.Token(isAdd));
+				parseValueOrOffset(relativeOutfitPrices[outfit], child);
+			}
+			else
+				child.PrintTrace("Skipping unrecognized (outfit assumed) attribute:");
+		}
+		else if(mode == "outfitters")
+		{
+			if(isValue || isOffset)
+				for(const DataNode &kid : child)
+				{
+					bool isAdd = (kid.Token(0) == "add");
+					const Sale<Outfit> *outfitter = items.Get(kid.Token(isAdd));
+
+					if(kid.Size() < 1 + isAdd)
+						continue;
+
+					auto parseValueOrOffset = [isAdd, outfitter](double &amount, const DataNode &line) {
+						// Only % may be specified using outfitter modification.
+						if(isAdd)
+							amount += line.Size() > 1 ? line.Value(2) : 1.;
+						else
+							amount = line.Size() > 1 ? line.Value(1) : 1;
+					};
+
+					if(isValue)
+						parseValueOrOffset(relativePrices[outfitter], kid);
+					else if(isOffset)
+						parseValueOrOffset(relativeOffsets[outfitter], kid);
+				}
+			// Default behavior assumes value.
+			else if(child.Size() >= 2)
+			{
+				const Sale<Outfit> *outfitter = items.Get(child.Token(0));
+				relativePrices[outfitter] = child.Value(1);
+			}
+			else
+				child.PrintTrace("Skipping unrecognized (outfitter assumed) attribute:");
+		}
 		else
 			child.PrintTrace("Skipping unrecognized attribute:");
 	}
-	if(sellType == SellType::NONE)
-		sellType = SellType::VISIBLE;
+	CheckIsEmpty();
 }
 
 
 
-// Can only add between CustomSales of same sellType.
 bool CustomSale::Add(const CustomSale &other)
 {
 	// sellType::NONE means a new CustomSale created with no data and default sellType
@@ -165,63 +202,66 @@ bool CustomSale::Add(const CustomSale &other)
 		this->sellType = other.sellType;
 	else if(other.sellType != this->sellType)
 		return false;
-	for(const auto& it : other.relativePrices)
+
+	for(const auto &it : other.relativePrices)
 	{
-		const auto& item = relativePrices.find(it.first);
-		if(item == relativePrices.cend())
-			relativePrices[it.first] = it.second;
-		else if(item->second < it.second)
-			item->second = it.second;
+		auto ours = relativePrices.find(it.first);
+		if(ours == relativePrices.end())
+			relativePrices.emplace(it.first, it.second);
+		else if(ours->second < it.second)
+			ours->second = it.second;
 	}
-	for(const auto& it : other.relativeOffsets)
+	for(const auto &it : other.relativeOffsets)
 	{
-		const auto& item = relativeOffsets.find(it.first);
-		if(item == relativeOffsets.cend())
-			relativeOffsets[it.first] = it.second;
+		auto ours = relativeOffsets.find(it.first);
+		if(ours == relativeOffsets.end())
+			relativeOffsets.emplace(it.first, it.second);
 		else
-			item->second += it.second;
+			ours->second += it.second;
 	}
-	for(const auto& it : other.relativeOutfitPrices)
+	for(const auto &it : other.relativeOutfitPrices)
 	{
-		const auto& item = relativeOutfitPrices.find(it.first);
-		if(item == relativeOutfitPrices.cend())
-			relativeOutfitPrices[it.first] = it.second;
-		else if(item->second < it.second)
-			item->second = it.second;
+		auto ours = relativeOutfitPrices.find(it.first);
+		if(ours == relativeOutfitPrices.end())
+			relativeOutfitPrices.emplace(it.first, it.second);
+		else if(ours->second < it.second)
+			ours->second = it.second;
 	}
-	for(const auto& it : other.relativeOutfitOffsets)
+	for(const auto &it : other.relativeOutfitOffsets)
 	{
-		const auto& item = relativeOutfitOffsets.find(it.first);
-		if(item == relativeOutfitOffsets.cend())
-			relativeOutfitOffsets[it.first] = it.second;
+		auto ours = relativeOutfitOffsets.find(it.first);
+		if(ours == relativeOutfitOffsets.end())
+			relativeOutfitOffsets.emplace(it.first, it.second);
 		else
-			item->second += it.second;
+			ours->second += it.second;
 	}
 	return true;
 }
 
 
 
-double CustomSale::GetRelativeCost(const Outfit *item) const
+double CustomSale::GetRelativeCost(const Outfit &item) const
 {
-	const auto& baseRelative = relativeOutfitPrices.find(item);
+	// First look if it is in the outfits, then in the outfitters.
+	const auto& baseRelative = relativeOutfitPrices.find(&item);
 	double baseRelativePrice = (baseRelative != relativeOutfitPrices.cend() ? baseRelative->second : DEFAULT);
 	if(baseRelativePrice == DEFAULT)
 		for(const auto& it : relativePrices)
-			if(it.first->Has(item))
+			if(it.first->Has(&item))
 			{
 				baseRelativePrice = it.second;
 				break;
 			}
-	const auto& baseOffset = relativeOutfitOffsets.find(item);
+	const auto& baseOffset = relativeOutfitOffsets.find(&item);
 	double baseOffsetPrice = (baseOffset != relativeOutfitOffsets.cend() ? baseOffset->second : DEFAULT);
 	for(const auto& it : relativeOffsets)
-		if(it.first->Has(item))
+		if(it.first->Has(&item))
 		{
 			if(baseOffsetPrice == DEFAULT)
 				baseOffsetPrice = 0.;
 			baseOffsetPrice += it.second;
 		}
+	// Apply the relative offset on top of the relative price.
 	if(baseRelativePrice != DEFAULT)
 		return baseRelativePrice + (baseOffsetPrice != DEFAULT ? baseRelativePrice * baseOffsetPrice : 0.);
 	else if(baseOffsetPrice != DEFAULT)
@@ -239,49 +279,56 @@ CustomSale::SellType CustomSale::GetSellType() const
 
 
 
-const std::string &CustomSale::GetShown(CustomSale::SellType sellType)
+const string &CustomSale::GetShown(CustomSale::SellType sellType)
 {
 	return show.find(sellType)->second;
 }
 
 
 
-const Sale<Outfit> &CustomSale::GetOutfits() const
+const Sale<Outfit> CustomSale::GetOutfits() const
 {
-	seen.clear();
+	Sale<Outfit> seen;
 	for(auto it : relativeOutfitPrices)
 		seen.insert(it.first);
 	for(auto it : relativeOutfitOffsets)
-		seen.insert(it.first);	
-	for(auto sale : relativePrices)
+		seen.insert(it.first);
+	for(auto &&sale : relativePrices)
 		seen.Add(*sale.first);
-	for(auto sale : relativeOffsets)
-		seen.Add(*sale.first);	
+	for(auto &&sale : relativeOffsets)
+		seen.Add(*sale.first);
 	return seen;
 }
 
 
 
-bool CustomSale::Has(const Outfit *item) const
+bool CustomSale::Has(const Outfit &item) const
 {
 	return GetRelativeCost(item) != -1.;
 }
 
 
 
-bool CustomSale::Matches(const Planet *planet, const ConditionSet::Conditions &conditions) const
+bool CustomSale::Matches(const Planet &planet, const std::map<std::string, int64_t> &playerConditions) const
 {
-	return ((source != nullptr) ? source == planet : locationFilter.Matches(planet)) && 
-		(toApply.IsEmpty() || toApply.Test(conditions));
+	return (location ? location == &planet : locationFilter.Matches(&planet)) &&
+		(conditions.IsEmpty() || conditions.Test(playerConditions));
 }
 
 
 
-void CustomSale::clear()
+void CustomSale::Clear()
 {
-	sellType = SellType::NONE;
-	relativeOffsets.clear();
-	relativePrices.clear();
-	relativeOutfitOffsets.clear();
-	relativeOutfitPrices.clear();
+	*this = CustomSale{};
+}
+
+
+
+void CustomSale::CheckIsEmpty()
+{
+	if(relativeOffsets.empty() && relativePrices.empty() &&
+		relativeOutfitOffsets.empty() && relativeOutfitPrices.empty())
+		sellType = SellType::NONE;
+	else if(sellType == SellType::NONE)
+		sellType = SellType::VISIBLE;
 }

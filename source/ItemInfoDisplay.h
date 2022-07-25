@@ -14,6 +14,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #define ITEM_INFO_DISPLAY_H_
 
 #include "Point.h"
+#include "PlayerInfo.h"
 #include "text/WrappedText.h"
 
 #include <string>
@@ -28,7 +29,8 @@ class Table;
 // different depending on what kind of item it is (a ship or an outfit).
 class ItemInfoDisplay {
 public:
-	ItemInfoDisplay();
+	ItemInfoDisplay() = default;
+	ItemInfoDisplay(const PlayerInfo &player);
 	virtual ~ItemInfoDisplay() = default;
 
 	// Get the panel width.
@@ -47,12 +49,15 @@ public:
 	void Hover(const Point &point);
 	void ClearHover();
 
+	void SetPlayerInfo(const PlayerInfo &player);
+
 
 protected:
+	const PlayerInfo *GetPlayer() const;
+
 	void UpdateDescription(const std::string &text, const std::vector<std::string> &licenses, bool isShip);
 	Point Draw(Point point, const std::vector<std::string> &labels, const std::vector<std::string> &values) const;
 	void CheckHover(const Table &table, const std::string &label) const;
-
 
 protected:
 	static const int WIDTH = 250;
@@ -72,6 +77,10 @@ protected:
 	mutable int hoverCount = 0;
 	bool hasHover = false;
 	mutable WrappedText hoverText;
+
+
+private:
+	const PlayerInfo *player = nullptr;
 };
 
 

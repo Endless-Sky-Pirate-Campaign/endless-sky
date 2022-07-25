@@ -33,45 +33,49 @@ class CustomSale {
 public:
 	enum class SellType {
 		NONE = 0,
-		VISIBLE = (1 << 0),
-		IMPORT = (1 << 1),
-		HIDDEN = (1 << 2)
+		VISIBLE = 1,
+		IMPORT = 2,
+		HIDDEN = 3
 	};
 
 
 public:
-	void Load(const DataNode &node, const Set<Sale<Outfit>> &items, const Set<Outfit> &outfits);
-	
+	void Load(const DataNode &node, const Set<Sale<Outfit>> &items, const Set<Outfit> &outfits, const std::string &mode);
+
+	// Adds another CustomSale of the same sellType to this one, or any type if this one is empty.
 	bool Add(const CustomSale &other);
-	
-	double GetRelativeCost(const Outfit *item) const;
-	
+
+	// Get the price of the item, one should check the conditions matche first.
+	double GetRelativeCost(const Outfit &item) const;
+
 	SellType GetSellType() const;
 
+	// Convert the given sellType into a string.
 	static const std::string &GetShown(SellType sellType);
-	
-	const Sale<Outfit> &GetOutfits() const;
-	
-	bool Has(const Outfit *item) const;
 
-	bool Matches(const Planet *planet, const ConditionSet::Conditions &conditions) const;
+	const Sale<Outfit> GetOutfits() const;
 
-	void clear();
+	bool Has(const Outfit &item) const;
 
-	
+	// Check if this planet with the given conditions of the player match the conditions of the CustomSale.
+	bool Matches(const Planet &planet, const std::map<std::string, int64_t> &playerConditions) const;
+
+	void Clear();
+
+	void CheckIsEmpty();
+
+
 private:
-	mutable Sale<Outfit> seen;
-	
 	LocationFilter locationFilter;
-	ConditionSet toApply;
-	const Planet *source = nullptr;
-	
+	ConditionSet conditions;
+	const Planet *location = nullptr;
+
 	std::map<const Sale<Outfit> *, double> relativePrices;
 	std::map<const Sale<Outfit> *, double> relativeOffsets;
-	
+
 	std::map<const Outfit *, double> relativeOutfitPrices;
 	std::map<const Outfit *, double> relativeOutfitOffsets;
-	
+
 	SellType sellType = SellType::NONE;
 };
 

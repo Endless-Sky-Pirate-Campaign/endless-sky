@@ -100,11 +100,10 @@ int ShipyardPanel::TileSize() const
 
 int ShipyardPanel::DrawPlayerShipInfo(const Point &point)
 {
-	shipInfo.Update(*playerShip, player.FleetDepreciation(), player.GetDate().DaysSinceEpoch(), &player);
-	shipInfo.DrawSale(point);
-	shipInfo.DrawAttributes(point + Point(0, shipInfo.SaleHeight()));
+	shipInfo.Update(*playerShip, player.FleetDepreciation(), player.GetDate().DaysSinceEpoch());
+	shipInfo.DrawAttributes(point, true);
 
-	return shipInfo.SaleHeight() + shipInfo.AttributesHeight();
+	return shipInfo.GetAttributesHeight(true);
 }
 
 
@@ -155,7 +154,7 @@ int ShipyardPanel::DrawDetails(const Point &center)
 
 	if(selectedShip)
 	{
-		shipInfo.Update(*selectedShip, player.StockDepreciation(), player.GetDate().DaysSinceEpoch(), &player);
+		shipInfo.Update(*selectedShip, player.StockDepreciation(), player.GetDate().DaysSinceEpoch());
 		selectedItem = selectedShip->ModelName();
 
 		const Sprite *background = SpriteSet::Get("ui/shipyard selected");
@@ -227,9 +226,9 @@ bool ShipyardPanel::CanBuy(bool checkAlreadyOwned) const
 {
 	if(!selectedShip)
 		return false;
-	
+
 	int64_t cost = player.StockDepreciation().Value(*selectedShip, day, &player);
-	
+
 	// Check that the player has any necessary licenses.
 	int64_t licenseCost = LicenseCost(&selectedShip->Attributes());
 	if(licenseCost < 0)
@@ -270,9 +269,9 @@ void ShipyardPanel::FailBuy() const
 {
 	if(!selectedShip)
 		return;
-	
+
 	int64_t cost = player.StockDepreciation().Value(*selectedShip, day, &player);
-	
+
 	// Check that the player has any necessary licenses.
 	int64_t licenseCost = LicenseCost(&selectedShip->Attributes());
 	if(licenseCost < 0)
@@ -348,7 +347,7 @@ void ShipyardPanel::Sell(bool toStorage)
 	vector<shared_ptr<Ship>> toSell;
 	for(const auto &it : playerShips)
 		toSell.push_back(it->shared_from_this());
-	int64_t total = player.FleetDepreciation().Value(toSell, day);
+	int64_t total = player.FleetDepreciation().Value(toSell, day, &player);
 
 	message += ((initialCount > 2) ? "\nfor " : " for ") + Format::Credits(total) + " credits?";
 	GetUI()->Push(new Dialog(this, &ShipyardPanel::SellShip, message, Truncate::MIDDLE));

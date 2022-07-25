@@ -93,9 +93,16 @@ int OutfitterPanel::TileSize() const
 
 
 
+int OutfitterPanel::VisiblityCheckboxesSize() const
+{
+	return 60;
+}
+
+
+
 int OutfitterPanel::DrawPlayerShipInfo(const Point &point)
 {
-	shipInfo.Update(*playerShip, player.FleetDepreciation(), day, &player);
+	shipInfo.Update(*playerShip, player.FleetDepreciation(), day);
 	shipInfo.DrawAttributes(point);
 
 	return shipInfo.AttributesHeight();
@@ -106,15 +113,15 @@ int OutfitterPanel::DrawPlayerShipInfo(const Point &point)
 bool OutfitterPanel::HasItem(const string &name) const
 {
 	const Outfit *outfit = GameData::Outfits().Get(name);
-	const CustomSale::SellType selling = player.GetPlanet()->GetAvailability(outfit, player.Conditions());
+	const CustomSale::SellType selling = player.GetPlanet()->GetAvailability(*outfit, player.Conditions());
 	// Do not show hidden items except if the player has them in stock.
-	if((((selling != CustomSale::SellType::NONE && selling != CustomSale::SellType::HIDDEN) || player.Stock(outfit))) && showForSale)
+	if((showForSale && ((selling != CustomSale::SellType::NONE && selling != CustomSale::SellType::HIDDEN) || player.Stock(outfit) > 0)))
 		return true;
 
-	if(player.Cargo().Get(outfit) && (!playerShip || showForSale))
+	if(showCargo && player.Cargo().Get(outfit))
 		return true;
 
-	if(player.Storage() && player.Storage()->Get(outfit))
+	if(showStorage && player.Storage() && player.Storage()->Get(outfit))
 		return true;
 
 	for(const Ship *ship : playerShips)
@@ -177,13 +184,13 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 	// Don't show the "in stock" amount if the outfit has an unlimited stock or
 	// if it is not something that you can buy.
 	int stock = 0;
-	const CustomSale::SellType sellType = player.GetPlanet()->GetAvailability(outfit, player.Conditions());
+	const CustomSale::SellType sellType = player.GetPlanet()->GetAvailability(*outfit, player.Conditions());
 	if(sellType != CustomSale::SellType::VISIBLE && outfit->Get("installable") >= 0.)
 		stock = max(0, player.Stock(outfit));
 	int cargo = player.Cargo().Get(outfit);
 	int storage = player.Storage() ? player.Storage()->Get(outfit) : 0;
-	const std::string show = CustomSale::GetShown(sellType);
-	
+	const std::string &show = CustomSale::GetShown(sellType);
+
 	string message;
 	if(cargo && storage && stock)
 		message = "cargo+stored: " + to_string(cargo + storage) + ", in stock: " + to_string(stock);
@@ -199,12 +206,12 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 		message = "in storage: " + to_string(storage);
 	else if(stock)
 		message = "in stock: " + to_string(stock);
-	else if(!outfitter.count(outfit))
+	else if(!outfitter.count(selectedOutfit) && sellType == CustomSale::SellType::NONE)
 		message = "(not sold here)";
-	
+
 	if(!show.empty())
 		message += " (" + show + ")";
-	
+
 	if(!message.empty())
 	{
 		Point pos = point + Point(
@@ -242,7 +249,7 @@ int OutfitterPanel::DrawDetails(const Point &center)
 
 	if(selectedOutfit)
 	{
-		outfitInfo.Update(*selectedOutfit, player, CanSell());
+		outfitInfo.Update(*selectedOutfit, CanSell());
 		selectedItem = selectedOutfit->Name();
 
 		const Sprite *thumbnail = selectedOutfit->Thumbnail();
@@ -316,8 +323,8 @@ bool OutfitterPanel::CanBuy(bool checkAlreadyOwned) const
 		return false;
 
 	bool isAlreadyOwned = checkAlreadyOwned && IsAlreadyOwned();
-	if(!(player.GetPlanet()->GetAvailability(selectedOutfit, player.Conditions()) == CustomSale::SellType::VISIBLE
-		|| player.Stock(selectedOutfit) > 0 || isAlreadyOwned))
+	if(!(isAlreadyOwned || player.Stock(selectedOutfit) > 0 ||
+		player.GetPlanet()->GetAvailability(*selectedOutfit, player.Conditions()) == CustomSale::SellType::VISIBLE))
 		return false;
 
 	int mapSize = selectedOutfit->Get("map");
@@ -406,7 +413,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 			else
 			{
 				// Check if the outfit is for sale or in stock so that we can actually buy it.
-				if(player.GetPlanet()->GetAvailability(selectedOutfit, player.Conditions()) != CustomSale::SellType::VISIBLE 
+				if(player.GetPlanet()->GetAvailability(*selectedOutfit, player.Conditions()) != CustomSale::SellType::VISIBLE
 					&& player.Stock(selectedOutfit) <= 0)
 					continue;
 				player.Cargo().Add(selectedOutfit);
@@ -430,7 +437,7 @@ void OutfitterPanel::Buy(bool alreadyOwned)
 			else if(player.Storage() && player.Storage()->Get(selectedOutfit))
 				player.Storage()->Remove(selectedOutfit);
 			else if(alreadyOwned || !(player.Stock(selectedOutfit) > 0 ||
-				player.GetPlanet()->GetAvailability(selectedOutfit, player.Conditions()) == CustomSale::SellType::VISIBLE))
+				player.GetPlanet()->GetAvailability(*selectedOutfit, player.Conditions()) == CustomSale::SellType::VISIBLE))
 				break;
 			else
 			{
@@ -453,7 +460,7 @@ void OutfitterPanel::FailBuy() const
 {
 	if(!selectedOutfit)
 		return;
-	
+
 	int64_t cost = player.StockDepreciation().Value(selectedOutfit, day, &player);
 	int64_t credits = player.Accounts().Credits();
 	bool isInCargo = player.Cargo().Get(selectedOutfit);
@@ -480,23 +487,23 @@ void OutfitterPanel::FailBuy() const
 			+ Format::Credits(licenseCost) + " credits to buy the necessary licenses."));
 		return;
 	}
-	
-	if(!(outfitter.count(selectedOutfit) || player.Stock(selectedOutfit) > 0 || isInCargo || isInStorage))
+
+	CustomSale::SellType selling = player.GetPlanet()->GetAvailability(*selectedOutfit, player.Conditions());
+	if(!((selling != CustomSale::SellType::NONE || outfitter.count(selectedOutfit)) || player.Stock(selectedOutfit) > 0 || isInCargo || isInStorage))
 	{
 		GetUI()->Push(new Dialog("You cannot buy this outfit here. "
 			"It is being shown in the list because you have one installed in your ship, "
 			"but this " + planet->Noun() + " does not sell them."));
 		return;
 	}
-	
-	CustomSale::SellType selling = player.GetPlanet()->GetAvailability(selectedOutfit, player.Conditions());
+
 	if(selling == CustomSale::SellType::IMPORT || selling == CustomSale::SellType::HIDDEN)
 	{
 		GetUI()->Push(new Dialog("You can only sell this outfit here, "
 			"it is meant to be imported, legally or not, generally for a good price."));
 		return;
 	}
-	
+
 	if(selectedOutfit->Get("map"))
 	{
 		GetUI()->Push(new Dialog("You have already mapped all the systems shown by this map, "
@@ -512,13 +519,21 @@ void OutfitterPanel::FailBuy() const
 	}
 
 	if(!playerShip)
+	{
+		double mass = selectedOutfit->Mass();
+		double freeCargo = player.Cargo().Free();
+
+		GetUI()->Push(new Dialog("You cannot buy this outfit, because it takes up "
+			+ Tons(mass) + " of mass, and your fleet has "
+			+ Tons(freeCargo) + " of cargo space free."));
 		return;
+	}
+
 
 	double outfitNeeded = -selectedOutfit->Get("outfit space");
 	double outfitSpace = playerShip->Attributes().Get("outfit space");
 	if(outfitNeeded > outfitSpace)
 	{
-		string need =  to_string(outfitNeeded) + (outfitNeeded != 1. ? "tons" : "ton");
 		GetUI()->Push(new Dialog("You cannot install this outfit, because it takes up "
 			+ Tons(outfitNeeded) + " of outfit space, and this ship has "
 			+ Tons(outfitSpace) + " free."));
@@ -782,17 +797,21 @@ void OutfitterPanel::DrawKey()
 	Color color[2] = {*GameData::Colors().Get("medium"), *GameData::Colors().Get("bright")};
 	const Sprite *box[2] = {SpriteSet::Get("ui/unchecked"), SpriteSet::Get("ui/checked")};
 
-	Point pos = Screen::BottomLeft() + Point(10., -30.);
+	Point pos = Screen::BottomLeft() + Point(10., -VisiblityCheckboxesSize() + 10.);
 	Point off = Point(10., -.5 * font.Height());
 	SpriteShader::Draw(box[showForSale], pos);
 	font.Draw("Show outfits for sale", pos + off, color[showForSale]);
 	AddZone(Rectangle(pos + Point(80., 0.), Point(180., 20.)), [this](){ ToggleForSale(); });
 
-	bool showCargo = !playerShip;
 	pos.Y() += 20.;
 	SpriteShader::Draw(box[showCargo], pos);
 	font.Draw("Show outfits in cargo", pos + off, color[showCargo]);
 	AddZone(Rectangle(pos + Point(80., 0.), Point(180., 20.)), [this](){ ToggleCargo(); });
+
+	pos.Y() += 20.;
+	SpriteShader::Draw(box[showStorage], pos);
+	font.Draw("Show outfits in storage", pos + off, color[showStorage]);
+	AddZone(Rectangle(pos + Point(80., 0.), Point(180., 20.)), [this](){ ToggleStorage(); });
 }
 
 
@@ -801,24 +820,43 @@ void OutfitterPanel::ToggleForSale()
 {
 	showForSale = !showForSale;
 
+	if (selectedOutfit && !HasItem(selectedOutfit->Name()))
+	{
+		selectedOutfit = nullptr;
+	}
+
 	ShopPanel::ToggleForSale();
+}
+
+
+
+void OutfitterPanel::ToggleStorage()
+{
+	showStorage = !showStorage;
+
+	if (selectedOutfit && !HasItem(selectedOutfit->Name()))
+	{
+		selectedOutfit = nullptr;
+	}
+
+	ShopPanel::ToggleStorage();
 }
 
 
 
 void OutfitterPanel::ToggleCargo()
 {
+	showCargo = !showCargo;
+
+	if (selectedOutfit && !HasItem(selectedOutfit->Name()))
+	{
+		selectedOutfit = nullptr;
+	}
+
 	if(playerShip)
 	{
-		previousShip = playerShip;
 		playerShip = nullptr;
-		previousShips = playerShips;
 		playerShips.clear();
-	}
-	else if(previousShip)
-	{
-		playerShip = previousShip;
-		playerShips = previousShips;
 	}
 	else
 	{
@@ -922,7 +960,7 @@ void OutfitterPanel::CheckRefill()
 		++count;
 		set<const Outfit *> toRefill;
 		for(const Hardpoint &it : ship->Weapons())
-			if(it.GetOutfit() && it.GetOutfit()->Ammo())
+			if(it.GetOutfit() && it.GetOutfit()->Ammo() && it.GetOutfit()->AmmoUsage() > 0)
 				toRefill.insert(it.GetOutfit()->Ammo());
 
 		for(const Outfit *outfit : toRefill)
@@ -963,7 +1001,7 @@ void OutfitterPanel::Refill()
 
 		set<const Outfit *> toRefill;
 		for(const Hardpoint &it : ship->Weapons())
-			if(it.GetOutfit() && it.GetOutfit()->Ammo())
+			if(it.GetOutfit() && it.GetOutfit()->Ammo() && it.GetOutfit()->AmmoUsage() > 0)
 				toRefill.insert(it.GetOutfit()->Ammo());
 
 		for(const Outfit *outfit : toRefill)
