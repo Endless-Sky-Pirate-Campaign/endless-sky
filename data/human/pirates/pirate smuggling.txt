@@ -97,8 +97,7 @@ pricing outfits "Smuggling: Smuggler's Den"
 	import
 	location
 		planet "Smuggler's Den"
-	outfit
-		value
+	value
 			"Coreshine" 11500
 			"Stolen Ship Parts" 89000
 	
@@ -109,8 +108,7 @@ pricing outfits "Smuggling: Copperline Station"
 	import
 	location
 		planet "Copperline Station"
-	outfit
-		value
+	value
 			"Stolen Ship Parts" 125800
 			"Liberator Missile System" 17900
 
@@ -121,8 +119,7 @@ pricing outfits "Smuggling: Skymoot"
 	import
 	location
 		planet "Skymoot"
-	outfit
-		value
+	value
 			"Stolen Ship Parts" 43500
 			"Liberator Missile System" 12000
 
@@ -133,8 +130,7 @@ pricing outfits "Smuggling: Glory"
 	import
 	location
 		planet "Glory"
-	outfit
-		value
+	value
 			"Dragon's Teeth" 43500
 			"Jailbroken AI Core" 160711
 	
@@ -145,8 +141,7 @@ pricing outfits "Smuggling: Sleezy Ed's"
 	import
 	location
 		planet "Sleezy Ed's Scrapyard"
-	outfit
-		value
+	value
 			"Counterfeit Credsticks" 150
 			"Coreshine" 6400
 
@@ -157,8 +152,7 @@ pricing outfits "Smuggling: Haven"
 	import
 	location
 		planet "Haven"
-	outfit
-		value
+	value
 			"Chemical Warhead" 1137000
 			"Dragon's Teeth" 98250
 
@@ -169,8 +163,7 @@ pricing outfits "Smuggling: Warehouse 0x16A"
 	import
 	location
 		planet "Warehouse 0x16A"
-	outfit
-		value
+	value
 			"Jailbroken AI Core" 188711
 			"Chemical Warhead" 927400
 
@@ -181,8 +174,7 @@ pricing outfits "Smuggling: Bivrost"
 	import
 	location
 		planet "Bivrost"
-	outfit
-		value
+	value
 			"Jailbroken AI Core" 11635
 			"Counterfeit Credsticks" 180
 	
@@ -190,8 +182,7 @@ pricing outfits "Smuggling: Mars"
 	import
 	location
 		planet "Mars"
-	outfit
-		value
+	value
 			"Chemical Warhead" 873000
 			"Coreshine" 3900
 			"Dragon's Teeth" 89000
@@ -205,8 +196,7 @@ pricing outfits "Smuggling: Trinket"
 	import
 	location
 		planet "Trinket"
-	outfit
-		value
+	value
 			"Chemical Warhead" 852200
 			"Coreshine" 6700
 			"Dragon's Teeth" 87750
