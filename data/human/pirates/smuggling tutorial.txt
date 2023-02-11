@@ -137,7 +137,7 @@ mission "Smuggling Tutorial 2"
 				`	"I don't have any questions, let's get the goods to my ship and head out."`
 					goto depart
 			label customs
-			`	"Mix your illegal goods with legal cargo to throw off inspectors. If you choose something profitable at the destination, you can even make some honest creds on the side."`
+			`	"Mix your illegal goods with legal cargo to throw off inspectors. If you choose something profitable at the destination, you can even make some honest credits on the side."`
 				goto tutorialreturn
 			label ISP
 			`	"Not getting scanned in the first place is your best defense. A heavily loaded bulk freighter is sure to get caught, but a small courier vessel can usually - usually - outrun police interdictors. Mind, they've started packing afterburners lately, so... Good luck, pal."`
@@ -157,7 +157,7 @@ mission "Smuggling Tutorial 2"
 				goto tutorial
 			label depart
 			`	The longshoremen load the last of the crates into your cargo hold. They've been carefully positioned so that any additional cargo you take on can be safely stacked over and around them, masking the contraband from incoming scans or visiting customs inspectors.`
-			`	"Alright, friend. We're ready to leave. But while we're here... Why don't you visit the outfitter? If you've got the space, they can set you up with some interference plating. It'll help stretch out the signal of any masking cargo we're carrying. Or, if you're feeling gutsy, just ask for 'tickets to the season playoffs', they'll set you up with some boxes of counterfeit creds. Ed always wants more of those, he'll pay a good sum. Just remember, the more legal cargo we carry the safer we'll be, so try to keep things balanced."`
+			`	"Alright, friend. We're ready to leave. But while we're here... Why don't you visit the outfitter? If you've got the space, they can set you up with some interference plating. It'll help stretch out the signal of any masking cargo we're carrying. Or, if you're feeling gutsy, just ask for 'tickets to the season playoffs', they'll set you up with some boxes of counterfeit credits. Ed always wants more of those, he'll pay a good sum. Just remember, the more legal cargo we carry the safer we'll be, so try to keep things balanced."`
 			`	"Or forget balance and just go really fast. Whatever. Can we get moving?"`
 				accept
 	on accept
