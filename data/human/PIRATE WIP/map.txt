@@ -164,13 +164,16 @@ system Beacon
 		period 30252.014
 
 planet Novawarka
+	landscape land/fields6
 	description "Novawarka is a planet of extreme variations in altitude, with the primary continent riddled hedgehog-like with mountain peaks, and boasting lush green lowlands that lay in the territories between each summit. Human settlement has yet to claim the entire planet for its own, but has shown little restraint in littering the peaks with glittering palaces and foreboding concrete-walled fortified compounds bristling with turrets, while the valleys have been painted with the patch-stripes of agriculture: rippling fields of grain, verdant orchards."
 	description "Though flatter and drier, the sun-scorched and red-rocked equatorial continent looks like something out of a dream: incredibly blue pools of potassium-rich lakes bake under the sun, rendering the landscape a vibrant red-blue mottle."
 	spaceport `Novawarka's spaceports tend to be built in the midlands and are, though perhaps a bit grubby about the edges, still surprisingly festive places. The grizzled Barony guards that patrol are generally in good spirit, in no small part aided by the lax oversight and generous opportunities for "extracurricular income" they can extract from visiting merchants. Cheerful, likewise, are the avenues themselves, festooned as they are with wreaths of flowers gathered from the planet's fertile valleys.`
 	spaceport "Artisans and merchants abound in the settlement flanking the port. This far from the misery of the agricultural serfs restricted to the lowlands there's a general aura of vibrant prosperity. Music, the scent of cooling bread, and floral fragrance are frequent visitors to the senses."
 
 planet "Tellman's Wager"
-	description "An obviously alien world even from orbit: crimson and fleshtones dominate the dense jungle-canopy that claims this planet: Tellman's Wager has the appearance of a bleeding wound torn open in space. Familiar earthly hues of green and blue exist only in rare pockets where the works of humankind have altered the planet: Where night's shadow falls across them, their fringes are visible from the light of the man-made infernos which, bit by bit, consume the native flora and return their ash to nourish the soil."
+	landscape land/slashburn
+	description "An obviously alien world even from orbit, crimson and fleshtones dominate the dense jungle canopy that claims this planet - Tellman's Wager has the appearance of a bleeding wound torn open in space."
+	description "Familiar terran hues of green and blue exist only in rare pockets where the works of humankind have altered the planet. During the planet's short nights their fringes are visible from the light of the man-made infernos which, bit by bit, consume the native flora and return their ash to nourish the soil - a slash and burn operation of truly grand scale."
 	spaceport "Overseers and guards wear heavy rebreathers and are universally well-armed. The workers are, if lucky, in possession of a rag wrapped around their mouth and nose to filter out smoke. The only thing louder than the coughing is the piercing clamor of the alien wildlife that thrives beyond the burn zone. You are, of course, quickly presented with a complementary breathing apparatus. Baron Tellman has no shortage of largesse for esteemed visitors."
 
 planet Redfruit
@@ -181,15 +184,18 @@ planet Redfruit
 	spaceport "The only facility still used for its original purpose would be the sports field- when not having its turf chewed by ship's landing gear, off-duty workers congregate to punt around whatever they can lay their hands on. Owing to the planet's particularly lackluster gravity, they've been forced to get fairly creative to still enjoy traditional ball games."
 
 planet Widdershins
+	landscape land/asteroid0
 	description "A miniscule pearl spinning lazily through the skies of Redfruit, the moon Widdershins has, over the last two decades, gradually become encrusted with increasingly grandiose chateau-habs. Freed from the demands of gravity that terrestrial architecture must necessarily hew to, the Baronic estates of Widdershins sprawl and soar in increasingly extravagant displays of ambition and, more often than not, poor taste."
 	description "While the expenses incurred in the construction of these monuments to ego must have been significant, seemingly little of it went towards hiring anybody with a coherent sense of design aesthetics."
 	spaceport "Widdershin's spaceport is, in contrast to the rest of the moon's development, of considerably older and more restrained construction. Staff take advantage of the low gravity to simply manhandle heavy equipment about rather than rely on mechanical lifters and loaders, despite the hangars being generously equipped with such."
 	spaceport `The "Days Since Last Injury" sign on the wall boasts a distressingly low score.`
 
 planet Farfrum
+	landscape land/city24
 	description "Peeling paint competes with brightly hued banners to tell the tale of Farfrum: The sparkling jewel of the Baronies. Every main street and boulevard is clean of trash, grime, and sports well-maintained buildings. Professionals and merchants bustle about their business, trucks loaded with goods of all type make their deliveries and pickups, and even the guards in heraldic flak jackets seem to be in good cheer and mostly disinclined to harass you for bribes."
-	description "The well-polished veneer falls into further disrepair the further from the main streets you range. Gleaming blocks of glass and steel give way to barely maintained shanties, housing for the wretched masses who toil in service of the fortunate few who live and work in the city centers."
-	spaceport "Banners hang along the main hallway of the spaceport, bearing the heraldry and names of the warlords who joinly administrate Farfrum as a common holding: Barons Ford, O'Neill, Tellman, Soong, and Montalban. A ceremonial detachment of guards from each baron stand side by side. Though likely intended as a show of unity, none of them can resist giving their opposites dirty glares."
+	description "The well-polished veneer fades and peels the further from the main streets you range. Gleaming blocks of glass and steel give way to barely maintained shanties, housing for the wretched masses who toil in service of the fortunate few who live and work in the city centers."
+	spaceport "Banners hang along the main hallway of the spaceport, bearing the heraldry and names of the warlords who joinly administrate Farfrum as a common holding: Barons Ford, O'Neill, Tellman, Soong, and Montalban."
+	spaceport "A ceremonial detachment of guards from each baron stand side by side beneach a row of towering gilded busts depicting their patrons. Though likely intended as a show of unity, none of the filigreed guards can resist giving their opposites sneering glances."
 
 system Alhazrad
 	pos -592.5 -507.593
