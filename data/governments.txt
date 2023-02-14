@@ -118,6 +118,9 @@ government "Deep Security"
 		"Deep Security that won't enter wormhole" 1.0
 		"Merchant" .5
 		"Pirate" -.2
+		"Freebooter" -.2
+		"Freebooter (Renegade)" -.2
+		"Lightspeed" .3
 		"Pirate (Devil-Run Gang)" -.2
 		"Smuggler (Hai Trafficker)" -.2
 	"friendly hail" "friendly deep"
@@ -131,6 +134,9 @@ government "Deep Security that won't enter wormhole"
 		"Deep Security" 1
 		"Merchant" .5
 		"Pirate" -.2
+		"Freebooter" -.2
+		"Freebooter (Renegade)" -.2
+		"Lightspeed" .3
 		"Pirate (Devil-Run Gang)" -.2
 		"Smuggler (Hai Trafficker)" -.2
 	"friendly hail" "friendly deep"
@@ -232,6 +238,7 @@ government "Free Worlds"
 		"Free Worlds that won't enter wormhole" 1
 		"Merchant" .3
 		"Militia" .3
+		"Freebooter [renegade]" -.2
 		"Pirate" -.4
 		"Pirate (Devil-Run Gang)" -.4
 		"Smuggler (Hai Trafficker)" .3
@@ -742,6 +749,8 @@ government "Merchant"
 	"player reputation" 10
 	"attitude toward"
 		"Pirate" -.2
+		"Freebooter" -.2
+		"Freebooter [renegade]" -.2
 		"Pirate (Devil-Run Gang)" -.2
 		"Korath" -.2
 	"bribe" .05
@@ -757,6 +766,9 @@ government "Militia"
 	"attitude toward"
 		"Merchant" .3
 		"Pirate" -.4
+		"Freebooter" .1
+		"Freebooter [renegade]" -.2
+		"Lightspeed" .1
 		"Pirate (Devil-Run Gang)" -.4
 		"Smuggler (Hai Trafficker)" .3
 	"bribe" .1
@@ -784,6 +796,8 @@ government "Navy (Oathkeeper)"
 		"Merchant" .25
 		"Militia" .1
 		"Pirate" -.3
+		"Freebooter" -.2
+		"Freebooter [renegade]" -.2
 		"Pirate (Devil-Run Gang)" -.3
 		"Smuggler (Hai Trafficker)" .25
 		"Kor Sestor" -.01
@@ -826,6 +840,7 @@ government "Pirate"
 		"Author" -.01
 		"Hai" -.01
 		"Hai (Wormhole Access)" -.01
+		"Lightspeed" -.1		
 		"Korath" -.01
 		"Merchant" -.1
 		"Syndicate" -.01
@@ -1007,6 +1022,9 @@ government "Republic"
 		"Merchant" .25
 		"Militia" .1
 		"Pirate" -.3
+		"Freebooter" -.2
+		"Freebooter [renegade]" -.2
+		"Lightspeed" .25
 		"Pirate (Devil-Run Gang)" -.3
 		"Republic that won't enter wormhole" 1
 		"Smuggler (Hai Trafficker)" .25
@@ -1039,6 +1057,9 @@ government "Republic that won't enter wormhole"
 		"Merchant" .25
 		"Militia" .1
 		"Pirate" -.3
+		"Freebooter" -.2
+		"Freebooter [renegade]" -.2
+		"Lightspeed" .25
 		"Pirate (Devil-Run Gang)" -.3
 		"Republic" 1
 		"Smuggler (Hai Trafficker)" .25
@@ -1062,6 +1083,9 @@ government "Republic (Friendly)"
 		"Merchant" .01
 		"Militia" .01
 		"Pirate" -.01
+		"Freebooter" -.2
+		"Freebooter [renegade]" -.2
+		"Lightspeed" .25
 		"Navy Intelligence" .01
 		"Republic Intelligence" .01
 		"Navy (Oathkeeper)" .01
@@ -1126,6 +1150,9 @@ government "Syndicate"
 	"attitude toward"
 		"Merchant" .3
 		"Pirate" -.4
+		"Freebooter" -.5
+		"Freebooter [renegade]" -.5
+		"Lightspeed" .75
 		"Pirate (Devil-Run Gang)" -.4
 		"Smuggler (Hai Trafficker)" .3
 		"Syndicate that won't enter wormhole" 1
@@ -1144,6 +1171,9 @@ government "Syndicate that won't enter wormhole"
 	"attitude toward"
 		"Merchant" .3
 		"Pirate" -.4
+		"Freebooter" -.5
+		"Freebooter [renegade]" -.5
+		"Lightspeed" .75
 		"Pirate (Devil-Run Gang)" -.4
 		"Smuggler (Hai Trafficker)" .3
 		"Syndicate" 1
