@@ -19,6 +19,9 @@ government "Alpha"
 	"bribe" 0
 	"fine" 0
 
+government "Anarchist"
+	swizzle 10
+
 government "Author"
 	"player reputation" 1
 	"bribe" 0
@@ -26,6 +29,9 @@ government "Author"
 government "Bad Trip"
 	swizzle 0
 	"player reputation" -1000
+
+government "Baronies"
+	swizzle 12
 
 government "Builder"
 	# While when you attack the drones they will try to defend themselves, when you come back
@@ -227,6 +233,22 @@ government "Forest (Predator)"
 		atrocity 0
 
 color "governments: Free" .06 .68 0.
+
+government "Freebooter"
+	"display name" "Freebooters"
+	swizzle 1
+	
+	"player reputation" 10
+	"attitude toward"
+		"Lightspeed" -1
+		"Pirate" 0.1
+		"Korath" -.2
+		"Syndicate" -.5
+		"Militia" 0.5
+	"bribe" .05
+	"fine" 0
+	"friendly hail" "friendly freebooter"
+	"hostile hail" "hostile pirate"
 
 government "Free Worlds"
 	swizzle 2
