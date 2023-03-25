@@ -225,9 +225,9 @@ mission "Smuggling Tutorial 3"
 				`	(Step out, let Amika handle things.)`
 					goto lastfavor
 				`	(Stick around. Maybe you'll get paid, or at least learn something.)`
-			`	Amika's grimace as as deep as the older man's smile. "Dad, I- come on. I'm just here to pay off the ship you lent me, then I'm out of here."`
+			`	Amika's grimace is as as deep as the older man's smile. "Dad, I- come on. I'm just here to pay off the ship you lent me, then I'm out of here."`
 			`	The scent of roasting meat wafts in from the back of the warehouse, succulent and rich. Visible through an ajar door is a table set for two. Upon noticing this Amika's scowl only deepens.`
-			`	"And I'm not a kid anymore! You can't just buy me off with offerings of..." Words falter, fading into a disgruntled muttering. "I can't handle the way you do things. And now I don't owe you anything else." With that, Amika turns and marches back to your ship, leaving you alone with the scraypard's proprietor.`
+			`	"And I'm not a kid anymore! You can't just buy me off with offerings of..." Words falter, fading into a disgruntled muttering. "I can't handle the way you do things. And now I don't owe you anything else." With that, Amika turns and skulks back to your ship, leaving you alone with the scraypard's proprietor.`
 			`	Gone is the jolly demeanor. The smile faded, held thinly only as memory as his facial muscles fail to react. Heartbreak is etched across the man's mien.`
 			`	"Come on, <first>." Amika's calling you from outside. The words are enough to rouse the father from his thoughts. "Captain, wait", he implores.`
 			action
@@ -239,7 +239,7 @@ mission "Smuggling Tutorial 3"
 			`	"Take care of my child. She doesn't know what a fool she's being, thinking she can just run off into the galaxy alone, at that age, and chase some dream of living free from oath or obligation. Nothing in this galaxy is free, she'll learn that one day. Everything has a price, and relying on others to take care of you... It corrodes the spirit and weakens the mind in the long term. I can only hope the lesson is a gentle one when she finally learns it properly."`
 			`	"But so long as she travels with you, I trust you'll keep her out of too much trouble. The patron of the Eddigus family wants grandchildren one of these days, you know." A wide smile's visible again, the scrayard king's walls are once again back up, vulnerability safely concealed behind a bastion of roaring joviality.`
 			`	A heavy - though friendly - slap on the back and a booming laugh usher you out of the Eddigus household and back into the scrapyard.`
-			`	"You'd better run along, yes? And don't take it easy on her! Make her work! It's good for the character!"`
+			`	"You'd better run along, yes? And don't take it easy on her! Make her work! It's good for building character!"`
 			action
 				set "Smuggling: Ed's Wishes"
 			label lastfavor
