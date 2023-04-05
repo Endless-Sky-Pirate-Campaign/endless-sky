@@ -324,5 +324,5 @@ mission "Smuggling Tutorial 4"
 			action
 				set "Friend of Amika"
 			label finalfarewell
-			`	After some final farewells, the smuggler strolls down your ramp and into his new life. Space is a big place - who knows if you'll see him again?`
+			`	After some final farewells, the smuggler strolls down your ramp and into his new life. Space is a big place - who knows if you'll see her again?`
 				decline
