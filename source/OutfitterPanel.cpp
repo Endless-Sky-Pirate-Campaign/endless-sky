@@ -45,6 +45,11 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 using namespace std;
 
 namespace {
+	string Tons(int tons)
+	{
+		return to_string(tons) + (tons == 1 ? " ton" : " tons");
+	}
+
 	// Determine the refillable ammunition a particular ship consumes or stores.
 	set<const Outfit *> GetRefillableAmmunition(const Ship &ship) noexcept
 	{
@@ -278,7 +283,7 @@ int OutfitterPanel::DrawDetails(const Point &center)
 			? max(thumbnail->Height(), static_cast<float>(TileSize()))
 			: static_cast<float>(TileSize());
 
-		Point thumbnailCenter(center.X(), center.Y() + 20 + static_cast<int>(tileSize / 2));
+		Point thumbnailCenter(center.X(), center.Y() + 20 + tileSize / 2);
 
 		Point startPoint(center.X() - INFOBAR_WIDTH / 2 + 20, center.Y() + 20 + tileSize);
 
@@ -534,8 +539,8 @@ void OutfitterPanel::FailBuy() const
 		double freeCargo = player.Cargo().Free();
 
 		GetUI()->Push(new Dialog("You cannot buy this outfit, because it takes up "
-			+ Format::CargoString(mass, "mass") + ", and your fleet has "
-			+ Format::CargoString(freeCargo, "cargo space") + " free."));
+			+ Tons(mass) + " of mass, and your fleet has "
+			+ Tons(freeCargo) + " of cargo space free."));
 		return;
 	}
 
@@ -545,8 +550,8 @@ void OutfitterPanel::FailBuy() const
 	if(outfitNeeded > outfitSpace)
 	{
 		GetUI()->Push(new Dialog("You cannot install this outfit, because it takes up "
-			+ Format::CargoString(outfitNeeded, "outfit space") + ", and this ship has "
-			+ Format::MassString(outfitSpace) + " free."));
+			+ Tons(outfitNeeded) + " of outfit space, and this ship has "
+			+ Tons(outfitSpace) + " free."));
 		return;
 	}
 
@@ -556,8 +561,8 @@ void OutfitterPanel::FailBuy() const
 	{
 		GetUI()->Push(new Dialog("Only part of your ship's outfit capacity is usable for weapons. "
 			"You cannot install this outfit, because it takes up "
-			+ Format::CargoString(weaponNeeded, "weapon space") + ", and this ship has "
-			+ Format::MassString(weaponSpace) + " free."));
+			+ Tons(weaponNeeded) + " of weapon space, and this ship has "
+			+ Tons(weaponSpace) + " free."));
 		return;
 	}
 
@@ -567,8 +572,8 @@ void OutfitterPanel::FailBuy() const
 	{
 		GetUI()->Push(new Dialog("Only part of your ship's outfit capacity is usable for engines. "
 			"You cannot install this outfit, because it takes up "
-			+ Format::CargoString(engineNeeded, "engine space") + ", and this ship has "
-			+ Format::MassString(engineSpace) + " free."));
+			+ Tons(engineNeeded) + " of engine space, and this ship has "
+			+ Tons(engineSpace) + " free."));
 		return;
 	}
 

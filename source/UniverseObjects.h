@@ -27,7 +27,6 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "FormationPattern.h"
 #include "Galaxy.h"
 #include "GameEvent.h"
-#include "Gamerules.h"
 #include "Government.h"
 #include "Hazard.h"
 #include "Interface.h"
@@ -123,7 +122,6 @@ private:
 	Set<Wormhole> wormholes;
 	std::set<double> neighborDistances;
 
-	Gamerules gamerules;
 	TextReplacements substitutions;
 	Trade trade;
 	std::vector<StartConditions> startConditions;

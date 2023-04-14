@@ -34,7 +34,6 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "MenuPanel.h"
 #include "Panel.h"
 #include "PlayerInfo.h"
-#include "Plugins.h"
 #include "Preferences.h"
 #include "PrintData.h"
 #include "Screen.h"
@@ -128,9 +127,6 @@ int main(int argc, char *argv[])
 	Files::Init(argv);
 
 	try {
-		// Load plugin preferences before game data if any.
-		Plugins::LoadSettings();
-
 		// Begin loading the game data.
 		bool isConsoleOnly = loadOnly || printTests || printData;
 		future<void> dataLoading = GameData::BeginLoad(isConsoleOnly, debugMode);
@@ -221,7 +217,6 @@ int main(int argc, char *argv[])
 	Preferences::Set("fullscreen", GameWindow::IsFullscreen());
 	Screen::SetRaw(GameWindow::Width(), GameWindow::Height());
 	Preferences::Save();
-	Plugins::Save();
 
 	Audio::Quit();
 	GameWindow::Quit();
@@ -459,7 +454,7 @@ void PrintHelp()
 void PrintVersion()
 {
 	cerr << endl;
-	cerr << "Endless Sky ver. 0.10.1-alpha" << endl;
+	cerr << "Endless Sky ver. 0.10.0-alpha" << endl;
 	cerr << "License GPLv3+: GNU GPL version 3 or later: <https://gnu.org/licenses/gpl.html>" << endl;
 	cerr << "This is free software: you are free to change and redistribute it." << endl;
 	cerr << "There is NO WARRANTY, to the extent permitted by law." << endl;

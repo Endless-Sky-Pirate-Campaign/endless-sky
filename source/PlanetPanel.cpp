@@ -23,7 +23,6 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "ConversationPanel.h"
 #include "Dialog.h"
 #include "text/FontSet.h"
-#include "text/Format.h"
 #include "GameData.h"
 #include "HiringPanel.h"
 #include "Interface.h"
@@ -137,15 +136,7 @@ void PlanetPanel::Draw()
 	ui.Draw(info, this);
 
 	if(!selectedPanel)
-	{
-		Rectangle box = ui.GetBox("content");
-		if(box.Width() != text.WrapWidth())
-		{
-			text.SetWrapWidth(box.Width());
-			text.Wrap(planet.Description());
-		}
-		text.Draw(box.TopLeft(), *GameData::Colors().Get("bright"));
-	}
+		text.Draw(Point(-300., 80.), *GameData::Colors().Get("bright"));
 }
 
 
@@ -354,7 +345,11 @@ void PlanetPanel::CheckWarningsAndTakeOff()
 			}
 
 			if(missionCargoToSell > 0)
-				out << "cargo space to hold " << Format::CargoString(missionCargoToSell, "your mission cargo") << ".";
+			{
+				out << "cargo space to hold " << missionCargoToSell;
+				out << (missionCargoToSell > 1 ? " tons" : " ton");
+				out << " of your mission cargo.";
+			}
 		}
 		// Warn about ships that won't travel with you.
 		else if(nonJumpCount > 0)
@@ -370,7 +365,11 @@ void PlanetPanel::CheckWarningsAndTakeOff()
 		else
 		{
 			out << "If you take off now you will have to sell ";
-			out << Format::CargoString(cargoToSell, "cargo");
+
+			if(cargoToSell == 1)
+				out << "a ton of cargo";
+			else if(cargoToSell > 0)
+				out << cargoToSell << " tons of cargo";
 			out << " that you do not have space for.";
 		}
 		out << " Are you sure you want to continue?";

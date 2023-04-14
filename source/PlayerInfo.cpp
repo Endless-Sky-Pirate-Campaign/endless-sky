@@ -31,7 +31,6 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "Outfit.h"
 #include "Person.h"
 #include "Planet.h"
-#include "Plugins.h"
 #include "Politics.h"
 #include "Preferences.h"
 #include "Random.h"
@@ -1686,9 +1685,9 @@ bool PlayerInfo::TakeOff(UI *ui)
 	{
 		// Report how much excess cargo was sold, and what profit you earned.
 		ostringstream out;
-		out << "You sold " << Format::CargoString(sold, "excess cargo") << " for " << Format::CreditString(income);
+		out << "You sold " << sold << " tons of excess cargo for " << Format::CreditString(income);
 		if(totalBasis && totalBasis != income)
-			out << " (for a profit of " << Format::CreditString(income - totalBasis) << ").";
+			out << " (for a profit of " << (income - totalBasis) << " credits).";
 		else
 			out << ".";
 		Messages::Add(out.str(), Messages::Importance::High);
@@ -4100,17 +4099,16 @@ void PlayerInfo::Save(DataWriter &out) const
 	startData.Save(out);
 
 	// Write plugins to player's save file for debugging.
-	out.Write();
-	out.WriteComment("Installed plugins:");
-	out.Write("plugins");
-	out.BeginChild();
-	for(const auto &it : Plugins::Get())
+	if(!GameData::PluginAboutText().empty())
 	{
-		const auto &plugin = it.second;
-		if(plugin.IsValid() && plugin.enabled)
-			out.Write(plugin.name);
+		out.Write();
+		out.WriteComment("Installed plugins:");
+		out.Write("plugins");
+		out.BeginChild();
+		for(const auto &plugin : GameData::PluginAboutText())
+			out.Write(plugin.first);
+		out.EndChild();
 	}
-	out.EndChild();
 }
 
 

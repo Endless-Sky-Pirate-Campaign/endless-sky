@@ -32,13 +32,13 @@ using namespace std;
 
 
 SpaceportPanel::SpaceportPanel(PlayerInfo &player)
-	: player(player), ui(*GameData::Interfaces().Get("spaceport"))
+	: player(player)
 {
 	SetTrapAllEvents(false);
 
 	text.SetFont(FontSet::Get(14));
 	text.SetAlignment(Alignment::JUSTIFIED);
-	text.SetWrapWidth(ui.GetBox("content").Width());
+	text.SetWrapWidth(480);
 	text.Wrap(player.GetPlanet()->SpaceportDescription());
 
 	// Query the news interface to find out the wrap width.
@@ -94,8 +94,7 @@ void SpaceportPanel::Draw()
 	if(player.IsDead())
 		return;
 
-	Rectangle box = ui.GetBox("content");
-	text.Draw(box.TopLeft(), *GameData::Colors().Get("bright"));
+	text.Draw(Point(-300., 80.), *GameData::Colors().Get("bright"));
 
 	if(hasNews)
 	{

@@ -19,8 +19,6 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "Angle.h"
 #include "Point.h"
 
-#include <bitset>
-
 class DataNode;
 class DataWriter;
 
@@ -95,13 +93,9 @@ private:
 
 
 private:
-	// Make sure this matches the number of items in PersonalityTrait,
-	// or the build will fail.
-	static const int PERSONALITY_COUNT = 32;
-
 	bool isDefined = false;
 
-	std::bitset<PERSONALITY_COUNT> flags;
+	int flags;
 	double confusionMultiplier;
 	double aimMultiplier;
 	Point confusion;
