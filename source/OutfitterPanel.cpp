@@ -358,10 +358,9 @@ ShopPanel::BuyResult OutfitterPanel::CanBuy(bool onlyOwned) const
 
 	if(!CustomSaleManager::CanBuy(*selectedOutfit))
 	{
-		GetUI()->Push(new Dialog("You can only sell this outfit here. "
+		return "You can only sell this outfit here. "
 			"It is being shown in the list because it is an imported item, typically "
-			"sold at a higher price then normal."));
-		return;
+			"sold at a higher price then normal.";
 	}
 
 	// Check if the outfit is available to get at all.
