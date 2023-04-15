@@ -138,6 +138,10 @@ void UniverseObjects::FinishLoading()
 	for(auto &&it : customSales)
 		it.second.FinishLoading();
 
+	// Calculate minable values.
+	for(auto &&it : minables)
+		it.second.FinishLoading();
+
 	for(auto &&it : startConditions)
 		it.FinishLoading();
 	// Remove any invalid starting conditions, so the game does not use incomplete data.
@@ -161,6 +165,10 @@ void UniverseObjects::FinishLoading()
 		else
 			Logger::LogError("Unhandled \"disable\" keyword of type \"" + category.first + "\"");
 	}
+
+	// Sort all category lists.
+	for(auto &list : categories)
+		list.second.Sort();
 }
 
 
@@ -455,7 +463,8 @@ void UniverseObjects::LoadFile(const string &path, bool debugMode)
 			static const map<string, CategoryType> category = {
 				{"ship", CategoryType::SHIP},
 				{"bay type", CategoryType::BAY},
-				{"outfit", CategoryType::OUTFIT}
+				{"outfit", CategoryType::OUTFIT},
+				{"series", CategoryType::SERIES}
 			};
 			auto it = category.find(node.Token(1));
 			if(it == category.end())
@@ -463,17 +472,7 @@ void UniverseObjects::LoadFile(const string &path, bool debugMode)
 				node.PrintTrace("Skipping unrecognized category type:");
 				continue;
 			}
-
-			vector<string> &categoryList = categories[it->second];
-			for(const DataNode &child : node)
-			{
-				// If a given category already exists, it will be
-				// moved to the back of the list.
-				const auto it = find(categoryList.begin(), categoryList.end(), child.Token(0));
-				if(it != categoryList.end())
-					categoryList.erase(it);
-				categoryList.push_back(child.Token(0));
-			}
+			categories[it->second].Load(node);
 		}
 		else if((key == "tip" || key == "help") && node.Size() >= 2)
 		{
