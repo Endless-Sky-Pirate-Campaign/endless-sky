@@ -18,6 +18,7 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 #include "text/alignment.hpp"
 #include "comparators/BySeriesAndIndex.h"
 #include "Color.h"
+#include "CustomSaleManager.h"
 #include "Dialog.h"
 #include "text/DisplayText.h"
 #include "text/Font.h"
@@ -224,6 +225,11 @@ void OutfitterPanel::DrawItem(const string &name, const Point &point, int scroll
 		message = "in stock: " + to_string(stock);
 	else if(!outfitter.Has(outfit))
 		message = "(not sold here)";
+
+	// For now there is only default or import.
+	if(!CustomSaleManager::CanBuy(*outfit))
+		message += " (" + CustomSale::GetShown(CustomSale::SellType::IMPORT) + ")";
+
 	if(!message.empty())
 	{
 		Point pos = point + Point(
@@ -350,10 +356,18 @@ ShopPanel::BuyResult OutfitterPanel::CanBuy(bool onlyOwned) const
 	if(licenseCost < 0)
 		return "You cannot buy this outfit, because it requires a license that you don't have.";
 
+	if(!CustomSaleManager::CanBuy(*selectedOutfit))
+	{
+		return "You can only sell this outfit here. "
+			"It is being shown in the list because it is an imported item, typically "
+			"sold at a higher price then normal.";
+	}
+
 	// Check if the outfit is available to get at all.
 	bool isInCargo = player.Cargo().Get(selectedOutfit);
 	bool isInStorage = player.Storage() && player.Storage()->Get(selectedOutfit);
-	bool isInStore = outfitter.Has(selectedOutfit) || player.Stock(selectedOutfit) > 0;
+	bool isInStore = (outfitter.Has(selectedOutfit) && CustomSaleManager::CanBuy(*selectedOutfit))
+		|| player.Stock(selectedOutfit) > 0;
 	if(isInStorage && (onlyOwned || isInStore || playerShip))
 	{
 		// In storage, the outfit is certainly available to get,
@@ -529,7 +543,8 @@ void OutfitterPanel::Buy(bool onlyOwned)
 			else
 			{
 				// Check if the outfit is for sale or in stock so that we can actually buy it.
-				if(!outfitter.Has(selectedOutfit) && player.Stock(selectedOutfit) <= 0)
+				if((!outfitter.Has(selectedOutfit) && player.Stock(selectedOutfit) <= 0)
+						|| !CustomSaleManager::CanBuy(*selectedOutfit))
 					continue;
 				player.Cargo().Add(selectedOutfit);
 				int64_t price = player.StockDepreciation().Value(selectedOutfit, day);
