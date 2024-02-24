@@ -60,8 +60,14 @@ PlayerHailPanel::PlayerHailPanel(PlayerInfo &player, const shared_ptr<Ship> &shi
 		message = "(There is no response to your hail.)";
 	else if(!hasLanguage)
 		message = "(An alien voice says something in a language you do not recognize.)";
-	else if(gov->IsEnemy() && !ship->IsDisabled())
-		SetBribe(gov->GetBribeFraction());
+	else if(gov->IsEnemy())
+	{
+		// Enemy ships always show hostile messages.
+		// They either show bribing messages,
+		// or standard hostile messages, if disabled.
+		if(!ship->IsDisabled())
+			SetBribe(gov->GetBribeFraction());
+	}
 	else if(ship->IsDisabled())
 	{
 		const Ship *flagship = player.Flagship();
@@ -217,7 +223,8 @@ bool PlayerHailPanel::KeyDown(SDL_Keycode key, Uint16 mod, const Command &comman
 		if(GameData::GetPolitics().HasDominated(planet))
 		{
 			GameData::GetPolitics().DominatePlanet(planet, false);
-			player.Conditions().Erase("tribute: " + planet->Name());
+			// Set payment 0 to erase the tribute.
+			player.SetTribute(planet, 0);
 			message = "Thank you for granting us our freedom!";
 		}
 		else
